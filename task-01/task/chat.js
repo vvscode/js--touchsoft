@@ -1,3 +1,5 @@
+
+
 var createChat = function() {
 
     createStyles();
@@ -9,10 +11,10 @@ var createChat = function() {
     chat.style.right='15px';
 
     var chatName = createChatName();
+    var minimize = createMinimize();
     var logArea = createLogArea();
     var btn = createSendButton();
     var textInput = createTextInput();
-    var minimize = createMinimize();
 
     chat.appendChild(chatName);
     chat.appendChild(minimize);
@@ -30,7 +32,11 @@ var createStyles = function () {
         '\n.minimized {\nheight: 50px;\n border: 5px solid grey;\n' +
         'background-color: blue;\n}' +
         '.logArea {\nheight: 100px;\n overflow: scroll;\n}' +
-        '.notShow {\ndisplay: none;\n}\n';
+        '.notShow {\ndisplay: none;\n}\n' +
+        '.sendButton {\n margin: 2px;\n' +
+        'position: inherit;\n' +
+        'margin-left: 15px;\n' +
+        'height: 75px\n}\n';
     document.body.appendChild(style);
 
 
@@ -106,7 +112,7 @@ var minChat = function () {
     var minButton = document.getElementById('minButton');
     minButton.innerHTML = '[]';
 
-    var button = document.getElementById('button');
+    var button = document.getElementById('sendButton');
     button.classList.add('notShow');
 
     var logArea = document.getElementById('logArea');
@@ -124,7 +130,7 @@ var maximizeChat = function () {
     var minButton = document.getElementById('minButton');
     minButton.innerHTML = '-';
 
-    var button = document.getElementById('button');
+    var button = document.getElementById('sendButton');
     button.classList.remove('notShow');
 
     var logArea = document.getElementById('logArea');
@@ -147,9 +153,8 @@ var createLogArea = function () {
 
 var createSendButton = function () {
     var btn = document.createElement('button');
-    btn.id = 'button';
-    btn.style.height="80px";
-    btn.style.padding= "5px";
+    btn.id = 'sendButton';
+    btn.classList.add('sendButton');
     btn.type='button';
     btn.value='button';
 
@@ -164,12 +169,8 @@ var createTextInput = function () {
     input.type = "text";
     input.className = "textInput";
     input.setAttribute("rows", "5");
-    input.setAttribute("cols", "30");
+    input.setAttribute("cols", "50");
     input.style.bottom = '5px';
-    // input.style.position="fixed";
-    //
-    // input.setAttribute("bottom", "15");
-    // input.setAttribute("right", "15");
 
     return input;
 }
