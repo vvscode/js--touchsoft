@@ -2,6 +2,7 @@
 
 var createChat = function() {
     var chat = document.createElement('div');
+    chat.id = 'chat';
     // chat.style.position='fixed';
     chat.setAttribute('position', 'fixed');
     chat.setAttribute('bottom', '20');
@@ -12,8 +13,10 @@ var createChat = function() {
     var logArea = createLogArea();
     var btn = createSendButton();
     var textArea = createTextArea();
+    var minimize = createMinimize();
 
     chat.appendChild(chatName);
+    chat.appendChild(minimize);
     chat.appendChild(logArea);
     chat.appendChild(textArea);
     chat.appendChild(btn);
@@ -49,6 +52,26 @@ var createChatName = function () {
     chatName.innerHTML = 'Chat with us';
     return chatName;
 }
+
+
+
+var createMinimize = function () {
+    var minimize = document.createElement('button');
+
+    minimize.type='button';
+    minimize.value='button';
+    minimize.innerHTML = '-';
+    minimize.id = 'minButton';
+    minimize.addEventListener('click', min);
+    return minimize;
+}
+
+var min = function () {
+    var chat = document.getElementById('chat');
+    chat.style.height = '15px';
+
+}
+
 
 var createLogArea = function () {
     var logArea = document.createElement('div');
@@ -112,7 +135,7 @@ var addAnswer = function (text) {
         saveMessageToLocalStorage(message);
         return message;
     }
-    setTimeout(createAnswer, 1500 );
+    setTimeout(createAnswer, 1500);
 }
 
 
