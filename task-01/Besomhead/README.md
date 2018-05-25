@@ -1,0 +1,1 @@
+* [Пример работающего кода](http://output.jsbin.com/lutigovidu)
