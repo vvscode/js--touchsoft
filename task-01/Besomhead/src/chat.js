@@ -209,7 +209,7 @@ function appendStylesheet() {
 
   styleElement.rel = "stylesheet";
   styleElement.type = "text/css";
-  styleElement.href = "chat_styles.css";
+  styleElement.href = "src/chat_styles.css";
   document.head.appendChild(styleElement);
 }
 
