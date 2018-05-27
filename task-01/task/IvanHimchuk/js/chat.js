@@ -1,3 +1,5 @@
+// CHANGE isMinimize type to bool
+// CALLBACK CREATE FUNCTION
 var configObj = {
     messageFromBot: " Bot: Ответ на ",
     messageFromUser: " Вы : ",
@@ -35,7 +37,6 @@ var configObj = {
 };
 
 function ChatForTouchSoft(configObj) {
-    "use strict";
     this.config = configObj;
 }
 
@@ -47,7 +48,6 @@ function ChatForTouchSoft(configObj) {
  * array element is object with string property "className"
  */
 ChatForTouchSoft.prototype.setupDOMVariables = function (appDOMVariables) {
-    "use strict";
     Object.keys(appDOMVariables).map(function (objectKey) {
         appDOMVariables[objectKey] = document.getElementsByClassName(
             appDOMVariables[objectKey].className
@@ -59,7 +59,6 @@ ChatForTouchSoft.prototype.setupDOMVariables = function (appDOMVariables) {
  * Init shat style on the first load or reload page
  */
 ChatForTouchSoft.prototype.setupChatStyle = function () {
-    "use strict";
     this.config.isMinimize = localStorage.getItem("isMinimize") || "false";
     if (this.config.isMinimize === "false") {
         this.config.appDOMVariables.mainStyleChatBlock.classList.toggle("visible");
@@ -73,7 +72,6 @@ ChatForTouchSoft.prototype.setupChatStyle = function () {
  * Sets 'onClick' button functions
  */
 ChatForTouchSoft.prototype.setupOnClickFunctions = function () {
-    "use strict";
     this.config.appDOMVariables.mainSendButton.addEventListener(
         "click",
         this.sendMessage.bind(this, "messagesTextArea")
@@ -98,7 +96,6 @@ ChatForTouchSoft.prototype.setupOnClickFunctions = function () {
     * @param {String} inputObjName name of the message entry element item is configObj property.
 */
 ChatForTouchSoft.prototype.sendMessage = function (inputObjName) {
-    "use strict";
     var inputObj = this.config.appDOMVariables[inputObjName];
     var paragraph = this.createMessageParagraph(
         inputObj.value,
@@ -114,7 +111,6 @@ ChatForTouchSoft.prototype.sendMessage = function (inputObjName) {
 
 // STUB for bot activity
 ChatForTouchSoft.prototype.getAnswer = function (requestMessage) {
-    "use strict";
     var refToParentObj = this;
     var paragraph = this.createMessageParagraph(
         requestMessage.toUpperCase(),
@@ -130,7 +126,6 @@ ChatForTouchSoft.prototype.getAnswer = function (requestMessage) {
 // STUB
 
 ChatForTouchSoft.prototype.saveHistoryOfCorrespondence = function (message, localStorageName) {
-    "use strict";
     this.saveMessageToHistoryObject(message);
     this.saveHistoryObject(localStorageName);
 };
@@ -138,7 +133,6 @@ ChatForTouchSoft.prototype.saveHistoryOfCorrespondence = function (message, loca
  * Create message for chat. Add current date to message text and service text
  */
 ChatForTouchSoft.prototype.createMessage = function (messageText, isBot) {
-    "use strict";
     var date = new Date();
     var result = date.getHours() + ":" + date.getMinutes();
     if (!isBot) {
@@ -153,7 +147,6 @@ ChatForTouchSoft.prototype.createMessage = function (messageText, isBot) {
  *  Create DOM object with requested text
  */
 ChatForTouchSoft.prototype.createMessageParagraph = function (messageText, isHistory, isBot) {
-    "use strict";
     var paragraph = document.createElement("div");
     var result;
     if (!isHistory) {
@@ -167,19 +160,16 @@ ChatForTouchSoft.prototype.createMessageParagraph = function (messageText, isHis
 
 
 ChatForTouchSoft.prototype.setParagraphToTheMessagesBlock = function (paragraph) {
-    "use strict";
     this.config.appDOMVariables.messagesBlock.appendChild(paragraph);
 };
 
 // Gets history of correspondence
 ChatForTouchSoft.prototype.getHistoryCorrespondence = function (keyForLocalStorage) {
-    "use strict";
     return JSON.parse(localStorage.getItem(keyForLocalStorage)) || [];
 };
 
 // Save message to localStorage and push it to historyMessageObject
 ChatForTouchSoft.prototype.saveHistoryObject = function (keyForLocalStorage) {
-    "use strict";
     JSON.stringify(this.config.historyMessages);
     localStorage.setItem(
         keyForLocalStorage,
@@ -188,12 +178,10 @@ ChatForTouchSoft.prototype.saveHistoryObject = function (keyForLocalStorage) {
 };
 
 ChatForTouchSoft.prototype.saveMessageToHistoryObject = function (message) {
-    "use strict";
     this.config.historyMessages.push(message);
 };
 
 ChatForTouchSoft.prototype.displayHistory = function () {
-    "use strict";
     var refToParentObj = this;
     this.config.historyMessages.forEach(function (element) {
         var paragraph = refToParentObj.createMessageParagraph(
@@ -208,12 +196,10 @@ ChatForTouchSoft.prototype.displayHistory = function () {
 
 // add CSS style to the page
 ChatForTouchSoft.prototype.includeCSS = function (link) {
-    "use strict";
     document.head.appendChild(link);
 };
 
 ChatForTouchSoft.prototype.createCSSLink = function (filePath, rel, type, id) {
-    "use strict";
     var link = document.createElement("link");
     if (id) {
         link.setAttribute("id", id);
@@ -230,7 +216,6 @@ ChatForTouchSoft.prototype.createCSSLink = function (filePath, rel, type, id) {
 
 // Invokes all setup functions, gets history of messages and display it
 ChatForTouchSoft.prototype.setupAppConfiguration = function () {
-    "use strict";
     this.setupDOMVariables(this.config.appDOMVariables);
     this.setupChatStyle();
     this.setupOnClickFunctions();
@@ -242,7 +227,6 @@ ChatForTouchSoft.prototype.setupAppConfiguration = function () {
 
 // Gets chat HTML from server; invokes callback 'load' functions
 ChatForTouchSoft.prototype.getHTML = function (httpPath, callbackLoad) {
-    "use strict";
     var xhr = new XMLHttpRequest();
     xhr.addEventListener("load", callbackLoad.bind(this, xhr));
     xhr.open("GET", httpPath, true);
@@ -257,7 +241,6 @@ ChatForTouchSoft.prototype.getHTML = function (httpPath, callbackLoad) {
  * @param {Object|String} innerHTMLtext is object/text witch to need include
  */
 ChatForTouchSoft.prototype.includeHTML = function (parentElement, innerHTMLtext) {
-    "use strict";
     var wrapper = document.createElement("div");
     wrapper.innerHTML = innerHTMLtext;
     parentElement.appendChild(wrapper);
@@ -265,7 +248,6 @@ ChatForTouchSoft.prototype.includeHTML = function (parentElement, innerHTMLtext)
 
 // Enter point
 ChatForTouchSoft.prototype.startApp = function () {
-    "use strict";
     var callbackLoad = function (requestObj) {
         this.includeHTML(document.body, requestObj.response);
         this.setupAppConfiguration();
@@ -284,7 +266,6 @@ ChatForTouchSoft.prototype.startApp = function () {
  * Switches chat style and saves this state in localStorage
  * */
 ChatForTouchSoft.prototype.minMaxStyleToggle = function () {
-    "use strict";
     this.config.appDOMVariables.mainStyleChatBlock.classList.toggle("visible");
     this.config.appDOMVariables.minimizeStyleChatBlock.classList.toggle(
         "visible"
