@@ -4,4 +4,4 @@ http://jsbin.com/pijere/1/edit?html,js,output
 
 Работающие тесты:
 
-http://output.jsbin.com/rimosof/7
+http://jsbin.com/tojupax/edit?html,output
