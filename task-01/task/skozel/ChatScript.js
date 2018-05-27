@@ -1,7 +1,7 @@
 var configChat = {
     timeOfBotResponse: 15000,
-    pathToHtmlFile: "ChatComponent.html",
-    pathToCssFile: "StyleChatComponent.css",
+    pathToHtmlFile: "https://cdn.rawgit.com/kozel-stas/js--touchsoft/89c1d33a/task-01/task/skozel/ChatComponent.html",
+    pathToCssFile: "https://cdn.rawgit.com/kozel-stas/js--touchsoft/89c1d33a/task-01/task/skozel/StyleChatComponent.css",
     isMin: false,
     DOMVariables: {
         collapseButton: {

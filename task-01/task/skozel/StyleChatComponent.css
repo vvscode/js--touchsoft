@@ -2,9 +2,13 @@
     width: 40%;
     height: 40%;
     position: fixed;
-    bottom: 0%;
-    right: 0%;
+    bottom: 0px;
+    right: 0px;
     border: 4px outset grey;
+}
+
+body{
+    min-width: 800px;
 }
 
 .root_for_output {
