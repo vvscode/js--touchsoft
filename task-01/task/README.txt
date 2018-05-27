@@ -1,7 +1,7 @@
 Пример работающего кода:
 
-http://jsbin.com/pijere/1/edit?html,js,output
+http://jsbin.com/pijere/7/edit?html,js,output
 
 Работающие тесты:
 
-http://jsbin.com/quyegix/edit?html,js,output
+http://jsbin.com/quyegix/5/edit?html,output
