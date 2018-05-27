@@ -1,10 +1,10 @@
-var COLLAPSED = "collapsed";
-var EXPANDED = "expanded";
+var COLLAPSED = "chat-collapsed";
+var EXPANDED = "chat-expanded";
 var CHAT_ITEM = "chat";
-var MESSAGES_LIST = "messages";
-var INPUT_BOX = "input-box";
-var INPUT_TEXT = "input-txt";
-var TOGGLE_BUTTON = "toggle-button";
+var MESSAGES_LIST = "chat-messages";
+var INPUT_BOX = "chat-input-box";
+var INPUT_TEXT = "chat-input-txt";
+var TOGGLE_BUTTON = "chat-toggle-button";
 var EXPAND_MARK = "[ ]";
 var COLLAPSE_MARK = "-";
 var months = [
@@ -21,14 +21,17 @@ var months = [
   "ноября",
   "декабря"
 ];
+var REPLY_TIMEOUT = 15000;
+var PATH_TO_STYLESHEET =
+  "https://rawgit.com/Besomhead/js--touchsoft/besomhead-task01/task-01/Besomhead/src/chat_styles.css";
 
 function getCurrentTime(date) {
   var hours = date.getHours();
   var minutes = date.getMinutes();
 
-  return (
-    (hours < 10 ? "0" : "") + hours + ":" + (minutes < 10 ? "0" : "") + minutes
-  );
+  return `${(hours < 10 ? "0" : "") + hours}:${
+    minutes < 10 ? "0" : ""
+  }${minutes}`;
 }
 
 function Message(date, sender, body) {
@@ -74,14 +77,14 @@ function appendSingleMessage(container, message) {
   var messagesContainer;
   var dayOfMonth;
 
-  containerId = message.day + "-" + message.month;
+  containerId = `${CHAT_ITEM}-${message.day}-${message.month}`;
   if (document.getElementById(containerId) === null) {
     messagesContainer = document.createElement("div");
     messagesContainer.id = containerId;
-    messagesContainer.className = "messages-container";
+    messagesContainer.className = "chat-messages-container";
     dayOfMonth = document.createElement("legend");
-    dayOfMonth.innerHTML = message.day + " " + months[+message.month];
-    dayOfMonth.className = "day-of-month";
+    dayOfMonth.innerHTML = `${message.day} ${months[+message.month]}`;
+    dayOfMonth.className = "chat-day-of-month";
     container.appendChild(dayOfMonth);
     container.appendChild(messagesContainer);
   }
@@ -107,7 +110,7 @@ function appendMessagesList() {
   var messagesListContainer = document.createElement("div");
 
   messagesListContainer.id = MESSAGES_LIST;
-  messagesListContainer.className = "messages-external";
+  messagesListContainer.className = "chat-messages-external";
   document.getElementById(CHAT_ITEM).appendChild(messagesListContainer);
   appendMessages(messagesListContainer);
 }
@@ -128,7 +131,7 @@ function sendReply(message) {
   var reply = new Message(
     new Date(),
     "Бот:",
-    "Ответ на " + JSON.stringify(message).toUpperCase()
+    `Ответ на ${JSON.stringify(message).toUpperCase()}`
   );
   appendSingleMessage(document.getElementById(MESSAGES_LIST), reply);
   saveMessageToLocalStorage(reply);
@@ -143,7 +146,7 @@ function sendMessage() {
     inputTextArea.value = "";
     appendSingleMessage(document.getElementById(MESSAGES_LIST), message);
     saveMessageToLocalStorage(message);
-    setTimeout(sendReply, 15000, message.body);
+    setTimeout(sendReply, REPLY_TIMEOUT, message.body);
   }
 }
 
@@ -153,11 +156,11 @@ function appendInputBox() {
   var messageButton = document.createElement("button");
 
   inputMessageContainer.id = INPUT_BOX;
-  inputMessageContainer.className = "input-container";
+  inputMessageContainer.className = "chat-input-container";
   inputTextArea.id = INPUT_TEXT;
-  inputTextArea.className = "input-textarea";
+  inputTextArea.className = "chat-input-textarea";
   inputMessageContainer.appendChild(inputTextArea);
-  messageButton.className = "message-button";
+  messageButton.className = "chat-message-button";
   messageButton.innerHTML = "Отправить";
   messageButton.onclick = sendMessage;
   inputMessageContainer.appendChild(messageButton);
@@ -209,7 +212,7 @@ function appendStylesheet() {
 
   styleElement.rel = "stylesheet";
   styleElement.type = "text/css";
-  styleElement.href = "src/chat_styles.css";
+  styleElement.href = PATH_TO_STYLESHEET;
   document.head.appendChild(styleElement);
 }
 
@@ -222,9 +225,9 @@ function createChatMarkup() {
   container.id = CHAT_ITEM;
   container.className = "chat-container";
   legend.innerHTML = "Чат";
-  legend.className = "legend";
+  legend.className = "chat-legend";
   container.appendChild(legend);
-  toggleButtonContainer.className = "toggle-button-container";
+  toggleButtonContainer.className = "chat-toggle-button-container";
   toggleButton.className = TOGGLE_BUTTON;
   toggleButton.id = TOGGLE_BUTTON;
   toggleButton.onclick = changeChatState;
