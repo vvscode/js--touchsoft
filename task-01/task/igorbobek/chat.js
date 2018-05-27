@@ -124,7 +124,7 @@ Message.prototype.answer = function (that) {
     var sendBotMessage = function () {
         var messageBot = new Message(
             'Bot',
-            `Ответ на: ${  that.message.toUpperCase()}`,
+            `Ответ на: ${that.message.toUpperCase()}`,
             that.generateDateForBotMessage(),
             true
         );
@@ -302,7 +302,6 @@ function initChat() {
 
 // setInterval и вложенное в него условие решает проблему добавления
 // чата на сторонний сайт через консоль, html(head), html(body)
-initChat();
 function createChat(){
     if (document.readyState !== 'complete') return;
     clearInterval(checkingDOMReady);
