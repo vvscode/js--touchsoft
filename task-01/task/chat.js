@@ -163,6 +163,9 @@ function Message(name, message, time, answered) {
 
   answer();
 }
+function () {
+   console.log("asd");
+}
 
 function initChat() {
   initStyle();
@@ -174,7 +177,6 @@ function initChat() {
   iconChat.innerHTML = 'Chat';
   iconChat.classList.add('igorbobek-icon-chat');
   mainDiv.appendChild(iconChat);
-
   buttonMinimilizer = document.createElement('button');
   buttonMinimilizer.classList.add('igorbobek-minimizer');
   mainDiv.appendChild(buttonMinimilizer);
@@ -242,7 +244,7 @@ function initListeners() {
   sendButton.addEventListener('click', function () {
     var message = new Message(
       'You',
-      messageBox.value.replace(new RegExp('\n', 'g'), '<br>'),
+      messageBox.value.replace(new RegExp('\\n', 'g'), '<br>'),
       new Date()
     );
     message.sendMessage();
