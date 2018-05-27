@@ -1,0 +1,111 @@
+.chat_component_root {
+    width: 40%;
+    height: 40%;
+    position: fixed;
+    bottom: 0%;
+    right: 0%;
+    border: 4px outset grey;
+}
+
+.root_for_output {
+    padding: 4px;
+    width: 100%;
+    height: 60%;
+}
+
+.collapse_button {
+    padding: 4px;
+    float: right;
+    width: 5%;
+    height: 100%;
+    cursor: pointer;
+    user-select: none;
+}
+
+.outputArea {
+    padding: 2px;
+    float: left;
+    width: 90%;
+    height: 100%;
+    border: 2px outset grey;
+    display: inline-block;
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+
+.input_area_component {
+    padding: 4px;
+}
+
+.input_area_component_send_button {
+    width: 20%;
+    height: 100%;
+    margin-top: 4px;
+    float: right;
+    writing-mode: tb-rl;
+    font-size: xx-large;
+    user-select: none;
+    cursor: pointer;
+    margin-top: 10%;
+}
+
+.root_for_textArea {
+    float: left;
+    width: 80%;
+    height: 40%;
+    margin-top: 4px;
+
+}
+
+textarea{
+    width: 100%;
+    height: 85%;
+    resize: none;
+}
+
+.chat_min_component_root{
+    position: fixed;
+    bottom: 0%;
+    right: 25%;
+    width: 50%;
+    height: 5%;
+    border: 2px outset grey;
+}
+
+.root_for_textArea_min{
+    padding: 4px;
+    float: left;
+    height: 90%;
+    width: 70%;
+
+}
+
+.input_area_component_send_button_min{
+    padding: 4px;
+    width: 10%;
+    float: left;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+.root_for_collapse_button{
+    padding: 4px;
+    width: 10%;
+    float: right;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+.message_block{
+    width: 90%;
+    padding: 1px;
+    height: 15px;
+}
+
+.visibility{
+    visibility: hidden;
+}
+
+
