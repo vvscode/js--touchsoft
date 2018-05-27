@@ -83,9 +83,9 @@ chat.prototype.configurate = function () {
     this.loadOldMessage();
 };
 
-chat.prototype.loadOldMessage = function(){
-    for (var i=0;i<parseInt(localStorage.getItem("index"));i++){
-        this.addOutputMessage(localStorage.getItem(i.toString()),this.config.DOMVariables.output.elemDOM);
+chat.prototype.loadOldMessage = function () {
+    for (var i = 0; i < parseInt(localStorage.getItem("index")); i++) {
+        this.addOutputMessage(localStorage.getItem(i.toString()), this.config.DOMVariables.output.elemDOM);
     }
 };
 
@@ -127,8 +127,8 @@ chat.prototype.clickEvent = function () {
         context.config.isMin = !context.config.isMin;
         context.trigStatusChat();
     });
-    window.addEventListener("beforeunload",function () {
-       localStorage.setItem("isMin",context.config.isMin.toString());
+    window.addEventListener("beforeunload", function () {
+        localStorage.setItem("isMin", context.config.isMin.toString());
     });
 };
 
@@ -138,19 +138,19 @@ chat.prototype.sendMessage = function (input, output) {
     var message = constructMessage(text);
     this.addMessage(message, output);
     var context = this;
-    setTimeout( function () {
+    setTimeout(function () {
         var answer = constructAnswer(text);
         context.addMessage(answer, output);
     }, this.config.timeOfBotResponse);
 };
 
 chat.prototype.addMessage = function (message, output) {
-    this.addOutputMessage(message,output);
+    this.addOutputMessage(message, output);
     localStorage.setItem(localStorage.getItem("index"), message);
     localStorage.setItem("index", (parseInt(localStorage.getItem("index")) + 1).toString());
 };
 
-chat.prototype.addOutputMessage = function (message,output) {
+chat.prototype.addOutputMessage = function (message, output) {
     var div = document.createElement("div");
     div.classList.toggle("message_block");
     div.innerText = message;
@@ -177,4 +177,54 @@ chat.prototype.getDOMElem = function () {
 
 var chatForSite = new chat(configChat);
 chatForSite.startChat();
+
+QUnit.module("Test variables in local storage");
+QUnit.test("Test index", function (assert) {
+    assert.ok(localStorage.getItem("index") != null);
+});
+QUnit.test("Test isMin", function (assert) {
+    assert.ok(localStorage.getItem("isMin") != null);
+    assert.equal(localStorage.getItem("isMin"), chatForSite.config.isMin.toString());
+});
+QUnit.module("Test config");
+QUnit.test("Test config", function (assert) {
+    if (chatForSite.config.isMin) {
+        assert.ok(!chatForSite.config.DOMVariables.chatComponentRootMin.elemDOM.classList.contains("visibility"));
+        assert.ok(chatForSite.config.DOMVariables.chatComponentRoot.elemDOM.classList.contains("visibility"));
+    } else {
+        assert.ok(chatForSite.config.DOMVariables.chatComponentRootMin.elemDOM.classList.contains("visibility"));
+        assert.ok(!chatForSite.config.DOMVariables.chatComponentRoot.elemDOM.classList.contains("visibility"));
+    }
+});
+QUnit.test("Test trigStatusChat function", function (assert) {
+    if (chatForSite.config.isMin) {
+        chatForSite.config.isMin = !chatForSite.config.isMin;
+        chatForSite.trigStatusChat();
+        assert.ok(chatForSite.config.DOMVariables.chatComponentRootMin.elemDOM.classList.contains("visibility"));
+        assert.ok(!chatForSite.config.DOMVariables.chatComponentRoot.elemDOM.classList.contains("visibility"));
+        chatForSite.config.isMin = !chatForSite.config.isMin;
+        chatForSite.trigStatusChat();
+        assert.ok(!chatForSite.config.DOMVariables.chatComponentRootMin.elemDOM.classList.contains("visibility"));
+        assert.ok(chatForSite.config.DOMVariables.chatComponentRoot.elemDOM.classList.contains("visibility"));
+    } else {
+        chatForSite.config.isMin = !chatForSite.config.isMin;
+        chatForSite.trigStatusChat();
+        assert.ok(!chatForSite.config.DOMVariables.chatComponentRootMin.elemDOM.classList.contains("visibility"));
+        assert.ok(chatForSite.config.DOMVariables.chatComponentRoot.elemDOM.classList.contains("visibility"));
+        chatForSite.config.isMin = !chatForSite.config.isMin;
+        chatForSite.trigStatusChat();
+        assert.ok(chatForSite.config.DOMVariables.chatComponentRootMin.elemDOM.classList.contains("visibility"));
+        assert.ok(!chatForSite.config.DOMVariables.chatComponentRoot.elemDOM.classList.contains("visibility"));
+    }
+});
+QUnit.module("Test functions");
+QUnit.test("Test loaderConfig",function (assert) {
+    localStorage.setItem("isMin", false.toString());
+    chatForSite.loadOldConfig();
+    assert.ok(!chatForSite.config.isMin);
+    localStorage.setItem("isMin", true.toString());
+    chatForSite.loadOldConfig();
+    assert.ok(chatForSite.config.isMin);
+});
+
 
