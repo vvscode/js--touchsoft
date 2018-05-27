@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ['airbnb-base', 'prettier']
+    "extends": ['eslint-config-airbnb-es5']
 };
