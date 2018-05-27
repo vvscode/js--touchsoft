@@ -1,8 +1,7 @@
 Пример работающего кода:
 
-http://output.jsbin.com/topiqaw/1
-
+http://output.jsbin.com/rimosof/8
 
 Работающие тесты:
 
-http://output.jsbin.com/rimosof
+http://output.jsbin.com/rimosof/7

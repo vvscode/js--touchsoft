@@ -34,7 +34,7 @@
     border: 2px solid gainsboro;
     border-radius: 5px;
     background-color: white;
-    visibility: visible;
+    visibility: hidden;
     z-index: 2;
 
     /*FLEX COLUMN*/
@@ -171,3 +171,11 @@
 }
 
 /*END MIN-STYLE CHAT*/
+
+
+
+/*TOGGLE CLASSES */
+
+.visible {
+    visibility: visible;
+}
