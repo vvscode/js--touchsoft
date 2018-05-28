@@ -15,6 +15,7 @@ var chatContentClass = "chat-content";
 var hiddenClass = "hidden";
 var messageTextClass = "message-text";
 var messageSender = "Я";
+var dateDelimeter = ":";
 
 var answer = {
   insertionRegExp: /\[.*\]/,
@@ -24,7 +25,7 @@ var answer = {
 };
 
 function HistoryItem(date, sender, text) {
-  this.date = date.getHours() + ":" + date.getMinutes();
+  this.date = date.getHours().toString().concat(dateDelimeter, date.getMinutes().toString());
   this.sender = sender;
   this.text = text;
 }
@@ -59,10 +60,29 @@ function formatItem(item) {
 
 function printItems(items) {
   var history = window.document.getElementsByClassName(messageHistoryClass)[0];
+  var i;
 
-  for (var i = 0; i < items.length; i++) {
+  for (i = 0; i < items.length; i+=1) {
     history.appendChild(formatItem(items[i]));
   }
+}
+
+function generateAnswer(message) {
+  return answer.pattern.replace(answer.insertionRegExp, message.toUpperCase());
+}
+
+function sendAnswer(item) {
+  var history = window.document.getElementsByClassName(messageHistoryClass)[0];
+  var sendDate = new Date();
+  var answerItem = new HistoryItem(
+    sendDate,
+    answer.sender,
+    generateAnswer(item.text)
+  );
+  
+  messages.push(answerItem);
+
+  history.appendChild(formatItem(answerItem));
 }
 
 function sendMessage(event) {
@@ -73,154 +93,135 @@ function sendMessage(event) {
   history.appendChild(formatItem(item));
   messages.push(item);
 
-  setTimeout(function() {
-    sendAnswer(item);
-  }, answer.delay);
+  setTimeout( () => sendAnswer(item), answer.delay);
 
   this.text.value = "";
 
   event.preventDefault();
 }
 
-function generateAnswer(message) {
-  return answer.pattern.replace(answer.insertionRegExp, message.toUpperCase());
-}
-
-function sendAnswer(item) {
-  var sendDate = new Date();
-  var answerItem = new HistoryItem(
-    sendDate,
-    answer.sender,
-    generateAnswer(item.text)
-  );
-  messages.push(answerItem);
-
-  var history = window.document.getElementsByClassName(messageHistoryClass)[0];
-  history.appendChild(formatItem(answerItem));
-}
-
 function addStyle() {
   var styles = window.document.createElement("style");
   styles.innerHTML =
-    "#chat-panel {\n" +
-    "    position: fixed;\n" +
-    "    bottom: 0px;\n" +
-    "    right: 10%;\n" +
-    "\n" +
-    "    background: #3C4896;\n" +
-    "    color: white;\n" +
-    "    padding: 10px;\n" +
-    "    border-top-right-radius: 15px;\n" +
-    "    border-top-left-radius: 15px;\n" +
-    "\n" +
-    "    width: 80%;\n" +
-    "    max-width: 400px;\n" +
-    "\n" +
-    "    font-family: 'Open Sans', sans-serif;\n" +
-    "}\n" +
-    "#chat-header{\n" +
-    "    text-align: right;\n" +
-    "}\n" +
-    "#chat-message{\n" +
-    "    display: table;\n" +
-    "    width: 100%;\n" +
-    "}\n" +
-    "#current-message{\n" +
-    "    display: table-cell;\n" +
-    "    vertical-align: middle;\n" +
-    "    height: 30px;\n" +
-    "    padding: 5px;\n" +
-    "}\n" +
-    "#current-message-area{\n" +
-    "    -moz-box-sizing: border-box; /* Для Firefox */\n" +
-    "    -webkit-box-sizing: border-box; /* Для Safari и Chrome */\n" +
-    "    box-sizing: border-box;\n" +
-    "    width: 100%;\n" +
-    "    height: 30px;\n" +
-    "}\n" +
-    "#send-message{\n" +
-    "    display: table-cell;\n" +
-    "    vertical-align: middle;\n" +
-    "    height: 30px;\n" +
-    "    padding: 5px;\n" +
-    "}\n" +
-    "#send-message button{\n" +
-    "    height: 30px;\n" +
-    "    width: 100%;\n" +
-    "}\n" +
-    ".message-history{\n" +
-    "    display: inline-block;\n" +
-    "    background: white;\n" +
-    "    color: #3C4896;\n" +
-    "    height: 400px;\n" +
-    "    width: 100%;\n" +
-    "    overflow-y: auto;\n" +
-    "    overflow-x: hidden;\n" +
-    "    margin-top: 10px;\n" +
-    "}\n" +
-    ".message-item:after{\n" +
-    "    clear: bottom;\n" +
-    "}\n" +
-    ".message-item{\n" +
-    "    border: #8891CB 2px solid;\n" +
-    "    padding-bottom: 5px;\n" +
-    "    margin-bottom: 5px;\n" +
-    "}\n" +
-    ".message-item div{\n" +
-    "    padding: 10px;\n" +
-    "    float: left;\n" +
-    "    margin-right: 5px;\n" +
-    "    word-wrap: break-word;\n" +
-    "    border-bottom-left-radius: 5px;\n" +
-    "    border-bottom-right-radius: 5px;\n" +
-    "}\n" +
-    ".message-item .message-time{\n" +
-    "    background-color: #8891CB;\n" +
-    "    color: white;\n" +
-    "}\n" +
-    ".message-item .message-sender{\n" +
-    "    background-color: #BBC1E5;\n" +
-    "}\n" +
-    ".message-item .message-text{\n" +
-    "    float: none;\n" +
-    "}" +
-    ".hidden{\n" +
-    "    display: none;\n" +
-    "}";
+    "#chat-panel {\n".concat(
+    "    position: fixed;\n",
+    "    bottom: 0px;\n",
+    "    right: 10%;\n",
+    "\n",
+    "    background: #3C4896;\n",
+    "    color: white;\n",
+    "    padding: 10px;\n",
+    "    border-top-right-radius: 15px;\n",
+    "    border-top-left-radius: 15px;\n",
+    "\n",
+    "    width: 80%;\n",
+    "    max-width: 400px;\n",
+    "\n",
+    "    font-family: 'Open Sans', sans-serif;\n",
+    "}\n",
+    "#chat-header{\n",
+    "    text-align: right;\n",
+    "}\n",
+    "#chat-message{\n",
+    "    display: table;\n",
+    "    width: 100%;\n",
+    "}\n",
+    "#current-message{\n",
+    "    display: table-cell;\n",
+    "    vertical-align: middle;\n",
+    "    height: 30px;\n",
+    "    padding: 5px;\n",
+    "}\n",
+    "#current-message-area{\n",
+    "    -moz-box-sizing: border-box; /* Для Firefox */\n",
+    "    -webkit-box-sizing: border-box; /* Для Safari и Chrome */\n",
+    "    box-sizing: border-box;\n",
+    "    width: 100%;\n",
+    "    height: 30px;\n",
+    "}\n",
+    "#send-message{\n",
+    "    display: table-cell;\n",
+    "    vertical-align: middle;\n",
+    "    height: 30px;\n",
+    "    padding: 5px;\n",
+    "}\n",
+    "#send-message button{\n",
+    "    height: 30px;\n",
+    "    width: 100%;\n",
+    "}\n",
+    ".message-history{\n",
+    "    display: inline-block;\n",
+    "    background: white;\n",
+    "    color: #3C4896;\n",
+    "    height: 400px;\n",
+    "    width: 100%;\n",
+    "    overflow-y: auto;\n",
+    "    overflow-x: hidden;\n",
+    "    margin-top: 10px;\n",
+    "}\n",
+    ".message-item:after{\n",
+    "    clear: bottom;\n",
+    "}\n",
+    ".message-item{\n",
+    "    border: #8891CB 2px solid;\n",
+    "    padding-bottom: 5px;\n",
+    "    margin-bottom: 5px;\n",
+    "}\n",
+    ".message-item div{\n",
+    "    padding: 10px;\n",
+    "    float: left;\n",
+    "    margin-right: 5px;\n",
+    "    word-wrap: break-word;\n",
+    "    border-bottom-left-radius: 5px;\n",
+    "    border-bottom-right-radius: 5px;\n",
+    "}\n",
+    ".message-item .message-time{\n",
+    "    background-color: #8891CB;\n",
+    "    color: white;\n",
+    "}\n",
+    ".message-item .message-sender{\n",
+    "    background-color: #BBC1E5;\n",
+    "}\n",
+    ".message-item .message-text{\n",
+    "    float: none;\n",
+    "}",
+    ".hidden{\n",
+    "    display: none;\n",
+    "}");
 
   window.document.head.appendChild(styles);
 }
 
 function initElements() {
   var chatBox =
-    '<div id="chat-panel">\n' +
-    '    <div id="chat-header">\n' +
-    '        <button id="' +
-    minimizeButtonClass +
-    '">-</button>\n' +
-    "    </div>\n" +
-    '    <div id="' +
-    chatContentClass +
-    '" class="' +
-    (minimized ? "hidden" : "") +
-    '">\n' +
-    '        <div class="' +
-    messageHistoryClass +
-    '">\n' +
-    "        </div>\n" +
-    "\n" +
-    '        <form id="' +
-    messageFormClass +
-    '">\n' +
-    '            <div id="current-message">\n' +
-    '                <textarea id="current-message-area" name="text"></textarea>\n' +
-    "            </div>\n" +
-    '            <div id="send-message">\n' +
-    '                <button type="submit">Send</button>\n' +
-    "            </div>\n" +
-    "        </form>\n" +
-    "    </div>\n" +
-    "</div>";
+    '<div id="chat-panel">\n'.concat(
+    '    <div id="chat-header">\n',
+    '        <button id="',
+    minimizeButtonClass,
+    '">-</button>\n',
+    "    </div>\n",
+    '    <div id="',
+    chatContentClass,
+    '" class="',
+    (minimized ? "hidden" : ""),
+    '">\n',
+    '        <div class="',
+    messageHistoryClass,
+    '">\n',
+    "        </div>\n",
+    "\n",
+    '        <form id="',
+    messageFormClass,
+    '">\n',
+    '            <div id="current-message">\n',
+    '                <textarea id="current-message-area" name="text"></textarea>\n',
+    "            </div>\n",
+    '            <div id="send-message">\n',
+    '                <button type="submit">Send</button>\n',
+    "            </div>\n",
+    "        </form>\n",
+    "    </div>\n",
+    "</div>");
 
   window.document.body.innerHTML += chatBox;
 }
@@ -237,7 +238,7 @@ function saveMessages() {
 }
 
 function initMinimized() {
-  minimized = localStorage.getItem(minimizedKey) == "true";
+  minimized = localStorage.getItem(minimizedKey) === "true";
 }
 
 function saveMinimized() {
@@ -251,14 +252,14 @@ function initChat() {
 
   initMinimized();
   initElements();
+
   var minimizeButton = window.document.getElementById(minimizeButtonClass);
+  var form = window.document.getElementById(messageFormClass);
+
   minimizeButton.onclick = toggleMinimize;
 
   initMessages();
-
   printItems(messages);
-
-  var form = window.document.getElementById(messageFormClass);
 
   form.onsubmit = sendMessage;
 }
