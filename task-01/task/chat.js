@@ -89,7 +89,7 @@ function create() {
   yourChatWindow.appendChild(chatWindowTable);
   chatInputMessage.focus();
   history.scrollTop = history.scrollHeight;
-  //*****************************************************************************************************************
+
   var minimizeWindow = document.createElement('div');
   minimizeWindow.id = 'idMinimizeWindow';
   minimizeWindow.style =
@@ -189,8 +189,6 @@ function init() {
   document.getElementById('idHistory').scrollTop = document.getElementById(
     'idHistory'
   ).scrollHeight;
-  // alert(document.cookie);
-  // deleteCookie('history');
 }
 
 function botAnswer() {
