@@ -1,5 +1,3 @@
-
-
 var createChat = function() {
 
     createStyles();
@@ -37,6 +35,13 @@ var createStyles = function () {
         'position: inherit;\n' +
         'margin-left: 15px;\n' +
         'height: 75px\n}\n';
+		'.left, .right {\n' +
+    'display: inline;\n' +
+    'width: 40%;\n'+
+    'margin-right: -100%;\n' +
+    'vertical-align: bottom;\n}\n' +
+    '.left {\n' +
+    'text-align: right;\n}\n'
     document.body.appendChild(style);
 
 
@@ -87,22 +92,32 @@ window.addEventListener('load', openChat);
 
 
 var createChatName = function () {
+    var chatNameDiv = document.createElement('div');
+	
+	chatNameDiv.classList.add('left');
+	
     var chatName = document.createElement('p');
+	chatName.classList.add('left');
     chatName.innerHTML = 'Chat with us';
-    return chatName;
+	chatNameDiv.appendChild(chatName);
+    return chatNameDiv;
 }
 
 
 
 var createMinimize = function () {
+	var minimizeDiv = document.createElement('div');
+	minimizeDiv.classList.add('right');
     var minimize = document.createElement('button');
+    
 
     minimize.type='button';
     minimize.value='button';
     minimize.innerHTML = '-';
     minimize.id = 'minButton';
     minimize.addEventListener('click', resizeChat);
-    return minimize;
+	minimizeDiv.appendChild(minimize);
+    return minimizeDiv;
 }
 
 var minChat = function () {
