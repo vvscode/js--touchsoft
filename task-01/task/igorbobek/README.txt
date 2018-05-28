@@ -1,6 +1,6 @@
 Пример работающего кода:
 
-http://jsbin.com/pijere/7/edit?html,js,output
+http://jsbin.com/pijere/10/edit?html,js,output
 
 Работающие тесты:
 
