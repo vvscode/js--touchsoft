@@ -1,4 +1,3 @@
-/* eslint linebreak-style: ["error", "windows"] */
 /* global document */
 /* global localStorage */
 /* global XMLHttpRequest */
@@ -283,20 +282,20 @@ ChatForTouchSoft.prototype.minMaxStyleToggle = function minMaxStyleToggle () {
 	localStorage.setItem("isMinimize", this.config.isMinimize);
 };
 
-var chatForTouchSoftInstance = new ChatForTouchSoft(configObj);
+chatForTouchSoftInstance = new ChatForTouchSoft(configObj);
 
 QUnit.module("should test functions of ChatForTouchSoft class");
-QUnit.test("should create a valid css link element", function (assert) {
+QUnit.test("should create a valid css link element", function test (assert) {
     var testLink = chatForTouchSoftInstance.createCSSLink(
         "https://rawgit.com/UnacceptableCondition/Homework_1/master/css/chat.css",
         "stylesheet",
         "text/css",
         "touch-soft-chat-css"
     );
-    var openTag = "<" + testLink.tagName;
-    Object.keys(testLink.attributes).map(function (objectKey) {
+    var openTag = "<".concat(testLink.tagName);
+    Object.keys(testLink.attributes).map(function createLink (objectKey) {
         var attrib = testLink.attributes[objectKey];
-        openTag += " " + attrib.name + "=" + attrib.value;
+        openTag += " ".concat(attrib.name , "=" , attrib.value);
     });
     openTag += ">";
     assert.equal(
@@ -305,7 +304,8 @@ QUnit.test("should create a valid css link element", function (assert) {
         "CSS link is valid"
     );
 });
-QUnit.test("includeCSS should add css link to document DOM", function (assert) {
+QUnit.test("includeCSS should add css link to document DOM", function test (assert) {
+	var linkInTheDOM;
     var testLink = chatForTouchSoftInstance.createCSSLink(
         "https://rawgit.com/UnacceptableCondition/Homework_1/master/css/chat.css",
         "stylesheet",
@@ -313,21 +313,21 @@ QUnit.test("includeCSS should add css link to document DOM", function (assert) {
         "touch-soft-chat-css"
     );
     chatForTouchSoftInstance.includeCSS(testLink);
-    var linkInTheDOM;
     linkInTheDOM = document.getElementById("touch-soft-chat-css");
     assert.ok(linkInTheDOM, "CSS link was added to document");
 });
-QUnit.test("includeHTML should insert test HTML to document", function (assert) {
+QUnit.test("includeHTML should insert test HTML to document", function test (assert) {
     var testHtml = "<div id='test-html-touchsoft'>testText</div>";
+	var findedEl;
     chatForTouchSoftInstance.includeHTML(document.body, testHtml);
-    var findedEl = document.getElementById("test-html-touchsoft");
+	findedEl = document.getElementById("test-html-touchsoft");
     assert.ok(findedEl, "test HTML insert to document");
     assert.equal(findedEl.innerHTML, "testText", "test HTML inner text is valid");
     findedEl.remove();
 });
 QUnit.test(
     "setupDOMVariables should find chat DOM elements to get access",
-    function(assert) {
+    function test (assert) {
         var testHtml =
             '<div class="root_chat_for_touchsoft visible">\n' +
             '    <div class="root_chat_for_touchsoft__top">\n' +
@@ -418,15 +418,14 @@ QUnit.test(
         );
     }
 );
-QUnit.test("setupChatStyle should set isMinimize state", function (assert) {
+QUnit.test("setupChatStyle should set isMinimize state", function test(assert) {
     chatForTouchSoftInstance.setupChatStyle();
     chatForTouchSoftInstance.setupOnClickFunctions();
     assert.ok(chatForTouchSoftInstance.config.isMinimize, "set isMinimize state");
 });
 QUnit.test(
     "saveMessageToHistoryObject should add message to history object",
-    function(assert) {
-        "use strict";
+    function test (assert) {
         chatForTouchSoftInstance.saveMessageToHistoryObject("TEST_MESSAGE_1");
         assert.ok(
             chatForTouchSoftInstance.config.historyMessages.indexOf(
@@ -438,8 +437,7 @@ QUnit.test(
 );
 QUnit.test(
     "saveHistoryObject should add historyObject to localStorage",
-    function(assert) {
-        "use strict";
+    function test (assert) {
         chatForTouchSoftInstance.saveHistoryObject("TEST_STORAGE");
         assert.ok(
             localStorage.getItem("TEST_STORAGE"),
@@ -449,8 +447,7 @@ QUnit.test(
 );
 QUnit.test(
     "getHistoryCorrespondence should get message object from  localstorage",
-    function(assert) {
-        "use strict";
+    function test (assert) {
         chatForTouchSoftInstance.saveMessageToHistoryObject("TEST_MESSAGE_2");
         chatForTouchSoftInstance.saveHistoryObject(
             chatForTouchSoftInstance.config.localStorageName
@@ -468,7 +465,7 @@ QUnit.test(
     }
 );
 QUnit.module("test DOM from result page");
-QUnit.test("should find link with chat css", function (assert) {
+QUnit.test("should find link with chat css", function test(assert) {
     var link = document.getElementById("touch-soft-chat-css");
     assert.equal(
         link.getAttribute("id"),
@@ -483,7 +480,7 @@ QUnit.test("should find link with chat css", function (assert) {
         "link's href is true"
     );
 });
-QUnit.test("should find main-style div and compare his DOM", function (assert) {
+QUnit.test("should find main-style div and compare his DOM", function test (assert) {
     var mainDiv = document.getElementsByClassName("root_chat_for_touchsoft")[0];
     assert.ok(
         mainDiv.firstElementChild.classList.contains(
@@ -528,7 +525,7 @@ QUnit.test("should find main-style div and compare his DOM", function (assert) {
         "textArea is ok"
     );
 });
-QUnit.test("should find minimize-style div and compare his DOM", function(
+QUnit.test("should find minimize-style div and compare his DOM", function test(
     assert
 ) {
     var minDiv = document.getElementsByClassName(

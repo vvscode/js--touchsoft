@@ -1,4 +1,3 @@
-/* eslint linebreak-style: ["error", "windows"] */
 /* global document */
 /* global localStorage */
 /* global XMLHttpRequest */
