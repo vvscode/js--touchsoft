@@ -1,6 +1,7 @@
+/* eslint linebreak-style: ["error", "windows"] */
 /* global document */
 /* global localStorage */
-/* globalXMLHttpRequest */
+/* global XMLHttpRequest */
 var configObj = {
     messageFromBot: " Bot: Ответ на ",
     messageFromUser: " Вы : ",
@@ -51,7 +52,7 @@ function ChatForTouchSoft(configObject) {
  */
 ChatForTouchSoft.prototype.setupDOMVariables = function setupDOMVariables (appDOMVariables) {
 	var newAppDOMVariables = {};
-    Object.keys(appDOMVariables).map(function (objectKey) {
+    Object.keys(appDOMVariables).map(function setElementsAccess (objectKey) {
 		newAppDOMVariables[objectKey] = document.getElementsByClassName(
             appDOMVariables[objectKey].className
         )[0];
@@ -124,7 +125,7 @@ ChatForTouchSoft.prototype.getAnswer = function getAnswer (requestMessage) {
         this.config
     );
     this.saveHistoryOfCorrespondence(paragraph.innerHTML, this.config.localStorageName);
-    setTimeout(function () {
+    setTimeout(function addMessageToTheMessageBlock () {
         refToParentObj.setParagraphToTheMessagesBlock(paragraph);
     }, this.config.timeOfBotResponse);
 };
@@ -139,11 +140,11 @@ ChatForTouchSoft.prototype.saveHistoryOfCorrespondence = function saveHistoryOfC
  */
 ChatForTouchSoft.prototype.createMessage = function createMessage (messageText, isBot) {
     var date = new Date();
-    var result = date.getHours() + ":" + date.getMinutes();
+    var result = date.getHours().toString().concat(":", date.getMinutes().toString());
     if (!isBot) {
-        result = this.config.messageFromUser + messageText;
+        result += this.config.messageFromUser.concat(messageText);
     } else {
-        result = this.config.messageFromBot + "\"" + messageText + "\"";
+        result += this.config.messageFromBot.concat( "\"" , messageText , "\"");
     }
     return result;
 };
@@ -188,7 +189,7 @@ ChatForTouchSoft.prototype.saveMessageToHistoryObject = function saveMessageToHi
 
 ChatForTouchSoft.prototype.displayHistory = function displayHistory () {
     var refToParentObj = this;
-    this.config.historyMessages.forEach(function (element) {
+    this.config.historyMessages.forEach(function createElement (element) {
         var paragraph = refToParentObj.createMessageParagraph(
             element,
             true,
