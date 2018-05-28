@@ -1,4 +1,4 @@
-var configChat = {
+var chatForSite, configChat = {
     timeOfBotResponse: 15000,
     pathToHtmlFile: "https://cdn.rawgit.com/kozel-stas/js--touchsoft/89c1d33a/task-01/task/skozel/ChatComponent.html",
     pathToCssFile: "https://cdn.rawgit.com/kozel-stas/js--touchsoft/89c1d33a/task-01/task/skozel/StyleChatComponent.css",
@@ -31,19 +31,31 @@ var configChat = {
         output: {
             className: "outputArea"
         }
-    },
+    }
 };
 
-function chat(configChat) {
-    this.config = configChat;
+function constructMessage(text) {
+    var day = new Date();
+    var prefix = "Вы: ";
+    return "[" + day.getHours() + ":" + day.getMinutes() + "] " + prefix + text;
 };
 
-chat.prototype.startChat = function () {
+function constructAnswer(text) {
+    var day = new Date();
+    var prefix = "Бот: Ответ на \"";
+    return "[" + day.getHours() + ":" + day.getMinutes() + "] " + prefix + text + "\"";
+};
+
+function Chat(setConfig) {
+    this.config = setConfig;
+};
+
+Chat.prototype.startChat = function () {
     this.getHTML();
     this.addCSS();
 };
 
-chat.prototype.addCSS = function () {
+Chat.prototype.addCSS = function () {
     var link = document.createElement("link");
     link.setAttribute("rel", "stylesheet");
     link.setAttribute("type", "text/css");
@@ -51,7 +63,7 @@ chat.prototype.addCSS = function () {
     document.head.appendChild(link);
 };
 
-chat.prototype.getHTML = function () {
+Chat.prototype.getHTML = function () {
     var refToParentObj = this;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", this.config.pathToHtmlFile, true);
@@ -69,73 +81,73 @@ chat.prototype.getHTML = function () {
     return xhr.response;
 };
 
-chat.prototype.includeHTML = function (elem) {
+Chat.prototype.includeHTML = function (elem) {
     var div = document.createElement("div");
     div.innerHTML = elem;
     document.body.appendChild(div);
 };
 
-chat.prototype.configurate = function () {
-    this.getDOMElem();
+Chat.prototype.configurate = function () {
+    this.getDOMElem(this.config.DOMVariables);
     this.clickEvent();
     this.loadOldConfig();
     this.trigStatusChat();
     this.loadOldMessage();
 };
 
-chat.prototype.loadOldMessage = function () {
-    for (var i = 0; i < parseInt(localStorage.getItem("index")); i++) {
+Chat.prototype.loadOldMessage = function () {
+    var i, maxValue = parseInt(localStorage.getItem("index"));
+    for (i = 0; i < maxValue; i = i + 1) {
         this.addOutputMessage(localStorage.getItem(i.toString()), this.config.DOMVariables.output.elemDOM);
     }
 };
 
-chat.prototype.trigStatusChat = function () {
+Chat.prototype.trigStatusChat = function () {
     var root = this.config.DOMVariables.chatComponentRoot;
-    var root_min = this.config.DOMVariables.chatComponentRootMin;
+    var rootMin = this.config.DOMVariables.chatComponentRootMin;
     root.elemDOM.classList.remove("visibility");
-    root_min.elemDOM.classList.remove("visibility");
+    rootMin.elemDOM.classList.remove("visibility");
     console.log(this.config.isMin);
     if (this.config.isMin) {
         root.elemDOM.classList.toggle("visibility");
     } else {
-        root_min.elemDOM.classList.toggle("visibility");
+        rootMin.elemDOM.classList.toggle("visibility");
     }
 };
 
-chat.prototype.loadOldConfig = function () {
-    this.config.isMin = localStorage.getItem("isMin") === 'false' ? false : true;
+Chat.prototype.loadOldConfig = function () {
+    this.config.isMin = localStorage.getItem("isMin") !== 'false';
     if (localStorage.getItem("index") == null) {
         localStorage.setItem("index", "0");
     }
 };
 
-chat.prototype.clickEvent = function () {
-    var context = this;
-    this.config.DOMVariables.collapseButton.elemDOM.addEventListener("click", function () {
-        context.config.isMin = !context.config.isMin;
-        context.trigStatusChat();
+Chat.prototype.clickEvent = function () {
+    this.config.DOMVariables.collapseButton.elemDOM.addEventListener("click", () => {
+        this.config.isMin = !this.config.isMin;
+        this.trigStatusChat();
     });
-    this.config.DOMVariables.collapseButtonMin.elemDOM.addEventListener("click", function () {
-        context.config.isMin = !context.config.isMin;
-        context.trigStatusChat();
+    this.config.DOMVariables.collapseButtonMin.elemDOM.addEventListener("click", () => {
+        this.config.isMin = !this.config.isMin;
+        this.trigStatusChat();
     });
-    this.config.DOMVariables.sendButton.elemDOM.addEventListener("click", function () {
-        context.sendMessage(context.config.DOMVariables.textArea.elemDOM, context.config.DOMVariables.output.elemDOM);
+    this.config.DOMVariables.sendButton.elemDOM.addEventListener("click", () => {
+        this.sendMessage(this.config.DOMVariables.textArea.elemDOM, this.config.DOMVariables.output.elemDOM);
     });
-    this.config.DOMVariables.sendButtonMin.elemDOM.addEventListener("click", function () {
-        context.sendMessage(context.config.DOMVariables.textAreaMin.elemDOM, context.config.DOMVariables.output.elemDOM);
-        context.config.isMin = !context.config.isMin;
-        context.trigStatusChat();
+    this.config.DOMVariables.sendButtonMin.elemDOM.addEventListener("click", () => {
+        this.sendMessage(this.config.DOMVariables.textAreaMin.elemDOM, this.config.DOMVariables.output.elemDOM);
+        this.config.isMin = !this.config.isMin;
+        this.trigStatusChat();
     });
-    window.addEventListener("beforeunload", function () {
-        localStorage.setItem("isMin", context.config.isMin.toString());
+    window.addEventListener("beforeunload", () => {
+        localStorage.setItem("isMin", this.config.isMin.toString());
     });
 };
 
-chat.prototype.sendMessage = function (input, output) {
-    var text = input.value;
-    input.value = "";
-    var message = constructMessage(text);
+Chat.prototype.sendMessage = function (input, output) {
+    var text = input.value, message, EMPTY = "";
+    input.value = EMPTY;
+    message = constructMessage(text);
     this.addMessage(message, output);
     var context = this;
     setTimeout(function () {
@@ -144,38 +156,30 @@ chat.prototype.sendMessage = function (input, output) {
     }, this.config.timeOfBotResponse);
 };
 
-chat.prototype.addMessage = function (message, output) {
+Chat.prototype.addMessage = function (message, output) {
+    var value;
     this.addOutputMessage(message, output);
     localStorage.setItem(localStorage.getItem("index"), message);
-    localStorage.setItem("index", (parseInt(localStorage.getItem("index")) + 1).toString());
+    value = parseInt(localStorage.getItem("index")) + 1;
+    localStorage.setItem("index", value.toString());
 };
 
-chat.prototype.addOutputMessage = function (message, output) {
+Chat.prototype.addOutputMessage = function (message, output) {
     var div = document.createElement("div");
     div.classList.toggle("message_block");
     div.innerText = message;
     output.appendChild(div);
 };
 
-function constructMessage(text) {
-    var day = new Date();
-    var prefix = "Вы: ";
-    return "[" + day.getHours() + ":" + day.getMinutes() + "] " + prefix + text;
+Chat.prototype.getDOMElem = function (DOMElem) {
+    Object.keys(DOMElem).map(function (objectKey) {
+        DOMElem[objectKey].elemDOM = document.getElementsByClassName(
+            DOMElem[objectKey].className
+        )[0];
+    });
 };
 
-function constructAnswer(text) {
-    var day = new Date();
-    var prefix = "Бот: Ответ на \"";
-    return "[" + day.getHours() + ":" + day.getMinutes() + "] " + prefix + text + "\"";
-};
-
-chat.prototype.getDOMElem = function () {
-    for (var elem in this.config.DOMVariables) {
-        this.config.DOMVariables[elem].elemDOM = document.getElementsByClassName(this.config.DOMVariables[elem].className)[0];
-    }
-}
-
-var chatForSite = new chat(configChat);
+chatForSite = new Chat(configChat);
 chatForSite.startChat();
 
 QUnit.module("Test variables in local storage");
@@ -218,7 +222,7 @@ QUnit.test("Test trigStatusChat function", function (assert) {
     }
 });
 QUnit.module("Test functions");
-QUnit.test("Test loaderConfig",function (assert) {
+QUnit.test("Test loaderConfig", function (assert) {
     localStorage.setItem("isMin", false.toString());
     chatForSite.loadOldConfig();
     assert.ok(!chatForSite.config.isMin);
