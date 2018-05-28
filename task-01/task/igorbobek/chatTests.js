@@ -87,7 +87,7 @@ QUnit.test('Recovery messages from local storage', (assert) => {
     }
     message = new Message('User', 'Recovery messages from local storage', new Date(), true);
     message.saveMessage();
-    assert.timeout(200);
+    assert.timeout(400);
     done = assert.async();
     setTimeout(() => {
         recoveryMessages();
