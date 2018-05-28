@@ -14,8 +14,9 @@ var createChat = function() {
     var btn = createSendButton();
     var textInput = createTextInput();
 
-    chat.appendChild(chatName);
+	
     chat.appendChild(minimize);
+    chat.appendChild(chatName);
     chat.appendChild(logArea);
     chat.appendChild(textInput);
     chat.appendChild(btn);
@@ -27,7 +28,7 @@ var createStyles = function () {
     style.innerHTML = '\n.chat {\n  width: 500px;\n  height: 300px;\n  ' +
         'border: 5px solid red;\n  position: fixed;\n  right: 0px;\n  ' +
         'bottom: 0px;\n  background-color: yellow;\n}\n' +
-        '\n.minimized {\nheight: 50px;\n border: 5px solid grey;\n' +
+        '\n.minimized {\nheight: 70px;\n border: 5px solid grey;\n' +
         'background-color: blue;\n}' +
         '.logArea {\nheight: 100px;\n overflow: scroll;\n}' +
         '.notShow {\ndisplay: none;\n}\n' +
