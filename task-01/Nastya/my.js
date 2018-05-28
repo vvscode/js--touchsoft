@@ -1,7 +1,6 @@
-
 var isChatHidden = false;
 var chatElement;
-var displayChat = function () {           
+var createChat = function () {           
    var main = document.createElement('div');
    main.style.background = '#d3cadb';
    main.style.width = '300px';
@@ -33,18 +32,17 @@ function addHistoryToPage() {
    if (historyArray !== null) {
    var messages = JSON.parse(historyArray);
    var historyPanel = document.getElementById('historyPanel');
-   historyElement = historyPanel;
    messages.forEach(function (element) {
        var message = new Message(new Date(element.time), element.sender, element.body);
-       historyElement.innerHTML += '<br>' + message.showMessage();
+       historyPanel.innerHTML += '<br>' + message.showMessage();
    }
    );
-   isChatHidden = getChatStatus();
+   isChatHidden = JSON.parse(getChatStatus());
    chatElement.style.display = isChatHidden ? 'none' : 'block';
     }
 }
 
-window.addEventListener('load', displayChat);
+window.addEventListener('load', createChat);
 window.addEventListener('load', addHistoryToPage);
 
 function createTextInput() {
@@ -112,19 +110,21 @@ function sendMessage() {
 
 function addMessage(text) {
    var message = new Message(new Date(), 'YOU', text);
-   historyElement.innerHTML += '<br>' + message.showMessage();
+   var historyPanel = document.getElementById('historyPanel');
+   historyPanel.innerHTML += '<br>' + message.showMessage();
    saveMessageToLocalStorage(message);
 }
 
 function addAnswer(text) {
    var createAnswer = function () {
        var message = new Message(new Date(), "WALL-E", 'The answer to the "' + text.toUpperCase() + '"');
-       historyElement.innerHTML += '<br>' + message.showMessage();
+       var historyPanel = document.getElementById('historyPanel');
+       historyPanel.innerHTML += '<br>' + message.showMessage();
        saveMessageToLocalStorage(message);
 
        return message;
    }
-   setTimeout(createAnswer, 150);
+   setTimeout(createAnswer, 15000);
 }
 
 function saveMessageToLocalStorage(message) {
