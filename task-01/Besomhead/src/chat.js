@@ -29,9 +29,11 @@ function getCurrentTime(date) {
   var hours = date.getHours();
   var minutes = date.getMinutes();
 
-  return `${(hours < 10 ? "0" : "") + hours}:${
-    minutes < 10 ? "0" : ""
-  }${minutes}`;
+  return (hours < 10 ? "0" : "")
+    .concat(hours.toString())
+    .concat(":")
+    .concat(minutes < 10 ? "0" : "")
+    .concat(minutes.toString());
 }
 
 function Message(date, sender, body) {
@@ -77,13 +79,19 @@ function appendSingleMessage(container, message) {
   var messagesContainer;
   var dayOfMonth;
 
-  containerId = `${CHAT_ITEM}-${message.day}-${message.month}`;
+  containerId = CHAT_ITEM.concat("-")
+    .concat(message.day)
+    .concat("-")
+    .concat(message.month);
   if (document.getElementById(containerId) === null) {
     messagesContainer = document.createElement("div");
     messagesContainer.id = containerId;
     messagesContainer.className = "chat-messages-container";
     dayOfMonth = document.createElement("legend");
-    dayOfMonth.innerHTML = `${message.day} ${months[+message.month]}`;
+    dayOfMonth.innerHTML = message.day
+      .toString()
+      .concat(" ")
+      .concat(months[+message.month]);
     dayOfMonth.className = "chat-day-of-month";
     container.appendChild(dayOfMonth);
     container.appendChild(messagesContainer);
@@ -131,7 +139,7 @@ function sendReply(message) {
   var reply = new Message(
     new Date(),
     "Бот:",
-    `Ответ на ${JSON.stringify(message).toUpperCase()}`
+    "Ответ на ".concat(JSON.stringify(message).toUpperCase())
   );
   appendSingleMessage(document.getElementById(MESSAGES_LIST), reply);
   saveMessageToLocalStorage(reply);
@@ -160,6 +168,7 @@ function appendInputBox() {
   inputTextArea.id = INPUT_TEXT;
   inputTextArea.className = "chat-input-textarea";
   inputMessageContainer.appendChild(inputTextArea);
+  messageButton.id = "chat-message-button";
   messageButton.className = "chat-message-button";
   messageButton.innerHTML = "Отправить";
   messageButton.onclick = sendMessage;
