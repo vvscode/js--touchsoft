@@ -58,7 +58,7 @@ QUnit.test('Sending message to chat', (assert) => {
     var message ;
     var done;
     message = new Message('User', 'Sending message to chat', new Date(), true);
-    assert.timeout(400);
+    assert.timeout(5000);
     done = assert.async();
     setTimeout(() => {
         content.innerHTML = '';
@@ -87,7 +87,7 @@ QUnit.test('Recovery messages from local storage', (assert) => {
     }
     message = new Message('User', 'Recovery messages from local storage', new Date(), true);
     message.saveMessage();
-    assert.timeout(400);
+    assert.timeout(5000);
     done = assert.async();
     setTimeout(() => {
         recoveryMessages();
