@@ -246,6 +246,9 @@ function saveMinimized() {
 }
 
 function initChat() {
+  var minimizeButton;
+  var form;
+  
   if (style) {
     addStyle();
   }
@@ -253,15 +256,13 @@ function initChat() {
   initMinimized();
   initElements();
 
-  var minimizeButton = window.document.getElementById(minimizeButtonClass);
-  var form = window.document.getElementById(messageFormClass);
-
+  minimizeButton = window.document.getElementById(minimizeButtonClass);
+  form = window.document.getElementById(messageFormClass);
   minimizeButton.onclick = toggleMinimize;
-
+  form.onsubmit = sendMessage;
+  
   initMessages();
   printItems(messages);
-
-  form.onsubmit = sendMessage;
 }
 
 function destroyChat() {
