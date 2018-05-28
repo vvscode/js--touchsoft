@@ -58,7 +58,7 @@ QUnit.test('Sending message to chat', (assert) => {
     var message ;
     var done;
     message = new Message('User', 'Sending message to chat', new Date(), true);
-    assert.timeout(300);
+    assert.timeout(200);
     done = assert.async();
     setTimeout(() => {
         content.innerHTML = '';
