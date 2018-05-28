@@ -296,6 +296,7 @@ QUnit.test("should create a valid css link element", function test (assert) {
     Object.keys(testLink.attributes).map(function createLink (objectKey) {
         var attrib = testLink.attributes[objectKey];
         openTag += " ".concat(attrib.name , "=" , attrib.value);
+        return true;
     });
     openTag += ">";
     assert.equal(
