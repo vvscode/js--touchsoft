@@ -93,7 +93,9 @@ function sendMessage(event) {
   history.appendChild(formatItem(item));
   messages.push(item);
 
-  setTimeout( () => sendAnswer(item), answer.delay);
+  setTimeout( function () {
+    sendAnswer(item);
+  }, answer.delay);
 
   this.text.value = "";
 
