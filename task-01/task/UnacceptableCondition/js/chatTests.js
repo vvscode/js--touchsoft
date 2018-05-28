@@ -5,7 +5,7 @@ var configObj = {
     localStorageName: "historyMessages",
     pathToHtmlFile: "https://rawgit.com/UnacceptableCondition/Homework_1/master/html/chat.html",
     pathToCssFile: "https://rawgit.com/UnacceptableCondition/Homework_1/master/css/chat.css",
-    isMinimize: "",
+    isMinimize: false,
 
     appDOMVariables: {
         messagesBlock: {className: "root_chat_for_touchsoft__top_messages"},
@@ -372,8 +372,6 @@ QUnit.test(
         chatForTouchSoftInstance.setupDOMVariables(
             chatForTouchSoftInstance.config.appDOMVariables
         );
-        // chatForTouchSoftInstance.setupChatStyle();
-        // chatForTouchSoftInstance.setupOnClickFunctions();
         assert.ok(
             chatForTouchSoftInstance.config.appDOMVariables.messagesBlock.classList.contains(
                 "root_chat_for_touchsoft__top_messages"
@@ -430,11 +428,11 @@ QUnit.test(
         );
     }
 );
-QUnit.test("setupChatStyle should save isMinimize state", function (assert) {
+QUnit.test("setupChatStyle should set isMinimize state", function (assert) {
     "use strict";
     chatForTouchSoftInstance.setupChatStyle();
     chatForTouchSoftInstance.setupOnClickFunctions();
-    assert.ok(localStorage.getItem("isMinimize"), "test HTML insert to document");
+    assert.ok(chatForTouchSoftInstance.config.isMinimize, "set isMinimize state");
 });
 QUnit.test(
     "saveMessageToHistoryObject should add message to history object",
