@@ -6,16 +6,16 @@ function clearWorkSpace() {
     if ((elem = document.getElementById("feedBack"))) {
         document.body.removeChild(elem);
     }
-    sessionStorage.clear();
+    localStorage.clear();
 }
 
 QUnit.test("Time change", function(assert) {
     assert.equal(checkTime(9), "09", "Equal");
-    assert.notEqual(checkTime(9)), "19", "Not equal";
+    assert.notEqual(checkTime(9), "19", "Not equal");
 });
 QUnit.module("Create and show");
 QUnit.test("Create feedback", function(assert) {
-    sessionStorage.setItem("message", "test");
+    localStorage.setItem("message", "test");
     createFeedback();
     assert.ok(document.getElementById("feedBack"), "feedback show");
     assert.equal(
@@ -49,14 +49,14 @@ QUnit.test("Show and hide feedback test", function(assert) {
 QUnit.module("Check session storage");
 QUnit.test("Check window test", function(assert) {
     clearWorkSpace();
-    sessionStorage.setItem("isOpen", "button");
+    localStorage.setItem("isOpen", "button");
     checkWindow();
     assert.ok(
         document.getElementById("elemShowFeedback"),
         "collapse feedback created"
     );
     clearWorkSpace();
-    sessionStorage.setItem("isOpen", "feedback");
+    localStorage.setItem("isOpen", "feedback");
     checkWindow();
     assert.ok(document.getElementById("feedBack"), "feedback created");
 });
@@ -70,11 +70,11 @@ QUnit.test("Send message test", function(assert) {
     var date = new Date();
     var minute = checkTime(date.getMinutes());
     var hour = checkTime(date.getHours());
-    message = "\n" + [hour, minute].join(":") + " You: " + "test";
+    var message = "\n" + [hour, minute].join(":") + " You: " + "test";
     assert.equal(
         message,
-        sessionStorage.getItem("message"),
-        "value in sessionStorage"
+        localStorage.getItem("message"),
+        "value in localStorage"
     );
     var messageHistory = document.getElementById("messageHistory").value;
     assert.equal(messageHistory, message, "true value in chat");
@@ -83,13 +83,13 @@ QUnit.test("Send message test", function(assert) {
 QUnit.test("response to message", function(assert) {
     clearWorkSpace();
     createFeedback();
-    sessionStorage.setItem("message", "");
+    localStorage.setItem("message", "");
     getReplyForMessage("test")();
     var messageHistory = document.getElementById("messageHistory").value;
     var date = new Date();
     var minute = checkTime(date.getMinutes());
     var hour = checkTime(date.getHours());
-    correctMessageHistory =
+    var correctMessageHistory =
         "\n" + [hour, minute].join(":") + " Bot: Response to 'test'";
     assert.equal(messageHistory, correctMessageHistory, "correct response");
 });
@@ -104,7 +104,7 @@ QUnit.test("send message by pressing the button", function(assert) {
     var date = new Date();
     var minute = checkTime(date.getMinutes());
     var hour = checkTime(date.getHours());
-    message = "\n" + [hour, minute].join(":") + " You: " + "test";
+    var message = "\n" + [hour, minute].join(":") + " You: " + "test";
     assert.equal(
         message,
         document.getElementById("messageHistory").value,

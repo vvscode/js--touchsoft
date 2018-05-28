@@ -3,7 +3,6 @@ window.onload = function() {
 };
 
 function generateFeedback() {
-    var bodyElement = document.body;
     var container = document.createElement("container");
     container.id = "feedBack";
     container.style.backgroundColor = "black";
@@ -33,7 +32,7 @@ function createFeedback() {
     var bodyElement = document.body;
     bodyElement.appendChild(generateFeedback());
     var elem = document.getElementById("messageHistory");
-    elem.value = sessionStorage.getItem("message");
+    elem.value = localStorage.getItem("message");
 }
 
 function createCollapsedFeedback() {
@@ -43,28 +42,29 @@ function createCollapsedFeedback() {
 
 function checkWindow() {
     var isOpen;
-    if ((isOpen = sessionStorage.getItem("isOpen")) != null) {
+    if ((isOpen = localStorage.getItem("isOpen")) != null) {
         if (isOpen === "feedback") {
             createFeedback();
         } else {
             createCollapsedFeedback();
         }
     } else {
-        sessionStorage.setItem("isOpen", "button");
+        localStorage.setItem("isOpen", "button");
         createCollapsedFeedback();
     }
 }
 
 function sendMessage() {
     var messageArea = document.getElementById("messageArea");
-    var message = sessionStorage.getItem("message");
+    var message = localStorage.getItem("message");
+    var messageHistory;
     if (message) {
-        var messageHistory = message;
+        messageHistory = message;
     } else {
-        var messageHistory = "";
-        sessionStorage.setItem("message", messageHistory);
+        messageHistory = "";
+        localStorage.setItem("message", messageHistory);
     }
-    var message = messageArea.value;
+    message = messageArea.value;
     var date = new Date();
     var minute = checkTime(date.getMinutes());
     var hour = checkTime(date.getHours());
@@ -74,20 +74,20 @@ function sendMessage() {
     if (document.getElementById("messageHistory")) {
         document.getElementById("messageHistory").value = messageHistory;
     }
-    sessionStorage.setItem("message", messageHistory);
+    localStorage.setItem("message", messageHistory);
     setTimeout(getReplyForMessage(message), 15000);
 }
 
-function checkTime(i) {
-    if (i < 10) {
-        i = "0" + i;
+function checkTime(time) {
+    if (time < 10) {
+        time = "0" + time;
     }
-    return i;
+    return time;
 }
 
 function getReplyForMessage(message) {
-    var rtm = function replyToMessage() {
-        var messageHistory = sessionStorage.getItem("message");
+    return function replyToMessage() {
+        var messageHistory = localStorage.getItem("message");
         var date = new Date();
         var minute = checkTime(date.getMinutes());
         var hour = checkTime(date.getHours());
@@ -101,23 +101,22 @@ function getReplyForMessage(message) {
         if (document.getElementById("messageHistory")) {
             document.getElementById("messageHistory").value = messageHistory;
         }
-        sessionStorage.setItem("message", messageHistory);
+        localStorage.setItem("message", messageHistory);
     };
-    return rtm;
 }
 
 function showFeedback() {
     var bodyElement = document.body;
     var changeElem = document.getElementById("elemShowFeedback");
     bodyElement.replaceChild(generateFeedback(), changeElem);
-    sessionStorage.setItem("isOpen", "feedback");
+    localStorage.setItem("isOpen", "feedback");
     var elem = document.getElementById("messageHistory");
-    elem.value = sessionStorage.getItem("message");
+    elem.value = localStorage.getItem("message");
 }
 
 function hideFeedback() {
     var bodyElement = document.body;
     var changeElem = document.getElementById("feedBack");
     bodyElement.replaceChild(generateCollapsedFeedback(), changeElem);
-    sessionStorage.setItem("isOpen", "button");
+    localStorage.setItem("isOpen", "button");
 }
