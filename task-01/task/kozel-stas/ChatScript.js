@@ -1,4 +1,5 @@
-var chatForSite, configChat = {
+var chatForSite;
+var configChat = {
     timeOfBotResponse: 15000,
     pathToHtmlFile: "https://cdn.rawgit.com/kozel-stas/js--touchsoft/89c1d33a/task-01/task/skozel/ChatComponent.html",
     pathToCssFile: "https://cdn.rawgit.com/kozel-stas/js--touchsoft/89c1d33a/task-01/task/skozel/StyleChatComponent.css",
@@ -37,13 +38,13 @@ var chatForSite, configChat = {
 function constructMessage(text) {
     var day = new Date();
     var prefix = "Вы: ";
-    return "[" + day.getHours() + ":" + day.getMinutes() + "] " + prefix + text;
+    return "[" + day.getHours().toString() + ":" + day.getMinutes().toString() + "] " + prefix + text;
 };
 
 function constructAnswer(text) {
     var day = new Date();
     var prefix = "Бот: Ответ на \"";
-    return "[" + day.getHours() + ":" + day.getMinutes() + "] " + prefix + text + "\"";
+    return "[" + day.getHours().toString() + ":" + day.getMinutes().toString() + "] " + prefix + text + "\"";
 };
 
 function Chat(setConfig) {
@@ -96,7 +97,8 @@ Chat.prototype.configurate = function () {
 };
 
 Chat.prototype.loadOldMessage = function () {
-    var i, maxValue = parseInt(localStorage.getItem("index"));
+    var i;
+    var maxValue = parseInt(localStorage.getItem("index"));
     for (i = 0; i < maxValue; i = i + 1) {
         this.addOutputMessage(localStorage.getItem(i.toString()), this.config.DOMVariables.output.elemDOM);
     }
@@ -145,13 +147,15 @@ Chat.prototype.clickEvent = function () {
 };
 
 Chat.prototype.sendMessage = function (input, output) {
-    var text = input.value, message, EMPTY = "";
+    var text = input.value;
+    var message;
+    var EMPTY = "";
+    var answer;
     input.value = EMPTY;
     message = constructMessage(text);
     this.addMessage(message, output);
-    var context = this;
-    setTimeout(function () {
-        var answer = constructAnswer(text);
+    setTimeout(() => {
+        answer = constructAnswer(text);
         context.addMessage(answer, output);
     }, this.config.timeOfBotResponse);
 };
