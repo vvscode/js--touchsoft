@@ -145,8 +145,7 @@ Message.prototype.setAnswered = function (answered) {
 Message.prototype.updateMessageInLocalStorage = function (searchTime, newAnswered) {
     var i;
     var messageObject;
-    var messages;
-    messages = JSON.parse(localStorage.getItem('messages'));
+    var messages = JSON.parse(localStorage.getItem('messages'));
     if (messages !== null) {
         for (i = 0; i < messages.length; i += 1) {
             messageObject = messages[i];
