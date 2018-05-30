@@ -2,10 +2,15 @@ var currentUserName = 'user'
 var botName = 'bot'
 var isChatMinimized = true
 var messageHistoryStorage
+var minClass = 'minimized'
+var maxClass = 'maximized'
 var chatName = 'Chat Name'
+
 function getCssLocation() {
   return ''
 }
+
+
 
 function Message(time, userName, text) {
   this.time = time
@@ -53,7 +58,7 @@ function postChatMessage(message, username) {
 
 function loadMessageHistory() {
   messageHistoryStorage.array.forEach(function loadMessage(message) {
-    addMessageToList(message.getFullMessage())
+    addMessageToList(new Message(message.time, message.userName, message.text).getFullMessage())
   });
 }
 
@@ -61,24 +66,25 @@ function toggleMinimization() {
   var currentState
   var newState
   if (isChatMinimized) {
-    currentState = 'minimized'
-    newState = 'maximized'
+    currentState = minClass
+    newState = maxClass
   } else {
-    currentState = 'maximized'
-    newState = 'minimized'
+    currentState = maxClass
+    newState = minClass
   }
   chatBody.classList.replace(currentState, newState)
   isChatMinimized = !isChatMinimized
+  localStorage.setItem('isTsChatMinimized', isChatMinimized)
 }
 
 function createChatHeader() {
   var chatHeader = document.createElement('div')
-  var minimizeButton = document.createElement('span')
+  var minimizeButton = document.createElement('button')
   var chatNameContainer = document.createElement('span')
 
   chatHeader.classList.add('chatHeader')
   minimizeButton.classList.add('minimizeButton')
-  minimizeButton.innerHTML = '<a><b>X</b></a>'
+  minimizeButton.innerText = '-'
   chatNameContainer.innerText = chatName
   minimizeButton.addEventListener('click', function() { toggleMinimization() })
  chatHeader.appendChild(minimizeButton)
@@ -86,15 +92,22 @@ function createChatHeader() {
   return chatHeader
 }
 
-window.onload = function addChat() {
-  var chatDiv = document.createElement('div')
-  messageList = document.createElement('ul')
+function createChatBody() {
+  var body = document.createElement('div')
   var sendButton = document.createElement('button')
   var chatInput = document.createElement('textArea')
   var inputPanel = document.createElement('div')
   var messageListPanel = document.createElement('div')
-  var chatHeader = createChatHeader()
-  chatBody = document.createElement('div')
+
+}
+
+window.onload = function addChat() {
+  chatDiv = document.createElement('div')
+  messageList = document.createElement('ul')
+  
+  chatHeader = createChatHeader()
+  chatBody = createChatBody()
+
   messageHistoryStorage = new MessageHistoryStorage(localStorage.getItem('messageHistory'))
   loadCss()
   chatDiv.classList.add('chat')
@@ -114,14 +127,15 @@ window.onload = function addChat() {
 
   sendButton.onclick = function sendClicked() {
     var messageText = chatInput.value
-    var BOT_ANSWER_DELAY = 15000
+    var botAnswerDelay = 15000
+    chatInput.value = ''
     postChatMessage(messageText, currentUserName)
     setTimeout(function reply() {
       postChatMessage(
         'Answer to message ' + messageText.toUpperCase(),
         botName
       )
-    }, BOT_ANSWER_DELAY)
+    }, botAnswerDelay)
   }
 
   
