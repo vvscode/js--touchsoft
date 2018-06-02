@@ -277,8 +277,7 @@ function forMinimizeButton() {
 
 function forMinButton() {
   if (
-    (document.getElementById('idMinimizeWindow').style.visibility = ъ =
-      'visible')
+    (document.getElementById('idMinimizeWindow').style.visibility = 'visible')
   ) {
     document.getElementById('idChatWindow').style.visibility = 'visible';
     document.getElementById('idMinimizeWindow').style.visibility = 'hidden';
@@ -292,6 +291,12 @@ function setHistory() {
     'history',
     document.getElementById('idHistoryOfTanyaChat').innerHTML
   );
+}
+
+function scrollDown() {
+  document.getElementById(
+    'idHistoryOfTanyaChat'
+  ).scrollTop = document.getElementById('idHistoryOfTanyaChat').scrollHeight;
 }
 
 function botAnswer() {
@@ -336,12 +341,6 @@ function getHistoryFromLocalStorage() {
   document.getElementById(
     'idHistoryOfTanyaChat'
   ).innerHTML = localStorage.getItem('history');
-}
-
-function scrollDown() {
-  document.getElementById(
-    'idHistoryOfTanyaChat'
-  ).scrollTop = document.getElementById('idHistoryOfTanyaChat').scrollHeight;
 }
 
 function init() {

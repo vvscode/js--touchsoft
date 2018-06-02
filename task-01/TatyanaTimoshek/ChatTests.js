@@ -44,11 +44,11 @@ QUnit.test('Check the visibility of the chat', function(assert) {
   localStorage.removeItem('visibilityMinimizeWindow');
   setVisibility();
   assert.ok(
-    document.getElementById('idChatWindow').style.visibility == 'visible',
+    document.getElementById('idChatWindow').style.visibility === 'visible',
     'The test is successful'
   );
   assert.ok(
-    document.getElementById('idMinimizeWindow').style.visibility == 'hidden',
+    document.getElementById('idMinimizeWindow').style.visibility === 'hidden',
     'The test is successful'
   );
   hideChat();
@@ -63,7 +63,7 @@ QUnit.test('Check the work with the history.', function(assert) {
     'history Of TanyaChat';
   setHistory();
   assert.ok(
-    localStorage.getItem('history') == 'history Of TanyaChat',
+    localStorage.getItem('history') === 'history Of TanyaChat',
     'The test is successful'
   );
   hideChat();
@@ -79,20 +79,20 @@ QUnit.test('Check the folding of the chat.', function(assert) {
   setOnclickFunctions();
   forMinimizeButton();
   assert.ok(
-    document.getElementById('idChatWindow').style.visibility == 'hidden',
+    document.getElementById('idChatWindow').style.visibility === 'hidden',
     'The test is successful'
   );
   assert.ok(
-    document.getElementById('idMinimizeWindow').style.visibility == 'visible',
+    document.getElementById('idMinimizeWindow').style.visibility === 'visible',
     'The test is successful'
   );
   forMinButton();
   assert.ok(
-    document.getElementById('idChatWindow').style.visibility == 'visible',
+    document.getElementById('idChatWindow').style.visibility === 'visible',
     'The test is successful'
   );
   assert.ok(
-    document.getElementById('idMinimizeWindow').style.visibility == 'hidden',
+    document.getElementById('idMinimizeWindow').style.visibility === 'hidden',
     'The test is successful'
   );
   hideChat();
@@ -101,7 +101,8 @@ QUnit.test('Check the folding of the chat.', function(assert) {
 QUnit.module('Work with messages');
 
 QUnit.test('Check the sending of user messages.', function(assert) {
-  var before, after;
+  var before;
+  var after;
   init();
   before = document.getElementById('idHistoryOfTanyaChat').innerHTML.length;
   document.getElementById('idChatInputMessage').innerHTML = 'hello';
@@ -119,7 +120,7 @@ QUnit.test('Check the bot response.', function(assert) {
   assert.ok(
     document
       .getElementById('idHistoryOfTanyaChat')
-      .innerHTML.indexOf('HELLO') != -1,
+      .innerHTML.indexOf('HELLO') !== -1,
     'The test is successful'
   );
   hideChat();
@@ -140,7 +141,7 @@ QUnit.test('Check the format of the user and bot messages.', function(assert) {
           currentTime.getMinutes() +
           ' You: ' +
           document.getElementById('idChatInputMessage').innerHTML
-      ) != -1,
+      ) !== -1,
     'The test is successful'
   );
   botAnswer();
@@ -152,7 +153,7 @@ QUnit.test('Check the format of the user and bot messages.', function(assert) {
           ':' +
           currentTime.getMinutes() +
           ' Bot: Response to "HELLO"'
-      ) != -1,
+      ) !== -1,
     'The test is successful'
   );
   hideChat();
@@ -179,7 +180,7 @@ QUnit.test('Check scrolling the history of messages.', function(assert) {
     'CheckCheckCheck CheckCheckCheck';
   scrollDown();
   assert.ok(
-    history.clientHeight + history.scrollTop == history.scrollHeight,
+    history.clientHeight + history.scrollTop === history.scrollHeight,
     'The test is successful'
   );
   hideChat();
