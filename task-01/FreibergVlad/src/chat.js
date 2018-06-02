@@ -7,7 +7,7 @@ var sendBtn;
 var msgInput;
 var msgLog;
 var RESPONSE_INTERVAL = 15000;
-var PATH_TO_CSS = 'main.css';
+var PATH_TO_CSS = 'https://rawgit.com/FreibergVlad/js--touchsoft/master/task-01/FreibergVlad/src/main.css';
 
 window.onload = function () {
     loadCss(PATH_TO_CSS);
