@@ -67,7 +67,6 @@ function sendButtonOnClick(){
         inputMessage.value = '';
         scroll();
     }
-    
 }
 
 function sendMessage(message, sender){
