@@ -265,50 +265,26 @@ function setVisibility() {
       'idMinimizeWindow'
     ).style.visibility = localStorage.getItem('visibilityMinimizeWindow');
 }
+
 function forMinimizeButton() {
-  if (document.getElementById('idChatWindow').style.visibility == 'visible') {
+  if (document.getElementById('idChatWindow').style.visibility === 'visible') {
     document.getElementById('idChatWindow').style.visibility = 'hidden';
     document.getElementById('idMinimizeWindow').style.visibility = 'visible';
     localStorage.setItem('visibilityChatWindow', 'hidden');
     localStorage.setItem('visibilityMinimizeWindow', 'visible');
   }
 }
+
 function forMinButton() {
   if (
-    document.getElementById('idMinimizeWindow').style.visibility == 'visible'
+    (document.getElementById('idMinimizeWindow').style.visibility = ъ =
+      'visible')
   ) {
     document.getElementById('idChatWindow').style.visibility = 'visible';
     document.getElementById('idMinimizeWindow').style.visibility = 'hidden';
     localStorage.setItem('visibilityChatWindow', 'visible');
     localStorage.setItem('visibilityMinimizeWindow', 'hidden');
   }
-}
-function setOnclickFunctions() {
-  document.getElementById('idMinimizeButton').onclick = forMinimizeButton;
-  document.getElementById('idMinButton').onclick = forMinButton;
-  document.getElementById('idSendButton').onclick = sendMessage;
-}
-
-function getHistoryFromLocalStorage() {
-  document.getElementById(
-    'idHistoryOfTanyaChat'
-  ).innerHTML = localStorage.getItem('history');
-}
-
-function scrollDown() {
-  document.getElementById(
-    'idHistoryOfTanyaChat'
-  ).scrollTop = document.getElementById('idHistoryOfTanyaChat').scrollHeight;
-}
-
-function init() {
-  createStyles();
-  createChat();
-  createMinimizeWindow();
-  setVisibility();
-  getHistoryFromLocalStorage();
-  scrollDown();
-  setOnclickFunctions();
 }
 
 function setHistory() {
@@ -350,6 +326,36 @@ function sendMessage() {
   setTimeout(botAnswer, hangOnTenSeconds);
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  init();
-});
+function setOnclickFunctions() {
+  document.getElementById('idMinimizeButton').onclick = forMinimizeButton;
+  document.getElementById('idMinButton').onclick = forMinButton;
+  document.getElementById('idSendButton').onclick = sendMessage;
+}
+
+function getHistoryFromLocalStorage() {
+  document.getElementById(
+    'idHistoryOfTanyaChat'
+  ).innerHTML = localStorage.getItem('history');
+}
+
+function scrollDown() {
+  document.getElementById(
+    'idHistoryOfTanyaChat'
+  ).scrollTop = document.getElementById('idHistoryOfTanyaChat').scrollHeight;
+}
+
+function init() {
+  createStyles();
+  createChat();
+  createMinimizeWindow();
+  setVisibility();
+  getHistoryFromLocalStorage();
+  scrollDown();
+  setOnclickFunctions();
+}
+
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    init();
+  });
+})();
