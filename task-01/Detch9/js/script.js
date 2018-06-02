@@ -82,7 +82,7 @@ function loadCSS() {
     var head = document.getElementsByTagName('head')[0];
     var load = document.createElement('link');
     load.rel = 'stylesheet';
-    load.href = 'css/app.css';
+    load.href = 'https://rawgit.com/Detch9/js--touchsoft/master/task-01/Detch9/css/app.css';
     head.appendChild(load);
 }
 
