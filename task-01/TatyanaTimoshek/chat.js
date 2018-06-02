@@ -1,7 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-  init();
-});
-
 var tanyaChatStyles =
   '.yourChatWindowStyles {' +
   ' visibility: visible; ' +
@@ -134,28 +130,38 @@ function createStyles() {
 
 function createChat() {
   var yourChatWindow = document.createElement('div');
+  var chatWindowTable = document.createElement('table');
+  var chatWindowTop = document.createElement('tr');
+  var chatWindowTopText = document.createElement('td');
+  var chatWindowTopMinimizeButton = document.createElement('td');
+  var minimizeButton = document.createElement('div');
+  var chatWindowMessagesHistory = document.createElement('tr');
+  var chatWindowMessagesHistoryTd = document.createElement('td');
+  var history = document.createElement('div');
+  var chatWindowMessageTerritory = document.createElement('tr');
+  var chatWindowMessageTerritoryText = document.createElement('td');
+  var chatInputMessage = document.createElement('textarea');
+  var chatWindowMessageTerritoryButton = document.createElement('td');
+  var sendButton = document.createElement('div');
+  var meta = document.createElement('meta');
+
   yourChatWindow.id = 'idChatWindow';
   yourChatWindow.classList.add('yourChatWindowStyles');
   document.body.appendChild(yourChatWindow);
 
-  var chatWindowTable = document.createElement('table');
   chatWindowTable.classList.add('chatWindowTableStyles');
 
-  var chatWindowTop = document.createElement('tr');
   chatWindowTop.id = 'idChatWindowTop';
 
-  var chatWindowTopText = document.createElement('td');
   chatWindowTopText.id = 'idChatWindowTopText';
   chatWindowTopText.classList.add('chatWindowTopTextStyles');
 
   chatWindowTopText.innerHTML = 'Chat';
 
-  var chatWindowTopMinimizeButton = document.createElement('td');
   chatWindowTopMinimizeButton.id = 'idChatWindowTopMinimizeButton';
   chatWindowTopMinimizeButton.classList.add(
     'chatWindowTopMinimizeButtonStyles'
   );
-  var minimizeButton = document.createElement('div');
   minimizeButton.id = 'idMinimizeButton';
   minimizeButton.classList.add('minimizeButtonStyles');
   minimizeButton.innerHTML = '&#8212';
@@ -164,10 +170,7 @@ function createChat() {
   chatWindowTop.appendChild(chatWindowTopText);
   chatWindowTop.appendChild(chatWindowTopMinimizeButton);
 
-  var chatWindowMessagesHistory = document.createElement('tr');
   chatWindowMessagesHistory.id = 'idChatWindowMessagesHistory';
-  var chatWindowMessagesHistoryTd = document.createElement('td');
-  var history = document.createElement('div');
   history.id = 'idHistoryOfTanyaChat';
   history.classList.add('chatWindowMessagesHistoryTdStyles');
   chatWindowMessagesHistoryTd.colSpan = '2';
@@ -175,26 +178,21 @@ function createChat() {
 
   chatWindowMessagesHistory.appendChild(chatWindowMessagesHistoryTd);
 
-  var chatWindowMessageTerritory = document.createElement('tr');
   chatWindowMessageTerritory.id = 'idChatWindowMessageTerritory';
 
-  var chatWindowMessageTerritoryText = document.createElement('td');
   chatWindowMessageTerritoryText.id = 'idChatWindowMessageTerritoryText';
   chatWindowMessageTerritoryText.classList.add(
     'chatWindowMessageTerritoryTextStyles'
   );
-  var chatInputMessage = document.createElement('textarea');
   chatInputMessage.id = 'idChatInputMessage';
   chatInputMessage.type = 'text';
   chatInputMessage.placeholder = 'Enter your message..';
   chatInputMessage.classList.add('chatInputMessageStyles');
   chatWindowMessageTerritoryText.appendChild(chatInputMessage);
 
-  var chatWindowMessageTerritoryButton = document.createElement('td');
   chatWindowMessageTerritoryButton.classList.add(
     'chatWindowMessageTerritoryButtonStyles'
   );
-  var sendButton = document.createElement('div');
   sendButton.id = 'idSendButton';
   sendButton.classList.add('sendButtonStyles');
   sendButton.innerHTML = 'Send';
@@ -203,7 +201,6 @@ function createChat() {
   chatWindowMessageTerritory.appendChild(chatWindowMessageTerritoryText);
   chatWindowMessageTerritory.appendChild(chatWindowMessageTerritoryButton);
 
-  var meta = document.createElement('meta');
   meta.httpEquiv = 'Content-Type';
   meta.content = 'text/html; charset=utf-8';
   chatWindowTable.appendChild(meta);
@@ -214,29 +211,32 @@ function createChat() {
 
   yourChatWindow.appendChild(chatWindowTable);
   chatInputMessage.focus();
-  scrollDown();
+  document.getElementById(
+    'idHistoryOfTanyaChat'
+  ).scrollTop = document.getElementById('idHistoryOfTanyaChat').scrollHeight;
   return yourChatWindow;
 }
 
 function createMinimizeWindow() {
   var minimizeWindow = document.createElement('div');
+  var minimizeChat = document.createElement('table');
+  var minimizeChatPane = document.createElement('tr');
+  var minimizeChatText = document.createElement('td');
+  var minimizeChatButtonTd = document.createElement('td');
+  var minButton = document.createElement('div');
+
   minimizeWindow.id = 'idMinimizeWindow';
   minimizeWindow.classList.add('minimizeWindowStyles');
-  var minimizeChat = document.createElement('table');
   minimizeChat.classList.add('minimizeChatStyles');
 
-  var minimizeChatPane = document.createElement('tr');
   minimizeChatPane.id = 'idMinimizeChatPane';
 
-  var minimizeChatText = document.createElement('td');
   minimizeChatText.id = 'idMinimizeChatText';
   minimizeChatText.classList.add('minimizeChatTextStyles');
   minimizeChatText.innerHTML = 'Chat';
 
-  var minimizeChatButtonTd = document.createElement('td');
   minimizeChatButtonTd.id = 'idMinimizeChatButtonTd';
   minimizeChatButtonTd.classList.add('minimizeChatButtonTdStyles');
-  var minButton = document.createElement('div');
   minButton.id = 'idMinButton';
   minButton.classList.add('minButtonStyles');
   minButton.innerHTML = '[&nbsp&nbsp]';
@@ -349,3 +349,7 @@ function sendMessage() {
   setHistory();
   setTimeout(botAnswer, hangOnTenSeconds);
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  init();
+});

@@ -1,9 +1,9 @@
 function hideChat() {
   var a = document.getElementById('idChatWindow');
+  var b = document.getElementById('idMinimizeWindow');
   if (a != null) {
     a.remove();
   }
-  var b = document.getElementById('idMinimizeWindow');
   if (b != null) {
     b.remove();
   }
@@ -101,13 +101,13 @@ QUnit.test('Check the folding of the chat.', function(assert) {
 QUnit.module('Work with messages');
 
 QUnit.test('Check the sending of user messages.', function(assert) {
+  var before, after;
   init();
-  var before = document.getElementById('idHistoryOfTanyaChat').innerHTML.length;
+  before = document.getElementById('idHistoryOfTanyaChat').innerHTML.length;
   document.getElementById('idChatInputMessage').innerHTML = 'hello';
   sendMessage();
-  var after = document.getElementById('idHistoryOfTanyaChat').innerHTML.length;
+  after = document.getElementById('idHistoryOfTanyaChat').innerHTML.length;
   assert.ok(before < after, 'The test is successful');
-  // alert(document.getElementById('idHistoryOfTanyaChat').innerHTML);
   hideChat();
 });
 
@@ -126,8 +126,8 @@ QUnit.test('Check the bot response.', function(assert) {
 });
 
 QUnit.test('Check the format of the user and bot messages.', function(assert) {
-  init();
   var currentTime = new Date();
+  init();
   document.getElementById('idHistoryOfTanyaChat').innerHTML = '';
   document.getElementById('idChatInputMessage').innerHTML = 'hello';
   sendMessage();
@@ -161,8 +161,9 @@ QUnit.test('Check the format of the user and bot messages.', function(assert) {
 QUnit.module('Scrolling');
 
 QUnit.test('Check scrolling the history of messages.', function(assert) {
+  var history;
   init();
-  var history = document.getElementById('idHistoryOfTanyaChat');
+  history = document.getElementById('idHistoryOfTanyaChat');
   history.innerHTML =
     'CheckCheckCheck CheckCheckCheck' +
     'CheckCheckCheck CheckCheckCheck' +
