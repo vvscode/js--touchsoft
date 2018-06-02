@@ -277,7 +277,7 @@ function forMinimizeButton() {
 
 function forMinButton() {
   if (
-    (document.getElementById('idMinimizeWindow').style.visibility = 'visible')
+    document.getElementById('idMinimizeWindow').style.visibility === 'visible'
   ) {
     document.getElementById('idChatWindow').style.visibility = 'visible';
     document.getElementById('idMinimizeWindow').style.visibility = 'hidden';
