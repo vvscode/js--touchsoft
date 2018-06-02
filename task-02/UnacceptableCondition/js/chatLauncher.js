@@ -6,19 +6,9 @@ var after = [
 ];
 var DOMVariables = {};
 
-for(var i = 0; i < after.length; i++) {
-    DOMVariables[after[i]] = document.getElementById(pattern + after[i]);
-}
-
-
-for(var j = 0; j < after.length-1; j++) {
-    DOMVariables[after[j]].addEventListener("change", function () {
-        createSctipt();
-    });
-}
 
 function createSctipt() {
-    var src = "https://rawgit.com/UnacceptableCondition/Homework_2/master/js/chat.js?title='" +
+    var src = "&ltscript src='https://rawgit.com/UnacceptableCondition/Homework_2/master/js/chat.js?title='" +
         DOMVariables.chatTitle.value + "'&botName='" +
         DOMVariables.botName.value + "'&chatUrl='" +
         DOMVariables.chatUrl.value + "'&cssClass='" +
@@ -31,8 +21,14 @@ function createSctipt() {
     if(DOMVariables.networkRadioXMR.checked) {
         src += "XMR'";
     } else {
-        src += "fetch'";
+        src += "fetch''&gt&lt/script&gt";
     }
-        // DOMVariables.chatTitle.value + "'";
     DOMVariables.scriptCode.innerHTML = src;
 }
+
+after.map(function (element) {
+    DOMVariables[element] = document.getElementById(pattern + element);
+    DOMVariables[element].addEventListener("change", function changeElement () {
+        createSctipt();
+    });
+});
