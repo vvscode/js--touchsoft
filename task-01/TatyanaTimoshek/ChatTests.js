@@ -1,3 +1,5 @@
+/* global QUnit */
+
 var tanyaChatStyles =
   '.yourChatWindowStyles {' +
   ' visibility: visible; ' +
