@@ -1,15 +1,29 @@
+function hideChat() {
+  var a = document.getElementById('idChatWindow');
+  if (a != null) {
+    a.remove();
+  }
+  var b = document.getElementById('idMinimizeWindow');
+  if (b != null) {
+    b.remove();
+  }
+}
+
 QUnit.module('Chat creation');
 
 QUnit.test('Check the connection of styles', function(assert) {
   assert.ok(createStyles() !== null, 'The test is successful');
+  hideChat();
 });
 
 QUnit.test('Check the creation of chat', function(assert) {
   assert.ok(createChat() !== null, 'The test is successful');
+  hideChat();
 });
 
 QUnit.test('Check the creation of a collapsed chat', function(assert) {
   assert.ok(createMinimizeWindow() !== null, 'The test is successful');
+  hideChat();
 });
 
 QUnit.test('Check the location of the chat (right).', function(assert) {
@@ -19,6 +33,7 @@ QUnit.test('Check the location of the chat (right).', function(assert) {
     document.getElementById('idChatWindow').getBoundingClientRect().left > 1000,
     'The test is successful'
   );
+  hideChat();
 });
 
 QUnit.test('Check the visibility of the chat', function(assert) {
@@ -36,11 +51,13 @@ QUnit.test('Check the visibility of the chat', function(assert) {
     document.getElementById('idMinimizeWindow').style.visibility == 'hidden',
     'The test is successful'
   );
+  hideChat();
 });
 
 QUnit.module('Operations with local storage');
 
 QUnit.test('Check the work with the history.', function(assert) {
+  init();
   localStorage.removeItem('history');
   document.getElementById('idHistoryOfTanyaChat').innerHTML =
     'history Of TanyaChat';
@@ -49,6 +66,7 @@ QUnit.test('Check the work with the history.', function(assert) {
     localStorage.getItem('history') == 'history Of TanyaChat',
     'The test is successful'
   );
+  hideChat();
 });
 
 QUnit.test('Check the folding of the chat.', function(assert) {
@@ -77,6 +95,7 @@ QUnit.test('Check the folding of the chat.', function(assert) {
     document.getElementById('idMinimizeWindow').style.visibility == 'hidden',
     'The test is successful'
   );
+  hideChat();
 });
 
 QUnit.module('Work with messages');
@@ -89,6 +108,7 @@ QUnit.test('Check the sending of user messages.', function(assert) {
   var after = document.getElementById('idHistoryOfTanyaChat').innerHTML.length;
   assert.ok(before < after, 'The test is successful');
   // alert(document.getElementById('idHistoryOfTanyaChat').innerHTML);
+  hideChat();
 });
 
 QUnit.test('Check the bot response.', function(assert) {
@@ -102,6 +122,7 @@ QUnit.test('Check the bot response.', function(assert) {
       .innerHTML.indexOf('HELLO') != -1,
     'The test is successful'
   );
+  hideChat();
 });
 
 QUnit.test('Check the format of the user and bot messages.', function(assert) {
@@ -134,6 +155,7 @@ QUnit.test('Check the format of the user and bot messages.', function(assert) {
       ) != -1,
     'The test is successful'
   );
+  hideChat();
 });
 
 QUnit.module('Scrolling');
@@ -159,4 +181,5 @@ QUnit.test('Check scrolling the history of messages.', function(assert) {
     history.clientHeight + history.scrollTop == history.scrollHeight,
     'The test is successful'
   );
+  hideChat();
 });

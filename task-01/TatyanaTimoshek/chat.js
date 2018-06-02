@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', function() {
+  init();
+});
+
 var tanyaChatStyles =
   '.yourChatWindowStyles {' +
   ' visibility: visible; ' +
