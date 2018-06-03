@@ -110,7 +110,9 @@ SetupObject.prototype.allowDragNDrop = function allowDragNDrop() {
         return;
     }
     clickBlock.addEventListener("mousedown", function dragAndDrop(e) {
-        var cords, shiftX, shiftY;
+        var cords;
+        var shiftX;
+        var shiftY;
 
         function getCoords(elem) {
             var box = elem.getBoundingClientRect();
@@ -212,6 +214,7 @@ SetupObject.prototype.setupDOMVariables = function setupDOMVariables(
         newAppDOMVariables[objectKey] = document.getElementsByClassName(
             appDOMVariables[objectKey].className
         )[0];
+        return true;
     });
     chatForTouchSoftInstance.config.appDOMVariables = newAppDOMVariables;
 };
@@ -224,8 +227,9 @@ SetupObject.prototype.userNameIsRequire = function userNameIsRequire() {
         } else {
             return false;
         }
+    } else {
+        return true;
     }
-    return true;
 };
 
 // WORK WITH USER SETTINGS // END //
@@ -296,10 +300,15 @@ DataBaseObject.prototype.requestFetch = function requestFetch (postfixUrl, body,
 DataBaseObject.prototype.testRequest = function testRequest () {
     var dbObjectRef = this;
     return new Promise(function testPromise(resolve, reject) {
-        var response = dbObjectRef.getUserMessages(dbObjectRef.config.hashUserName + "/messages.json", null, 'GET');
+        var response = dbObjectRef.getUserSettings(dbObjectRef.config.hashUserName + "/settings.json", null, 'GET');
         response.then(function test (data) {
-            if (data.error === "404 Not Found") {
-                dbObjectRef.dbURL = dbObjectRef.config.defaultDbURL + "/users/";
+            if(data) {
+                if (data.error === "404 Not Found") {
+                    dbObjectRef.dbURL = dbObjectRef.config.defaultDbURL + "/users/";
+                }
+            } else {
+                localStorage.removeItem(dbObjectRef.config.localStorageName);
+                dbObjectRef.config.hashUserName = null;
             }
             return resolve();
         });

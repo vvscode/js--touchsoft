@@ -26,9 +26,10 @@ function createSctipt() {
     DOMVariables.scriptCode.innerHTML = src;
 }
 
-after.map(function (element) {
+after.map(function setDomElements (element) {
     DOMVariables[element] = document.getElementById(pattern + element);
     DOMVariables[element].addEventListener("change", function changeElement () {
         createSctipt();
     });
+    return true;
 });
