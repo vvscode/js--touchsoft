@@ -1,5 +1,6 @@
-/* global QUnit */
 /* global document */
+/* global QUnit */
+
 
 function hideChat() {
   var a = document.getElementById('idChatWindow');
