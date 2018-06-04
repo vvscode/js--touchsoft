@@ -9,7 +9,6 @@ var minimizedKey = "minimized";
 var sideKey = "side";
 var right = "right";
 var left = "left";
-var usernameLength = 25;
 
 var historyItemClass = "message-item";
 var messageTimeClass = "message-time";
@@ -30,7 +29,7 @@ var messagesPath = "messages";
 var suffix = ".json";
 
 var chatNetwork = fetchNetwork;
-var username = "Я";
+var username = messageSender;
 var userid;
 var urlAPI;
 var time = true;
@@ -41,6 +40,8 @@ var answer = {
     sender: "Бот",
     delay: 15000
 };
+
+var messagesUpdateTimeout = 10000;
 
 var XHRNetwork = {
     authorize: authoriseXHR,
@@ -92,6 +93,7 @@ function sendMessageXHR(message) {
 function messageUpdateXHR() {
     var request = new XMLHttpRequest();
     var response;
+    var clear = true;
 
     request.open("GET", urlAPI + usersPath + "/" + userid + "/" + messagesPath + suffix, true);
     request.send();
@@ -99,19 +101,23 @@ function messageUpdateXHR() {
     request.onreadystatechange = function (event) {
         if (this.readyState != 4) return;
 
+        messages = [];
+
         if (this.responseText) {
             response = JSON.parse(this.responseText);
+            if (response) {
+                Object.keys(response).forEach(function (element) {
+                    messages.push(response[element]);
+                });
 
-            Object.keys(response).forEach(function (element) {
-                messages.push(response[element]);
-                printItems([response[element]]);
-            });
+                printItems(messages, clear);
+            }
         }
     }
 }
 
 function authoriseFetch(event) {
-    fetch(urlAPI + usersPath + suffix, {
+    window.fetch(urlAPI + usersPath + suffix, {
         method: 'POST',
         body: JSON.stringify({
             username: username
@@ -132,7 +138,7 @@ function authoriseFetch(event) {
 }
 
 function getUserInfoFetch() {
-    fetch(urlAPI + usersPath + "/" + userid + "/" + suffix, {
+    window.fetch(urlAPI + usersPath + "/" + userid + "/" + suffix, {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -147,7 +153,7 @@ function getUserInfoFetch() {
 }
 
 function sendMessageFetch(message) {
-    fetch(urlAPI + usersPath + "/" + userid + "/" + messagesPath + "/" + suffix, {
+    window.fetch(urlAPI + usersPath + "/" + userid + "/" + messagesPath + "/" + suffix, {
         method: "POST",
         body: JSON.stringify(message),
         headers: {
@@ -161,7 +167,9 @@ function sendMessageFetch(message) {
 }
 
 function messageUpdateFetch() {
-    fetch(urlAPI + usersPath + "/" + userid + "/" + messagesPath + suffix, {
+    var clear = true;
+
+    window.fetch(urlAPI + usersPath + "/" + userid + "/" + messagesPath + suffix, {
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -171,11 +179,14 @@ function messageUpdateFetch() {
             return response.json();
         })
         .then(function (json) {
+            messages = [];
+
             if (json) {
                 Object.keys(json).forEach(function (element) {
                     messages.push(json[element]);
-                    printItems([json[element]]);
                 });
+
+                printItems(messages, true);
             }
         });
 }
@@ -187,25 +198,10 @@ function HistoryItem(date, sender, text) {
     this.text = text;
 }
 
-function UserInfo(username, messages) {
-    this.username = username;
-    this.messages = messages;
-}
-
 function toggleMinimize() {
     var content = window.document.getElementById(chatContentClass);
     content.classList.toggle(hiddenClass);
     minimized = content.classList.contains(hiddenClass);
-}
-
-function randomString(len, charSet) {
-    charSet = charSet || 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var randomString = '';
-    for (var i = 0; i < len; i++) {
-        var randomPoz = Math.floor(Math.random() * charSet.length);
-        randomString += charSet.substring(randomPoz, randomPoz + 1);
-    }
-    return randomString;
 }
 
 function formatItem(item) {
@@ -233,9 +229,13 @@ function formatItem(item) {
     return historyItem;
 }
 
-function printItems(items) {
+function printItems(items, clear) {
     var history = window.document.getElementsByClassName(messageHistoryClass)[0];
     var i;
+
+    if (clear) {
+        history.innerHTML = "";
+    }
 
     for (i = 0; i < items.length; i += 1) {
         history.appendChild(formatItem(items[i]));
@@ -471,6 +471,10 @@ function saveMinimized() {
     localStorage.setItem(minimizedKey, minimized.toString());
 }
 
+function saveChatSide() {
+    localStorage.setItem(sideKey, chatSide);
+}
+
 function saveUserId() {
     if (userid) {
         localStorage.setItem(userIdKey, userid);
@@ -509,8 +513,6 @@ function initChat(header, userAuth, side, minimise, botName, url, cssClass, drag
     var chat;
     var authForm;
 
-    addStyle(side);
-
     urlAPI = url;
     time = showTime;
 
@@ -523,6 +525,8 @@ function initChat(header, userAuth, side, minimise, botName, url, cssClass, drag
     } else if (side) {
         chatSide = side;
     }
+
+    addStyle(chatSide);
 
     if (minimise) {
         initMinimized();
@@ -550,8 +554,11 @@ function initChat(header, userAuth, side, minimise, botName, url, cssClass, drag
         initMessages();
     }
 
+    window.setInterval(network.messagesUpdate, messagesUpdateTimeout);
+
     window.document.body.appendChild(chat);
     printItems(messages);
 
     window.addEventListener("beforeunload", saveUserId);
+    window.addEventListener("beforeunload", saveChatSide);
 }
