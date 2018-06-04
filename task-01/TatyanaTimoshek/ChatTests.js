@@ -1,4 +1,4 @@
-/* global document */
+/* global  createStyles, createChat, createMinimizeWindow, setVisibility, init, setHistory, setOnclickFunctions, forMinimizeButton, forMinButton, sendMessage, botAnswer, scrollDown */
 /* global QUnit */
 
 
