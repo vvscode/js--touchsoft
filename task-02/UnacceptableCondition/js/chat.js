@@ -134,16 +134,16 @@ SetupObject.prototype.allowDragNDrop = function allowDragNDrop() {
             dragBlock.style.top = elem.pageY - shiftY + "px";
         }
 
-        moveObj = function moveObj(elem) {
+        moveObj = function moveObjDragAndDrop(elem) {
             moveAt(elem);
         };
 
-        setNull = function setNull () {
+        setNull = function setNullDragAndDrop () {
             document.removeEventListener("mousemove",moveObj );
             document.removeEventListener("mouseup",setNull );
         };
 
-        endDrag = function endDrag() {
+        endDrag = function endDragAndDrop() {
             return false;
         };
 
@@ -307,7 +307,7 @@ DataBaseObject.prototype.requestFetch = function requestFetch (postfixUrl, body,
 
 DataBaseObject.prototype.testRequest = function testRequest () {
     var dbObjectRef = this;
-    return new Promise(function testPromise(resolve, reject) {
+    return new Promise(function testPromise(resolve) {
         var response = dbObjectRef.getUserSettings(dbObjectRef.config.hashUserName + "/settings.json", null, 'GET');
         response.then(function test (data) {
             if(data) {

@@ -136,16 +136,16 @@ SetupObject.prototype.allowDragNDrop = function allowDragNDrop() {
             dragBlock.style.top = elem.pageY - shiftY + "px";
         }
 
-        moveObj = function moveObj(elem) {
+        moveObj = function moveObjDragAndDrop(elem) {
             moveAt(elem);
         };
 
-        setNull = function setNull () {
+        setNull = function setNullDragAndDrop () {
             document.removeEventListener("mousemove",moveObj );
             document.removeEventListener("mouseup",setNull );
         };
 
-        endDrag = function endDrag() {
+        endDrag = function endDragAndDrop() {
             return false;
         };
 
@@ -309,7 +309,7 @@ DataBaseObject.prototype.requestFetch = function requestFetch (postfixUrl, body,
 
 DataBaseObject.prototype.testRequest = function testRequest () {
     var dbObjectRef = this;
-    return new Promise(function testPromise(resolve, reject) {
+    return new Promise(function testPromise(resolve) {
         var response = dbObjectRef.getUserSettings(dbObjectRef.config.hashUserName + "/settings.json", null, 'GET');
         response.then(function test (data) {
             if(data) {
@@ -716,9 +716,9 @@ QUnit.test("includeCSS should add css link to document DOM", function test(
 QUnit.test("includeHTML should insert test HTML to document", function test(
     assert
 ) {
-    var testHtml = "<div id='test-html-touchsoft'>testText</div>";
+    var testHtmlDiv = "<div id='test-html-touchsoft'>testText</div>";
     var findedEl;
-    chatForTouchSoftInstance.includeHTML(document.body, testHtml);
+    chatForTouchSoftInstance.includeHTML(document.body, testHtmlDiv);
     findedEl = document.getElementById("test-html-touchsoft");
     assert.ok(findedEl, "test HTML insert to document");
     assert.equal(findedEl.innerHTML, "testText", "test HTML inner text is valid");
@@ -991,8 +991,8 @@ QUnit.test("requestFetch should request data and get them", function test(
         ]),
         "PUT"
     );
-    setTimeout(function testTimeout_1 () {
-        setTimeout(function testTimeout_2 () {
+    setTimeout(function testTimeoutFirst () {
+        setTimeout(function testTimeoutSecond () {
             testPromise = dataBaseObject.requestFetch(
                 "TestName/settings.json",
                 null,
@@ -1001,7 +1001,7 @@ QUnit.test("requestFetch should request data and get them", function test(
             testPromise.then(function getDataFetch (promiseData) {
                 data = promiseData;
             });
-            setTimeout(function testTimeout_3 () {
+            setTimeout(function testTimeoutThird () {
                 assert.equal(data[0].userSettings, "TestSettings", " true");
                 done();
             }, 1000);
@@ -1023,8 +1023,8 @@ QUnit.test("requestXMR should request data and get them", function test(
         ]),
         "PUT"
     );
-    setTimeout(function testTimeout_1 () {
-        setTimeout(function testTimeout_2 () {
+    setTimeout(function testTimeoutFirst () {
+        setTimeout(function testTimeoutSecond () {
             testPromise = dataBaseObject.requestXMR(
                 "TestName/settings.json",
                 null,
@@ -1033,7 +1033,7 @@ QUnit.test("requestXMR should request data and get them", function test(
             testPromise.then(function getDataXMR (promiseData) {
                 data = promiseData;
             });
-            setTimeout(function testTimeout_2 () {
+            setTimeout(function testTimeoutThird () {
                 assert.equal(data[0].userSettings, "TestSettings", " true");
                 done();
             }, 1000);
