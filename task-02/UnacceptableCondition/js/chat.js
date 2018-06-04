@@ -113,6 +113,9 @@ SetupObject.prototype.allowDragNDrop = function allowDragNDrop() {
         var cords;
         var shiftX;
         var shiftY;
+        var moveObj;
+        var setNull;
+        var endDrag;
 
         function getCoords(elem) {
             var box = elem.getBoundingClientRect();
@@ -131,20 +134,26 @@ SetupObject.prototype.allowDragNDrop = function allowDragNDrop() {
             dragBlock.style.top = elem.pageY - shiftY + "px";
         }
 
-        moveAt(e);
-        dragBlock.style.zIndex = 1000;
-
-        document.onmousemove = function moveObj(elem) {
+        moveObj = function moveObj(elem) {
             moveAt(elem);
         };
 
-        dragBlock.onmouseup = function setNull () {
-            document.onmousemove = null;
-            dragBlock.onmouseup = null;
+        setNull = function setNull () {
+            document.removeEventListener("mousemove",moveObj );
+            document.removeEventListener("mouseup",setNull );
         };
-        dragBlock.ondragstart = function endDrag() {
+
+        endDrag = function endDrag() {
             return false;
         };
+
+        moveAt(e);
+        dragBlock.style.zIndex = 1000;
+
+        document.addEventListener("mousemove", moveObj);
+        document.addEventListener("mouseup", setNull);
+        dragBlock.addEventListener("dragstart", endDrag);
+
     });
 };
 
@@ -224,12 +233,11 @@ SetupObject.prototype.userNameIsRequire = function userNameIsRequire() {
         if (this.config.userSettings.requireName === "true") {
             this.config.appDOMVariables.userNameBlock.classList.toggle("invisible");
             return true;
-        } else {
-            return false;
         }
-    } else {
-        return true;
+        return false;
+
     }
+    return true;
 };
 
 // WORK WITH USER SETTINGS // END //
@@ -259,14 +267,14 @@ DataBaseObject.prototype.setup = function setup(typeOfRequest) {
 
 DataBaseObject.prototype.requestXMR = function requestXMR (postfixUrl, body, requestType) {
     var url = this.dbURL;
-    return new Promise(function(resolve, reject) {
+    return new Promise(function request (resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open(requestType, url + postfixUrl, true);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onload = function() {
+        xhr.onload = function loadCase() {
             resolve(JSON.parse(xhr.response));
         };
-        xhr.onerror = function() {
+        xhr.onerror = function errorCase() {
             reject(xhr.statusText);
         };
         if(body) {
@@ -289,10 +297,10 @@ DataBaseObject.prototype.requestFetch = function requestFetch (postfixUrl, body,
             body: body
         }
     )
-        .then(function(response) {
+        .then(function getResponseJSON (response) {
             return response.json();
         })
-        .then(function(data) {
+        .then(function getResponseData (data) {
             return data;
         });
 };
@@ -641,7 +649,7 @@ ChatForTouchSoft.prototype.getUserData = function getUserMessages() {
         .then(function promiseGetUserMessage () {
             chatObj.dataBaseObject
                 .getUserMessages(chatObj.config.hashUserName + "/messages.json", null, 'GET')
-                .then(function(data) {
+                .then(function getUserMessagesDataResponse (data) {
                     if (data) {
                         Object.keys(data).map(function promiseSaveUserMessage(el) {
                             chatObj.saveMessageToHistoryObject(
@@ -649,6 +657,7 @@ ChatForTouchSoft.prototype.getUserData = function getUserMessages() {
                                 data[el][0].date,
                                 data[el][0].user
                             );
+                            return true;
                         });
                     }
                 })

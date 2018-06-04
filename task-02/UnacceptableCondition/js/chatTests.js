@@ -1,6 +1,8 @@
 /* global document */
 /* global localStorage */
 /* global XMLHttpRequest */
+/* global QUnit */
+var testHtml;
 var setupObject;
 var dataBaseObject;
 var configObj = {
@@ -83,7 +85,7 @@ SetupObject.prototype.parseSrcForParameters = function parseSrcForParameters(
 ) {
     var userConfigObject = {};
     var arrParam = src.substr(src.indexOf("?") + 1).split("&");
-    arrParam.forEach(function createConfigObj(element) {
+    arrParam.forEach(function createConfigObj (element) {
         var paramObj = element.split("=");
         paramObj[1] = paramObj[1].replace(/'/g, "");
         userConfigObject[paramObj[0]] = paramObj[1];
@@ -113,6 +115,9 @@ SetupObject.prototype.allowDragNDrop = function allowDragNDrop() {
         var cords;
         var shiftX;
         var shiftY;
+        var moveObj;
+        var setNull;
+        var endDrag;
 
         function getCoords(elem) {
             var box = elem.getBoundingClientRect();
@@ -131,20 +136,26 @@ SetupObject.prototype.allowDragNDrop = function allowDragNDrop() {
             dragBlock.style.top = elem.pageY - shiftY + "px";
         }
 
-        moveAt(e);
-        dragBlock.style.zIndex = 1000;
-
-        document.onmousemove = function moveObj(elem) {
+        moveObj = function moveObj(elem) {
             moveAt(elem);
         };
 
-        dragBlock.onmouseup = function setNull() {
-            document.onmousemove = null;
-            dragBlock.onmouseup = null;
+        setNull = function setNull () {
+            document.removeEventListener("mousemove",moveObj );
+            document.removeEventListener("mouseup",setNull );
         };
-        dragBlock.ondragstart = function endDrag() {
+
+        endDrag = function endDrag() {
             return false;
         };
+
+        moveAt(e);
+        dragBlock.style.zIndex = 1000;
+
+        document.addEventListener("mousemove", moveObj);
+        document.addEventListener("mouseup", setNull);
+        dragBlock.addEventListener("dragstart", endDrag);
+
     });
 };
 
@@ -176,7 +187,7 @@ SetupObject.prototype.setupChatStyle = function setupChatStyle() {
 };
 
 SetupObject.prototype.setTitle = function setTitle() {
-    if (!this.config.userSettings.title) {
+    if(!this.config.userSettings.title) {
         this.config.userSettings.title = "TouchSoft Chat";
     }
     this.config.appDOMVariables.titleBlock.innerHTML = this.config.userSettings.title;
@@ -191,8 +202,8 @@ SetupObject.prototype.allowMinimize = function allowMinimize() {
 };
 
 SetupObject.prototype.setMainCssClass = function setMainCssClass() {
-    if (!this.config.userSettings.cssClass) {
-        this.config.userSettings.cssClass = "touchsoft-chat_main-block";
+    if(!this.config.userSettings.cssClass) {
+        this.config.userSettings.cssClass = 'touchsoft-chat_main-block';
     }
     this.config.appDOMVariables.mainStyleChatBlock.parentNode.classList.add(
         this.config.userSettings.cssClass
@@ -224,12 +235,11 @@ SetupObject.prototype.userNameIsRequire = function userNameIsRequire() {
         if (this.config.userSettings.requireName === "true") {
             this.config.appDOMVariables.userNameBlock.classList.toggle("invisible");
             return true;
-        } else {
-            return false;
         }
-    } else {
-        return true;
+        return false;
+
     }
+    return true;
 };
 
 // WORK WITH USER SETTINGS // END //
@@ -253,26 +263,23 @@ DataBaseObject.prototype.setup = function setup(typeOfRequest) {
         DataBaseObject.prototype.saveUserSettings = this.requestXMR;
         DataBaseObject.prototype.getUserSettings = this.requestXMR;
         DataBaseObject.prototype.getUserMessages = this.requestXMR;
+
     }
 };
 
-DataBaseObject.prototype.requestXMR = function requestXMR(
-    postfixUrl,
-    body,
-    requestType
-) {
+DataBaseObject.prototype.requestXMR = function requestXMR (postfixUrl, body, requestType) {
     var url = this.dbURL;
-    return new Promise(function(resolve, reject) {
+    return new Promise(function request (resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.open(requestType, url + postfixUrl, true);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onload = function() {
+        xhr.onload = function loadCase() {
             resolve(JSON.parse(xhr.response));
         };
-        xhr.onerror = function() {
+        xhr.onerror = function errorCase() {
             reject(xhr.statusText);
         };
-        if (body) {
+        if(body) {
             xhr.send(body);
         } else {
             xhr.send();
@@ -280,40 +287,38 @@ DataBaseObject.prototype.requestXMR = function requestXMR(
     });
 };
 
-DataBaseObject.prototype.requestFetch = function requestFetch(
-    postfixUrl,
-    body,
-    requestType
-) {
-    return fetch(this.dbURL + postfixUrl, {
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        },
-        method: requestType,
-        body: body
-    })
-        .then(function(response) {
+DataBaseObject.prototype.requestFetch = function requestFetch (postfixUrl, body, requestType) {
+    return fetch(
+        this.dbURL + postfixUrl,
+        {
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            method: requestType,
+            body: body
+        }
+    )
+        .then(function getResponseJSON (response) {
             return response.json();
         })
-        .then(function(data) {
+        .then(function getResponseData (data) {
             return data;
         });
 };
 
-DataBaseObject.prototype.testRequest = function testRequest() {
+DataBaseObject.prototype.testRequest = function testRequest () {
     var dbObjectRef = this;
     return new Promise(function testPromise(resolve, reject) {
-        var response = dbObjectRef.getUserMessages(
-            dbObjectRef.config.hashUserName + "/messages.json",
-            null,
-            "GET"
-        );
-        response.then(function test(data) {
-            if (data) {
+        var response = dbObjectRef.getUserSettings(dbObjectRef.config.hashUserName + "/settings.json", null, 'GET');
+        response.then(function test (data) {
+            if(data) {
                 if (data.error === "404 Not Found") {
                     dbObjectRef.dbURL = dbObjectRef.config.defaultDbURL + "/users/";
                 }
+            } else {
+                localStorage.removeItem(dbObjectRef.config.localStorageName);
+                dbObjectRef.config.hashUserName = null;
             }
             return resolve();
         });
@@ -357,13 +362,9 @@ ChatForTouchSoft.prototype.applyUserSettings = function applyUserSettings() {
     this.config.userSettings = this.setupObject.parseSrcForParameters(
         this.config.scriptSrc
     );
-    this.dataBaseObject = new DataBaseObject(
-        this.config.userSettings.requests,
-        this.config.userSettings.chatUrl,
-        this.config
-    );
+    this.dataBaseObject = new DataBaseObject(this.config.userSettings.requests, this.config.userSettings.chatUrl, this.config);
     // Проверяем соединение с БД по адресу пользователя. if status 404 подставляем адрес стандартной бд
-    this.dataBaseObject.testRequest().then(function testDataBase() {
+    this.dataBaseObject.testRequest().then( function testDataBase () {
         // Если хэша нет в localStorage и/или авторизация не обязательна = установить имя пользователя по умолчанию
         if (!chatObj.setupObject.userNameIsRequire()) {
             chatObj.setUserName();
@@ -371,9 +372,9 @@ ChatForTouchSoft.prototype.applyUserSettings = function applyUserSettings() {
         // Применить настройки чата переданные как GET параметры в ссылке скрипта
         chatObj.setupObject.setupUserSettings();
         /*
-                Если hashUserName был сохранен в LocalStorage - загружаем его данные с сервера: имя юзера(не хэш), мессаджи и стиль окна (min max)
-                в противном случае применяем базовые настройки стиля
-              */
+            Если hashUserName был сохранен в LocalStorage - загружаем его данные с сервера: имя юзера(не хэш), мессаджи и стиль окна (min max)
+            в противном случае применяем базовые настройки стиля
+          */
         if (chatObj.isHashUserName()) {
             chatObj.getUserData();
         } else {
@@ -392,14 +393,12 @@ ChatForTouchSoft.prototype.getUserNameFromInput = function getUserNameFromInput(
 ChatForTouchSoft.prototype.setUserName = function setUserName() {
     this.config.hashUserName = this.getHash(this.config.userData.userName);
     this.saveUserNameToLocalStorage();
-    this.dataBaseObject.saveUserSettings(
-        this.config.hashUserName + "/settings.json",
-        JSON.stringify([
+    this.dataBaseObject.saveUserSettings(this.config.hashUserName +
+        "/settings.json", JSON.stringify([
             {
                 userSettings: this.config.userData
             }
-        ]),
-        "PUT"
+        ]), 'PUT'
     );
     this.setupObject.setMessageFromUser();
 };
@@ -483,18 +482,13 @@ ChatForTouchSoft.prototype.saveHistoryOfCorrespondence = function saveHistoryOfC
 ) {
     this.saveMessageToHistoryObject(message, date, sender);
     if (this.isHashUserName()) {
-        this.dataBaseObject.saveUserMessage(
-            userName + "/messages.json",
-            JSON.stringify([
-                {
-                    user: sender,
-                    message: message,
-                    date: date,
-                    title: "message"
-                }
-            ]),
-            "POST"
-        );
+        this.dataBaseObject.saveUserMessage(userName + "/messages.json", JSON.stringify([
+            {
+                user: sender,
+                message: message,
+                date: date,
+                title: "message"
+            }]), 'POST');
     }
 };
 /**
@@ -631,14 +625,12 @@ ChatForTouchSoft.prototype.minMaxStyleToggle = function minMaxStyleToggle() {
         "invisible"
     );
     this.config.userData.isMinimize = this.config.userData.isMinimize === false;
-    this.dataBaseObject.saveUserSettings(
-        this.config.hashUserName + "/settings.json",
-        JSON.stringify([
+    this.dataBaseObject.saveUserSettings(this.config.hashUserName +
+        "/settings.json", JSON.stringify([
             {
                 userSettings: this.config.userData
             }
-        ]),
-        "PUT"
+        ]), 'PUT'
     );
 };
 
@@ -651,19 +643,15 @@ ChatForTouchSoft.prototype.getUserData = function getUserMessages() {
     var chatObj = this;
     this.dataBaseObject
         .getUserSettings(this.config.hashUserName + "/settings.json", null, "GET")
-        .then(function promiseGetUserSettings(data) {
+        .then(function promiseGetUserSettings (data) {
             chatObj.config.userData = data[0].userSettings;
             chatObj.setupObject.setMessageFromUser();
             chatObj.setupObject.setupChatStyle();
         })
-        .then(function promiseGetUserMessage() {
+        .then(function promiseGetUserMessage () {
             chatObj.dataBaseObject
-                .getUserMessages(
-                    chatObj.config.hashUserName + "/messages.json",
-                    null,
-                    "GET"
-                )
-                .then(function(data) {
+                .getUserMessages(chatObj.config.hashUserName + "/messages.json", null, 'GET')
+                .then(function getUserMessagesDataResponse (data) {
                     if (data) {
                         Object.keys(data).map(function promiseSaveUserMessage(el) {
                             chatObj.saveMessageToHistoryObject(
@@ -671,6 +659,7 @@ ChatForTouchSoft.prototype.getUserData = function getUserMessages() {
                                 data[el][0].date,
                                 data[el][0].user
                             );
+                            return true;
                         });
                     }
                 })
@@ -768,7 +757,6 @@ QUnit.test(
 QUnit.test("setMessageFromBot should set config.messageFromBot", function test(
     assert
 ) {
-    var setupObject = new SetupObject(configObj);
     setupObject.config.userSettings = [];
     setupObject.config.userSettings.botName = "TestIvan";
     setupObject.setMessageFromBot();
@@ -785,7 +773,7 @@ QUnit.test("setMessageFromBot should set config.messageFromBot", function test(
         "config.messageFromUser default is valid"
     );
 });
-var testHtml =
+testHtml =
     '<div class="root_chat_for_touchsoft invisible">\n' +
     '    <div class="root_chat_for_touchsoft_input-name-block invisible">\n' +
     "        <div>Введите ваше имя: </div>\n" +
@@ -1003,17 +991,17 @@ QUnit.test("requestFetch should request data and get them", function test(
         ]),
         "PUT"
     );
-    setTimeout(function() {
-        setTimeout(function() {
+    setTimeout(function testTimeout_1 () {
+        setTimeout(function testTimeout_2 () {
             testPromise = dataBaseObject.requestFetch(
                 "TestName/settings.json",
                 null,
                 "GET"
             );
-            testPromise.then(function(promiseData) {
+            testPromise.then(function getDataFetch (promiseData) {
                 data = promiseData;
             });
-            setTimeout(function() {
+            setTimeout(function testTimeout_3 () {
                 assert.equal(data[0].userSettings, "TestSettings", " true");
                 done();
             }, 1000);
@@ -1035,17 +1023,17 @@ QUnit.test("requestXMR should request data and get them", function test(
         ]),
         "PUT"
     );
-    setTimeout(function() {
-        setTimeout(function() {
+    setTimeout(function testTimeout_1 () {
+        setTimeout(function testTimeout_2 () {
             testPromise = dataBaseObject.requestXMR(
                 "TestName/settings.json",
                 null,
                 "GET"
             );
-            testPromise.then(function(promiseData) {
+            testPromise.then(function getDataXMR (promiseData) {
                 data = promiseData;
             });
-            setTimeout(function() {
+            setTimeout(function testTimeout_2 () {
                 assert.equal(data[0].userSettings, "TestSettings", " true");
                 done();
             }, 1000);
