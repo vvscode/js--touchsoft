@@ -1,12 +1,17 @@
-.touchsoft-chatDiv {
+.touchsoft-chat.chatDiv {
     position: fixed;
-    right: 2px;
     bottom: 0px;
     display: block;
     width: 25%;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   }
-.touchsoft-messageList {
+.touchsoft-chat.right {
+  right: 2px;
+}
+.touchsoft-chat.left {
+  left: 2px;
+}
+.touchsoft-chat .messageList {
   list-style-type: none;
   top: 0px;
   left: 0px;
@@ -17,28 +22,28 @@
   padding-left: 5px;
   margin: 0px;
 }
-.touchsoft-chatInput {
+.touchsoft-chat .chatInput {
   width: 80%;
   resize: none;
 }
-.touchsoft-sendButton {
+.touchsoft-chat .sendButton {
   height: 100%;
   bottom: 15px;
   position: relative;
 }
-.touchsoft-inputDiv {
+.touchsoft-chat .inputDiv {
   bottom: 5px;
   margin-left: 5px;
   margin-right: 5px;
 }
-.touchsoft-chatHeader {
+.touchsoft-chat .chatHeader {
   display: inline-block;
   width: 100%;
   background-color: gray;
 }
-.minimized {
+.touchsoft-chat .minimized {
   display: none;
 }
-.touchsoft-chatBody {
+.touchsoft-chat .chatBody {
   background-color: darkgray;
 }
