@@ -178,7 +178,7 @@ function TsChat(newConfig) {
       console.log('before login ' + res);
       self.logIn(res);
     });
-    setInterval(this.updateMessages, messageSyncInterval);
+  setInterval(this.updateMessages, messageSyncInterval);
 }
 
 TsChat.prototype.addMessage = function addMessageToList(fullMessage) {
@@ -225,7 +225,7 @@ TsChat.prototype.loadMessageHistory = function loadMessageHistory() {
       chat.config.chatUrl + MESSAGES_PATH + '/' + chat.userId + DOT_JSON,
       'GET'
     )
-    .then(function (messages) {
+    .then(function(messages) {
       chat.messages = messages;
       console.log(chat.messages);
       if (chat.messages)
@@ -296,7 +296,10 @@ TsChat.prototype.updateMessages = function updateMessages() {
       Object.keys(messages).forEach(function(message) {
         if (!Object.keys(chat.messages).includes(message)) {
           chat.addMessage(
-            Message.prototype.getFullMessage.call(messages[message], chat.config.showTime)
+            Message.prototype.getFullMessage.call(
+              messages[message],
+              chat.config.showTime
+            )
           );
         }
       });
@@ -307,7 +310,6 @@ function loadChat() {
   if (!isChatLoaded) {
     touchsoftChat = new TsChat();
   }
-  
 }
 
 window.addEventListener('load', loadChat);
