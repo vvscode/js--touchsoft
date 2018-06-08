@@ -1,14 +1,12 @@
 var messages = [];
-var style = true;
 var minimized = true;
 
+var right = "right";
+var left = "left";
 var chatSide = right;
-var messagesKey = "messages";
 var userIdKey = "username";
 var minimizedKey = "minimized";
 var sideKey = "side";
-var right = "right";
-var left = "left";
 
 var historyItemClass = "message-item";
 var messageTimeClass = "message-time";
@@ -28,11 +26,12 @@ var usersPath = "users";
 var messagesPath = "messages";
 var suffix = ".json";
 
-var chatNetwork = fetchNetwork;
 var username = messageSender;
 var userid;
 var urlAPI;
 var time = true;
+
+var initChat;
 
 var answer = {
     insertionRegExp: /\[.*\]/,
@@ -43,18 +42,21 @@ var answer = {
 
 var messagesUpdateTimeout = 10000;
 
-var XHRNetwork = {
-    authorize: authoriseXHR,
-    getInfo: getUserInfoXHR,
-    sendMessage: sendMessageXHR,
-    messagesUpdate: messageUpdateXHR
-}
+var XHRNetwork;
+var fetchNetwork;
+var chatNetwork = fetchNetwork;
 
-var fetchNetwork = {
-    authorize: authoriseFetch,
-    getInfo: getUserInfoFetch,
-    sendMessage: sendMessageFetch,
-    messagesUpdate: messageUpdateFetch
+function printItems(items, clear) {
+    var history = window.document.getElementsByClassName(messageHistoryClass)[0];
+    var i;
+
+    if (clear) {
+        history.innerHTML = "";
+    }
+
+    for (i = 0; i < items.length; i += 1) {
+        history.appendChild(formatItem(items[i]));
+    }
 }
 
 function authoriseXHR() {
@@ -65,10 +67,12 @@ function authoriseXHR() {
         username: username
     }));
 
-    request.onreadystatechange = function (event) {
-        if (this.readyState != 4) return;
+    request.onreadystatechange = function () {
+        if (this.readyState !== 4) return;
         userid = JSON.parse(this.responseText).name;
     }
+
+    return false;
 }
 
 function getUserInfoXHR() {
@@ -77,8 +81,8 @@ function getUserInfoXHR() {
     request.open("GET", urlAPI + usersPath + "/" + userid + "/" + suffix, true);
     request.send();
 
-    request.onreadystatechange = function (event) {
-        if (this.readyState != 4) return;
+    request.onreadystatechange = function () {
+        if (this.readyState !== 4) return;
         username = JSON.parse(this.responseText).username;
     }
 }
@@ -98,8 +102,8 @@ function messageUpdateXHR() {
     request.open("GET", urlAPI + usersPath + "/" + userid + "/" + messagesPath + suffix, true);
     request.send();
 
-    request.onreadystatechange = function (event) {
-        if (this.readyState != 4) return;
+    request.onreadystatechange = function () {
+        if (this.readyState !== 4) return;
 
         messages = [];
 
@@ -116,7 +120,14 @@ function messageUpdateXHR() {
     }
 }
 
-function authoriseFetch(event) {
+XHRNetwork = {
+    authorize: authoriseXHR,
+    getInfo: getUserInfoXHR,
+    sendMessage: sendMessageXHR,
+    messagesUpdate: messageUpdateXHR
+}
+
+function authoriseFetch() {
     window.fetch(urlAPI + usersPath + suffix, {
         method: 'POST',
         body: JSON.stringify({
@@ -134,7 +145,7 @@ function authoriseFetch(event) {
             userid = json.name;
         });
 
-    event.preventDefault();
+    return false;
 }
 
 function getUserInfoFetch() {
@@ -186,11 +197,17 @@ function messageUpdateFetch() {
                     messages.push(json[element]);
                 });
 
-                printItems(messages, true);
+                printItems(messages, clear);
             }
         });
 }
 
+fetchNetwork = {
+    authorize: authoriseFetch,
+    getInfo: getUserInfoFetch,
+    sendMessage: sendMessageFetch,
+    messagesUpdate: messageUpdateFetch
+}
 
 function HistoryItem(date, sender, text) {
     this.date = date.getHours().toString().concat(dateDelimeter, date.getMinutes().toString());
@@ -229,19 +246,6 @@ function formatItem(item) {
     return historyItem;
 }
 
-function printItems(items, clear) {
-    var history = window.document.getElementsByClassName(messageHistoryClass)[0];
-    var i;
-
-    if (clear) {
-        history.innerHTML = "";
-    }
-
-    for (i = 0; i < items.length; i += 1) {
-        history.appendChild(formatItem(items[i]));
-    }
-}
-
 function generateAnswer(message) {
     return answer.pattern.replace(answer.insertionRegExp, message.toUpperCase());
 }
@@ -259,16 +263,6 @@ function sendAnswer(item) {
     chatNetwork.sendMessage(answerItem);
 
     history.appendChild(formatItem(answerItem));
-}
-
-function authUser(event) {
-    initContent(window.document.querySelector("#" + chatContentClass));
-
-    window.document.querySelector("#" + authFormClass).classList.add(hiddenClass);
-
-    username = this.username.value;
-
-    event.preventDefault();
 }
 
 function sendMessage(event) {
@@ -410,43 +404,6 @@ function initChatForm() {
     return messageForm;
 }
 
-function initAutorization() {
-    var authorization = window.document.createElement("div");
-
-    authorization.innerHTML = "<form id='" + authFormClass + "'><input type='text' name='username'><button>Authorize</button></form>";
-    authorization.querySelector("#" + authFormClass).addEventListener("submit", authUser);
-
-    return authorization;
-}
-
-function initChatBox(header, minimise, cssClass, dragEnable) {
-    var chatBox = window.document.createElement("div");
-    chatBox.id = "chat-panel";
-    chatBox.classList.add(cssClass);
-    chatBox.innerHTML =
-        '<div id="chat-header">' +
-        '<span>' + header + '</span>' +
-        (minimise ? ('<button id="' + minimizeButtonClass + '">-</button>\n') : "") +
-        "</div>" +
-        "<div id='" + chatContentClass + "' class='" + (minimise ? (minimized ? hiddenClass : "") : "") + "'>" +
-        "</div>";
-
-    if (minimise) {
-        chatBox.querySelector("#" + minimizeButtonClass).onclick = toggleMinimize;
-    }
-
-    if (dragEnable) {
-        chatBox.classList.add(dragClass);
-        chatBox.addEventListener("mousedown", dragItem);
-    }
-
-    return chatBox;
-}
-
-function initMessages() {
-    chatNetwork.messagesUpdate();
-}
-
 function initContent(chatContent) {
     var form = initChatForm();
     form.onsubmit = sendMessage;
@@ -455,30 +412,23 @@ function initContent(chatContent) {
     chatContent.appendChild(form);
 }
 
-function initMinimized() {
-    minimized = localStorage.getItem(minimizedKey) === "true";
+function authUser(event) {
+    initContent(window.document.querySelector("#" + chatContentClass));
+
+    window.document.querySelector("#" + authFormClass).classList.add(hiddenClass);
+
+    username = this.username.value;
+
+    event.preventDefault();
 }
 
-function initSide() {
-    chatSide = localStorage.getItem(sideKey);
-}
+function initAutorization() {
+    var authorization = window.document.createElement("div");
 
-function initUserId() {
-    userid = localStorage.getItem(userIdKey);
-}
+    authorization.innerHTML = "<form id='" + authFormClass + "'><input type='text' name='username'><button>Authorize</button></form>";
+    authorization.querySelector("#" + authFormClass).addEventListener("submit", authUser);
 
-function saveMinimized() {
-    localStorage.setItem(minimizedKey, minimized.toString());
-}
-
-function saveChatSide() {
-    localStorage.setItem(sideKey, chatSide);
-}
-
-function saveUserId() {
-    if (userid) {
-        localStorage.setItem(userIdKey, userid);
-    }
+    return authorization;
 }
 
 function moveToPoint(element, x, y) {
@@ -507,9 +457,64 @@ function dragItem(event) {
     }
 }
 
-function initChat(header, userAuth, side, minimise, botName, url, cssClass, dragEnable, showTime, network) {
-    var minimizeButton;
-    var form;
+function initChatBox(header, minimise, cssClass, dragEnable) {
+    var chatBox = window.document.createElement("div");
+    chatBox.id = "chat-panel";
+    chatBox.classList.add(cssClass);
+    chatBox.innerHTML =
+        '<div id="chat-header">' +
+        '<span>' + header + '</span>' +
+        (minimise ? ('<button id="' + minimizeButtonClass + '">-</button>\n') : "") +
+        "</div>" +
+        "<div id='" + chatContentClass + "'>" +
+        "</div>";
+
+    if (minimise) {
+        if (minimized) {
+            chatBox.querySelector("#" + chatContentClass).classList.add(hiddenClass);
+        }
+        chatBox.querySelector("#" + minimizeButtonClass).onclick = toggleMinimize;
+    }
+
+    if (dragEnable) {
+        chatBox.classList.add(dragClass);
+        chatBox.addEventListener("mousedown", dragItem);
+    }
+
+    return chatBox;
+}
+
+function initMessages() {
+    chatNetwork.messagesUpdate();
+}
+
+function initMinimized() {
+    minimized = localStorage.getItem(minimizedKey) === "true";
+}
+
+function initSide() {
+    chatSide = localStorage.getItem(sideKey);
+}
+
+function initUserId() {
+    userid = localStorage.getItem(userIdKey);
+}
+
+function saveMinimized() {
+    localStorage.setItem(minimizedKey, minimized.toString());
+}
+
+function saveChatSide() {
+    localStorage.setItem(sideKey, chatSide);
+}
+
+function saveUserId() {
+    if (userid) {
+        localStorage.setItem(userIdKey, userid);
+    }
+}
+
+initChat = function (header, userAuth, side, minimise, botName, url, cssClass, dragEnable, showTime, network) {
     var chat;
     var authForm;
 
