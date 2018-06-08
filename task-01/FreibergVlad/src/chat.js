@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 var isActive;
 var frame;
 var minBtn;
@@ -25,7 +27,7 @@ function scrollDown() {
 }
 
 function minBtnOnClick() {
-  isActive ? minimizeChat() : maximizeChat();
+  if (isActive) minimizeChat(); else maximizeChat();
   isActive = !isActive;
   localStorage.isActive = isActive;
 }
@@ -48,9 +50,12 @@ function appendMessage(message) {
 }
 
 function loadDataFromLocalStorage() {
+  var messages;
   if (localStorage.messages) {
-    var messages = JSON.parse(localStorage.messages);
-    for (var i = 0; i < messages.length; i++) appendMessage(messages[i]);
+    messages = JSON.parse(localStorage.messages);
+    messages.forEach(function showMsgHistory(message) {
+        appendMessage(message);
+    });
   } else localStorage.messages = JSON.stringify([]);
   isActive = localStorage.isActive === 'true';
 }
@@ -62,13 +67,15 @@ function pushMessageToLocalStorage(message) {
 }
 
 function sendBtnOnClick() {
+  var message;
+  var reply;
   if (msgInput && msgLog && msgInput.value !== '') {
-    var message = { date: getDate(), sender: 'You', content: msgInput.value };
+    message = { date: getDate(), sender: 'You', content: msgInput.value };
     appendMessage(message);
     pushMessageToLocalStorage(message);
     msgInput.value = '';
-    setTimeout(function() {
-      var reply = {
+    setTimeout(function botReply() {
+      reply = {
         date: getDate(),
         sender: 'Bot',
         content:
@@ -77,8 +84,8 @@ function sendBtnOnClick() {
       appendMessage(reply);
       pushMessageToLocalStorage(reply);
     }, RESPONSE_INTERVAL);
-    return message;
   }
+  return message;
 }
 
 function createChatFrame() {
@@ -112,9 +119,9 @@ function createChatFrame() {
   minBtn.addEventListener('click', minBtnOnClick);
 }
 
-window.onload = function() {
+window.onload = function chatInit() {
   loadCss(PATH_TO_CSS);
   createChatFrame();
   loadDataFromLocalStorage();
-  isActive ? maximizeChat() : minimizeChat();
+  if (isActive) maximizeChat(); else minimizeChat();
 };
