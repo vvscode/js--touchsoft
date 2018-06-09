@@ -14,7 +14,7 @@ var NETWORK_XHR_ID = "chat-configurator-network-xhr";
 var NETWORK_FETCH_ID = "chat-configurator-network-fetch";
 var CODE_EXAMPLE_ID = "chat-configurator-code-source";
 var CODE_EXAMPLE_START =
-  '<script src="https://rawgit.com/Besomhead/js--touchsoft/besomhead-task02/task-02/Besomhead/src/chat/chat.js?';
+  '<script src="https://rawgit.com/Besomhead/js--touchsoft/besomhead-task-02/task-02/Besomhead/src/chat/chat.js?';
 var CODE_EXAMPLE_END = '"></script>';
 
 function getInputValue(componentID) {

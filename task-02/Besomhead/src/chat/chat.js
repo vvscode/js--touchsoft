@@ -25,7 +25,7 @@ var months = [
 ];
 var REPLY_TIMEOUT = 15000;
 var PATH_TO_STYLESHEET =
-  "https://rawgit.com/Besomhead/js--touchsoft/besomhead-task02/task-02/Besomhead/src/chat/chat_styles.css";
+  "https://rawgit.com/Besomhead/js--touchsoft/besomhead-task-02/task-02/Besomhead/src/chat/chat_styles.css";
 var REQUEST_FETCH = "fetch";
 var REQUEST_XHR = "xhr";
 var DEFAULT_USER_NAME = "Вы";
