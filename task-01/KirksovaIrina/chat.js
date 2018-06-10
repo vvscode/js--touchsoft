@@ -64,7 +64,7 @@ function chatMax() {
     if (localStorage.getItem('history')) {
         historyChat = localStorage.getItem('history').split('^&*$#%,');
         historyChat[historyChat.length - 1] = historyChat[historyChat.length - 1].split('^&*$#%')[0];
-        for (i = 0; i < historyChat.length; i = i + 1) {
+        for (i; i < historyChat.length; i = i + 1) {
             textElement = document.createElement('p');
             textElement.innerHTML = historyChat[i];
             messageArea.appendChild(textElement);
@@ -74,7 +74,7 @@ function chatMax() {
     }
 }
 
-function chatMin () {
+function chatMin() {
     localStorage.setItem('view', 'min');
     if (chatArea) {
         div.removeChild(chatArea);
@@ -127,7 +127,11 @@ function printMessage(messageText) {
 }
 
 function chat() {
-    div.classList[0] === "chatMax" ? chatMin() : chatMax()
+    if (div.classList[0] === "chatMax") {
+        chatMin();
+    } else {
+        chatMax()
+    }
 }
 
 buttonMinimized.addEventListener('click', function () {
