@@ -378,8 +378,6 @@ function requireName() {
     var buttonMessage = document.getElementById("sendMessageButton");
     var userNameArea = document.getElementById("userName");
     buttonMessage.disabled = false;
-    userNameArea.value = configObj.userName;
-    configObj.userName = "You";
     if (configObj.requireName) {
         if (!userNameArea.value) {
             buttonMessage.disabled = true;
@@ -394,6 +392,7 @@ function requireName() {
             }
         }
     } else {
+        userNameArea.value = configObj.userName;
         userNameArea.onkeyup = function enterName() {
             configObj.userName = userNameArea.value || "You";
         }
