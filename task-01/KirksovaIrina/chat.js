@@ -9,7 +9,7 @@ var div = document.createElement('div');
 var buttonMinimized = document.createElement('button');
 var title = document.createElement('h1');
 document.body.appendChild(styles);
-styles.innerHTML = '\n.chat {\n width: 300px;\n height: 300px;\n border: 3px solid silver;\n position: fixed;\n right: 0px;\n bottom: 0px;\n background-color: salmon;\n}\n' +
+styles.innerHTML = '\n.chatMax {\n width: 300px;\n height: 300px;\n border: 3px solid silver;\n position: fixed;\n right: 0px;\n bottom: 0px;\n background-color: salmon;\n}\n' +
     '.titleMax {\n position: fixed;\n right: 260px;\n bottom: 280px;\n font-size: 1.3em;\n color: dimgray;\n}\n' +
     '.buttonMinimizedMax {\n  position: fixed;\n  right: 10px;\n  bottom: 278px;\n}\n' +
     '.chatMin {\n  width: 300px;\n  height: 30px;\n  border: 3px solid silver;\n  position: fixed;\n  right: 0px;\n  bottom: 0px;\n  background-color: coral;\n}\n' +
@@ -30,14 +30,14 @@ buttonMinimized.type = 'focus';
 buttonMinimized.innerHTML = '-';
 div.appendChild(buttonMinimized);
 
-function chatMax () {
+function chatMax() {
     var textElement = null;
     var i = 0;
     localStorage.setItem('view', 'max');
     div.classList.remove('chatMin');
     buttonMinimized.classList.remove('buttonMinimizedMin');
     title.classList.remove('titleMin');
-    div.classList.add('chat');
+    div.classList.add('chatMax');
     buttonMinimized.classList.add('buttonMinimizedMax');
     title.classList.add('titleMax');
     chatArea = document.createElement('div');
@@ -78,7 +78,7 @@ function chatMin () {
     localStorage.setItem('view', 'min');
     if (chatArea) {
         div.removeChild(chatArea);
-        div.classList.remove('chat');
+        div.classList.remove('chatMax');
         buttonMinimized.classList.remove('buttonMinimizedMax');
         title.classList.remove('titleMax');
     }
@@ -89,7 +89,7 @@ function chatMin () {
 
 function createChat() {
     if (localStorage.getItem('view') === 'max') {
-        chat();
+        chatMax();
     } else {
         chatMin();
     }
@@ -127,7 +127,7 @@ function printMessage(messageText) {
 }
 
 function chat() {
-    div.classList[0] === "chat" ? chatMin() : chatMax()
+    div.classList[0] === "chatMax" ? chatMin() : chatMax()
 }
 
 buttonMinimized.addEventListener('click', function () {
