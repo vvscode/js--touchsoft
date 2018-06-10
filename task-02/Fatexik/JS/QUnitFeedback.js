@@ -32,7 +32,7 @@ QUnit.test("Time change", function test(assert) {
     assert.notEqual(checkTime(9), "19", "Not equal");
 });
 QUnit.module("Create and show");
-QUnit.test("Create feedBack", function test(assert){
+QUnit.test("Create feedBack", function test(assert) {
     localStorage.setItem("message", "test");
     createFeedback();
     assert.ok(document.getElementById("feedBack"), "feedBack 1 show");
@@ -58,7 +58,7 @@ QUnit.test("Show and hide feedBack test", function test(assert) {
 });
 
 QUnit.module("Check create User XHR");
-QUnit.test("Get Config",function test(assert) {
+QUnit.test("Get Config", function test(assert) {
     var name = configObj.name;
     var url = configObj.url;
     var network = configObj.network;
@@ -67,63 +67,63 @@ QUnit.test("Get Config",function test(assert) {
     var doneNetwork = assert.async();
     assert.expect(3);
     transferObject.getConfig("name").then(function getConfigName(value) {
-        assert.equal(name,value,"Name config equal");
+        assert.equal(name, value, "Name config equal");
         doneName();
     });
     transferObject.getConfig("url").then(function getConfigURL(value) {
-        assert.equal(url,value,"URL config equal");
+        assert.equal(url, value, "URL config equal");
         doneUrl();
     });
     transferObject.getConfig("network").then(function getConfigNetwork(value) {
-        assert.equal(network,value,"Network config equal");
+        assert.equal(network, value, "Network config equal");
         doneNetwork();
     })
 });
 QUnit.module("Send message XHR");
-QUnit.test("Send message",function test(assert) {
+QUnit.test("Send message", function test(assert) {
     var message = "test";
     var doneMessageSend = assert.async();
     var doneMessageCorrect = assert.async();
     assert.expect(2);
     transferObject.sendMessage(message).then(function sendMessage(value) {
-            assert.ok(value,"Message Send");
+            assert.ok(value, "Message Send");
             doneMessageSend();
         }
     );
     transferObject.getMessages().then(function getMessage(value) {
-        assert.equal(message,value.pop(),"Message in dataBase correct");
+        assert.equal(message, value.pop(), "Message in dataBase correct");
         doneMessageCorrect();
     })
 });
 configObj.network = "fetch";
 QUnit.module("Send message fetch");
-QUnit.test("Send message",function test(assert) {
+QUnit.test("Send message", function test(assert) {
     var message = "test";
     var doneMessageSend = assert.async();
     var doneMessageCorrect = assert.async();
     assert.expect(2);
     transferObject.sendMessage(message).then(function sendMessage(value) {
-            assert.ok(value,"Message Send");
+            assert.ok(value, "Message Send");
             doneMessageSend();
         }
     );
     transferObject.getMessages().then(function getMessage(value) {
-        assert.equal(message,value.pop(),"Message in dataBase correct");
+        assert.equal(message, value.pop(), "Message in dataBase correct");
         doneMessageCorrect();
     })
 });
 QUnit.module("Set Name");
-QUnit.test("Set name",function test(assert){
+QUnit.test("Set name", function test(assert) {
     var doneMessageSend = assert.async();
     var doneNameCorrect = assert.async();
     configObj.userName = "You";
     assert.expect(2);
-    transferObject.sendMessage("test message").then(function sendMessage (value) {
-        assert.ok(value,"Message send");
+    transferObject.sendMessage("test message").then(function sendMessage(value) {
+        assert.ok(value, "Message send");
         doneMessageSend();
     });
-    transferObject.getConfig("userName").then(function getUserName (value) {
-        assert.equal(configObj.userName,value,"Network config equal");
+    transferObject.getConfig("userName").then(function getUserName(value) {
+        assert.equal(configObj.userName, value, "Network config equal");
         doneNameCorrect();
     })
 });
