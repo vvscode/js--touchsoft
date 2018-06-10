@@ -30,8 +30,9 @@ buttonMinimized.type = 'focus';
 buttonMinimized.innerHTML = '-';
 div.appendChild(buttonMinimized);
 
-function chat () {
+function chatMax () {
     var textElement = null;
+    var i = 0;
     localStorage.setItem('view', 'max');
     div.classList.remove('chatMin');
     buttonMinimized.classList.remove('buttonMinimizedMin');
@@ -125,8 +126,12 @@ function printMessage(messageText) {
     }, 15000);
 }
 
+function chat() {
+    div.classList[0] === "chat" ? chatMin() : chatMax()
+}
+
 buttonMinimized.addEventListener('click', function () {
-    div.classList[0] === "chat" ? chatMin() : chat()
+    chat();
 });
 
 buttonSend.addEventListener('click', function () {
