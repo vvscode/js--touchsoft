@@ -63,7 +63,7 @@ function chat () {
     if (localStorage.getItem('history')) {
         historyChat = localStorage.getItem('history').split('^&*$#%,');
         historyChat[historyChat.length - 1] = historyChat[historyChat.length - 1].split('^&*$#%')[0];
-        for (var i = 0; i < historyChat.length; i++) {
+        for (i = 0; i < historyChat.length; i = i + 1) {
             textElement = document.createElement('p');
             textElement.innerHTML = historyChat[i];
             messageArea.appendChild(textElement);
@@ -126,7 +126,7 @@ function printMessage(messageText) {
 }
 
 buttonMinimized.addEventListener('click', function () {
-    (div.classList[0] === "chat") ? chatMin() : chat()
+    div.classList[0] === "chat" ? chatMin() : chat()
 });
 
 buttonSend.addEventListener('click', function () {
