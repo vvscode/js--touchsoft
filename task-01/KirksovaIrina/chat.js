@@ -64,7 +64,7 @@ function chatMax() {
     if (localStorage.getItem('history')) {
         historyChat = localStorage.getItem('history').split('^&*$#%,');
         historyChat[historyChat.length - 1] = historyChat[historyChat.length - 1].split('^&*$#%')[0];
-        for (i; i < historyChat.length; i = i + 1) {
+        for (i; i < historyChat.length; i += 1) {
             textElement = document.createElement('p');
             textElement.innerHTML = historyChat[i];
             messageArea.appendChild(textElement);
