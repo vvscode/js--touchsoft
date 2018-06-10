@@ -1,0 +1,32 @@
+.collapsedFeedback{
+    position: fixed;
+    left: 68vw;
+    top: 60vh;
+    background-color: black;
+    height: 30vh;
+    width: 30vw;
+}
+.drag_drop_collapsed{
+    background-color: grey;
+    height: 10%;
+    width: 100%;
+}
+.drag_drop{
+    background-color: grey;
+    height: 5vh;
+    width: 100%;
+}
+.feedBack{
+    background-color: black;
+    position: fixed;
+    border: solid;
+    left: 80vw;
+    top: 40vh;
+}
+.nameNote{
+    color: white;
+}
+.chatName{
+    color: white;
+    margin: 1vh;
+}
