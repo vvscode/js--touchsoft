@@ -1,3 +1,4 @@
+var QUnit = window.QUnit;
 QUnit.testDone(function (details) {
   var chats = window.document.querySelectorAll("#chat-panel");
   for (var i = 0; i < chats.length; i++) {
