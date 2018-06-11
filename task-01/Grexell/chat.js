@@ -6,7 +6,7 @@
 
     window.right = "right";
     window.left = "left";
-    window.chatSide = right;
+    window.chatSide = window.right;
     window.userIdKey = "username";
     window.minimizedKey = "minimized";
     window.sideKey = "side";
@@ -61,12 +61,12 @@
         request.open("POST", window.urlAPI + window.usersPath + window.suffix, true);
 
         request.send(JSON.stringify({
-            username: username
+            username: window.username
         }));
 
         request.onreadystatechange = function () {
             if (this.readyState !== 4) return;
-            userid = JSON.parse(this.responseText).name;
+            window.userid = JSON.parse(this.responseText).name;
         }
 
         return false;
@@ -75,18 +75,18 @@
     function getUserInfoXHR() {
         var request = new XMLHttpRequest();
 
-        request.open("GET", urlAPI + usersPath + "/" + userid + "/" + suffix, true);
+        request.open("GET", window.urlAPI + window.usersPath + "/" + window.userid + "/" + window.suffix, true);
         request.send();
 
         request.onreadystatechange = function () {
             if (this.readyState !== 4) return;
-            username = JSON.parse(this.responseText).username;
+            window.username = JSON.parse(this.responseText).username;
         }
     }
 
     function sendMessageXHR(message) {
         var request = new XMLHttpRequest();
-        request.open("POST", urlAPI + usersPath + "/" + userid + "/" + messagesPath + "/" + suffix, true);
+        request.open("POST", window.urlAPI + window.usersPath + "/" + window.userid + "/" + window.messagesPath + "/" + window.suffix, true);
 
         request.send(JSON.stringify(message));
     }
@@ -96,22 +96,22 @@
         var response;
         var clear = true;
 
-        request.open("GET", urlAPI + usersPath + "/" + userid + "/" + messagesPath + suffix, true);
+        request.open("GET", window.urlAPI + window.usersPath + "/" + window.userid + "/" + window.messagesPath + window.suffix, true);
         request.send();
 
         request.onreadystatechange = function () {
             if (this.readyState !== 4) return;
 
-            messages = [];
+            window.messages = [];
 
             if (this.responseText) {
                 response = JSON.parse(this.responseText);
                 if (response) {
                     Object.keys(response).forEach(function (element) {
-                        messages.push(response[element]);
+                        window.messages.push(response[element]);
                     });
 
-                    printItems(messages, clear);
+                    window.printItems(window.messages, clear);
                 }
             }
         }
@@ -125,10 +125,10 @@
     }
 
     function authoriseFetch() {
-        window.fetch(urlAPI + usersPath + suffix, {
+        window.fetch(window.urlAPI + window.usersPath + window.suffix, {
             method: 'POST',
             body: JSON.stringify({
-                username: username
+                username: window.username
             }),
             headers: {
                 Accept: 'application/json',
@@ -139,7 +139,7 @@
                 return response.json();
             })
             .then(function (json) {
-                userid = json.name;
+                window.userid = json.name;
             });
 
         return false;
@@ -156,12 +156,12 @@
                 return response.json();
             })
             .then(function (json) {
-                username = json.username;
+                window.username = json.username;
             });
     }
 
     function sendMessageFetch(message) {
-        window.fetch(urlAPI + usersPath + "/" + userid + "/" + messagesPath + "/" + suffix, {
+        window.fetch(window.urlAPI + window.usersPath + "/" + window.userid + "/" + window.messagesPath + "/" + window.suffix, {
             method: "POST",
             body: JSON.stringify(message),
             headers: {
@@ -177,7 +177,7 @@
     function messageUpdateFetch() {
         var clear = true;
 
-        window.fetch(urlAPI + usersPath + "/" + userid + "/" + messagesPath + suffix, {
+        window.fetch(window.urlAPI + window.usersPath + "/" + window.userid + "/" + window.messagesPath + window.suffix, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -187,14 +187,14 @@
                 return response.json();
             })
             .then(function (json) {
-                messages = [];
+                window.messages = [];
 
                 if (json) {
                     Object.keys(json).forEach(function (element) {
-                        messages.push(json[element]);
+                        window.messages.push(json[element]);
                     });
 
-                    printItems(messages, clear);
+                    window.printItems(window.messages, clear);
                 }
             });
     }
@@ -209,15 +209,15 @@
     window.chatNetwork = window.fetchNetwork;
 
     window.HistoryItem = function (date, sender, text) {
-        this.date = date.getHours().toString().concat(dateDelimeter, date.getMinutes().toString());
+        this.date = date.getHours().toString().concat(window.dateDelimeter, date.getMinutes().toString());
         this.sender = sender;
         this.text = text;
     }
 
     window.toggleMinimize = function () {
-        var content = window.document.getElementById(chatContentClass);
-        content.classList.toggle(hiddenClass);
-        minimized = content.classList.contains(hiddenClass);
+        var content = window.document.getElementById(window.chatContentClass);
+        content.classList.toggle(window.hiddenClass);
+        window.minimized = content.classList.contains(window.hiddenClass);
     }
 
     window.formatItem = function (item) {
@@ -226,17 +226,17 @@
         var sender = window.document.createElement("div");
         var text = window.document.createElement("div");
 
-        historyItem.classList.add(historyItemClass);
+        historyItem.classList.add(window.historyItemClass);
 
-        messageTime.classList.add(messageTimeClass);
-        sender.classList.add(messageSenderClass);
-        text.classList.add(messageTextClass);
+        messageTime.classList.add(window.messageTimeClass);
+        sender.classList.add(window.messageSenderClass);
+        text.classList.add(window.messageTextClass);
 
         messageTime.innerText = item.date;
         sender.innerText = item.sender;
         text.innerText = item.text;
 
-        if (time) {
+        if (window.time) {
             historyItem.appendChild(messageTime);
         }
         historyItem.appendChild(sender);
@@ -246,37 +246,37 @@
     }
 
     window.generateAnswer = function (message) {
-        return answer.pattern.replace(answer.insertionRegExp, message.toUpperCase());
+        return window.answer.pattern.replace(window.answer.insertionRegExp, message.toUpperCase());
     }
 
     window.sendAnswer = function (item) {
-        var history = window.document.getElementsByClassName(messageHistoryClass)[0];
+        var history = window.document.getElementsByClassName(window.messageHistoryClass)[0];
         var sendDate = new Date();
-        var answerItem = new HistoryItem(
+        var answerItem = new window.HistoryItem(
             sendDate,
-            answer.sender,
-            generateAnswer(item.text)
+            window.answer.sender,
+            window.generateAnswer(item.text)
         );
 
-        messages.push(answerItem);
-        chatNetwork.sendMessage(answerItem);
+        window.messages.push(answerItem);
+        window.chatNetwork.sendMessage(answerItem);
 
-        history.appendChild(formatItem(answerItem));
+        history.appendChild(window.formatItem(answerItem));
     }
 
     window.sendMessage = function (event) {
-        var history = window.document.getElementsByClassName(messageHistoryClass)[0];
+        var history = window.document.getElementsByClassName(window.messageHistoryClass)[0];
         var sendDate = new Date();
-        var item = new HistoryItem(sendDate, username, this.text.value);
+        var item = new window.HistoryItem(sendDate, window.username, this.text.value);
 
-        history.appendChild(formatItem(item));
-        messages.push(item);
+        history.appendChild(window.formatItem(item));
+        window.messages.push(item);
 
-        chatNetwork.sendMessage(item);
+        window.chatNetwork.sendMessage(item);
 
         setTimeout(function () {
-            sendAnswer(item);
-        }, answer.delay);
+            window.sendAnswer(item);
+        }, window.answer.delay);
 
         this.text.value = "";
 
@@ -383,7 +383,7 @@
     window.initChatContent = function () {
         var messageHistory = window.document.createElement("div");
 
-        messageHistory.classList.add(messageHistoryClass);
+        messageHistory.classList.add(window.messageHistoryClass);
 
         return messageHistory;
     }
@@ -391,7 +391,7 @@
     window.initChatForm = function () {
         var messageForm = window.document.createElement("form");
 
-        messageForm.id = messageFormClass;
+        messageForm.id = window.messageFormClass;
         messageForm.innerHTML =
             "<div id=\"current-message\">" +
             "<textarea id=\"current-message-area\" name=\"text\"></textarea>" +
@@ -404,19 +404,19 @@
     }
 
     window.initContent = function (chatContent) {
-        var form = initChatForm();
-        form.onsubmit = sendMessage;
+        var form = window.initChatForm();
+        form.onsubmit = window.sendMessage;
 
-        chatContent.appendChild(initChatContent());
+        chatContent.appendChild(window.initChatContent());
         chatContent.appendChild(form);
     }
 
     window.authUser = function (event) {
-        initContent(window.document.querySelector("#" + chatContentClass));
+        window.initContent(window.document.querySelector("#" + window.chatContentClass));
 
-        window.document.querySelector("#" + authFormClass).classList.add(hiddenClass);
+        window.document.querySelector("#" + window.authFormClass).classList.add(window.hiddenClass);
 
-        username = this.username.value;
+        window.username = this.username.value;
 
         event.preventDefault();
     }
@@ -424,8 +424,8 @@
     window.initAutorization = function () {
         var authorization = window.document.createElement("div");
 
-        authorization.innerHTML = "<form id='" + authFormClass + "'><input type='text' name='username'><button>Authorize</button></form>";
-        authorization.querySelector("#" + authFormClass).addEventListener("submit", authUser);
+        authorization.innerHTML = "<form id='" + window.authFormClass + "'><input type='text' name='username'><button>Authorize</button></form>";
+        authorization.querySelector("#" + window.authFormClass).addEventListener("submit", window.authUser);
 
         return authorization;
     }
@@ -447,7 +447,7 @@
         var element = this;
 
         var moveEventHandler = function (e) {
-            moveToPoint(element, e.pageX - shiftX, e.pageY - shiftY);
+            window.moveToPoint(element, e.pageX - shiftX, e.pageY - shiftY);
         };
         window.document.addEventListener("mousemove", moveEventHandler);
 
@@ -463,53 +463,53 @@
         chatBox.innerHTML =
             '<div id="chat-header">' +
             '<span>' + header + '</span>' +
-            (minimise ? ('<button id="' + minimizeButtonClass + '">-</button>\n') : "") +
+            (minimise ? ('<button id="' + window.minimizeButtonClass + '">-</button>\n') : "") +
             "</div>" +
-            "<div id='" + chatContentClass + "'>" +
+            "<div id='" + window.chatContentClass + "'>" +
             "</div>";
 
         if (minimise) {
-            if (minimized) {
-                chatBox.querySelector("#" + chatContentClass).classList.add(hiddenClass);
+            if (window.minimized) {
+                chatBox.querySelector("#" + window.chatContentClass).classList.add(window.hiddenClass);
             }
-            chatBox.querySelector("#" + minimizeButtonClass).onclick = toggleMinimize;
+            chatBox.querySelector("#" + window.minimizeButtonClass).onclick = window.toggleMinimize;
         }
 
         if (dragEnable) {
-            chatBox.classList.add(dragClass);
-            chatBox.addEventListener("mousedown", dragItem);
+            chatBox.classList.add(window.dragClass);
+            chatBox.addEventListener("mousedown", window.dragItem);
         }
 
         return chatBox;
     }
 
     window.initMessages = function () {
-        chatNetwork.messagesUpdate();
+        window.chatNetwork.messagesUpdate();
     }
 
     eindow.initMinimized = function () {
-        minimized = localStorage.getItem(minimizedKey) === "true";
+        window.minimized = localStorage.getItem(window.minimizedKey) === "true";
     }
 
     window.initSide = function () {
-        chatSide = localStorage.getItem(sideKey);
+        window.chatSide = localStorage.getItem(window.sideKey);
     }
 
     window.initUserId = function () {
-        userid = localStorage.getItem(userIdKey);
+        window.userid = localStorage.getItem(window.userIdKey);
     }
 
     window.saveMinimized = function () {
-        localStorage.setItem(minimizedKey, minimized.toString());
+        localStorage.setItem(window.minimizedKey, window.minimized.toString());
     }
 
     window.saveChatSide = function () {
-        localStorage.setItem(sideKey, chatSide);
+        localStorage.setItem(window.sideKey, window.chatSide);
     }
 
     window.saveUserId = function () {
-        if (userid) {
-            localStorage.setItem(userIdKey, userid);
+        if (window.userid) {
+            localStorage.setItem(window.userIdKey, window.userid);
         }
     }
 
@@ -517,53 +517,53 @@
         var chat;
         var authForm;
 
-        urlAPI = url;
-        time = showTime;
+        window.urlAPI = url;
+        window.time = showTime;
 
         if (botName) {
-            answer.sender = botName;
+            window.answer.sender = botName;
         }
 
-        if (localStorage.getItem(sideKey)) {
-            initSide();
+        if (localStorage.getItem(window.sideKey)) {
+            window.initSide();
         } else if (side) {
-            chatSide = side;
+            window.chatSide = side;
         }
 
-        addStyle(chatSide);
+        window.addStyle(window.chatSide);
 
         if (minimise) {
-            initMinimized();
-            window.addEventListener("beforeunload", saveMinimized);
+            window.initMinimized();
+            window.addEventListener("beforeunload", window.saveMinimized);
         }
 
         if (network) {
-            chatNetwork = network;
+            window.chatNetwork = network;
         }
 
         chat = initChatBox(header, minimise, cssClass, dragEnable);
-        if (!localStorage.getItem(userIdKey)) {
+        if (!localStorage.getItem(window.userIdKey)) {
             if (userAuth) {
-                authForm = initAutorization();
-                chat.querySelector("#" + chatContentClass).appendChild(authForm);
-                authForm.querySelector("#" + authFormClass).addEventListener("submit", chatNetwork.authorize);
+                authForm = window.initAutorization();
+                chat.querySelector("#" + window.chatContentClass).appendChild(authForm);
+                authForm.querySelector("#" + window.authFormClass).addEventListener("submit", window.chatNetwork.authorize);
             } else {
-                initContent(chat.querySelector("#" + chatContentClass));
-                username = messageSender;
+                window.initContent(chat.querySelector("#" + window.chatContentClass));
+                window.username = window.messageSender;
             }
         } else {
-            initUserId();
+            window.initUserId();
             network.getInfo();
-            initContent(chat.querySelector("#" + chatContentClass));
-            initMessages();
+            window.initContent(chat.querySelector("#" + window.chatContentClass));
+            window.initMessages();
         }
 
-        window.setInterval(network.messagesUpdate, messagesUpdateTimeout);
+        window.setInterval(network.messagesUpdate, window.messagesUpdateTimeout);
 
         window.document.body.appendChild(chat);
-        printItems(messages);
+        window.printItems(window.messages);
 
-        window.addEventListener("beforeunload", saveUserId);
-        window.addEventListener("beforeunload", saveChatSide);
+        window.addEventListener("beforeunload", window.saveUserId);
+        window.addEventListener("beforeunload", window.saveChatSide);
     }
 })();
