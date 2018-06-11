@@ -112,18 +112,13 @@ QUnit.test("Send message", function test(assert) {
         doneMessageCorrect();
     })
 });
-QUnit.module("Set Name");
-QUnit.test("Set name", function test(assert) {
+QUnit.module("Send message with name");
+QUnit.test("Send message and name", function test(assert) {
     var doneMessageSend = assert.async();
-    var doneNameCorrect = assert.async();
     configObj.userName = "You";
-    assert.expect(2);
+    assert.expect(1);
     transferObject.sendMessage("test message").then(function sendMessage(value) {
         assert.ok(value, "Message send");
         doneMessageSend();
-        transferObject.getConfig("userName").then(function getUserName(value) {
-            assert.equal(configObj.userName, value, "Network config equal");
-            doneNameCorrect();
-         })
     });
 });
