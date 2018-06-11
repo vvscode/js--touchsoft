@@ -29,12 +29,10 @@
     window.messagesPath = "messages";
     window.suffix = ".json";
 
-    window.username = messageSender;
-    window.userid;
-    window.urlAPI;
+    window.username = window.messageSender;
+    window.userid = "";
+    window.urlAPI = "";
     window.time = true;
-
-    window.initChat;
 
     window.answer = {
         insertionRegExp: /\[.*\]/,
@@ -45,12 +43,8 @@
 
     window.messagesUpdateTimeout = 10000;
 
-    window.XHRNetwork;
-    window.fetchNetwork;
-    window.chatNetwork = fetchNetwork;
-
     window.printItems = function (items, clear) {
-        var history = window.document.getElementsByClassName(messageHistoryClass)[0];
+        var history = window.document.getElementsByClassName(window.messageHistoryClass)[0];
         var i;
 
         if (clear) {
@@ -58,13 +52,13 @@
         }
 
         for (i = 0; i < items.length; i += 1) {
-            history.appendChild(formatItem(items[i]));
+            history.appendChild(window.formatItem(items[i]));
         }
     }
 
     function authoriseXHR() {
         var request = new XMLHttpRequest();
-        request.open("POST", urlAPI + usersPath + suffix, true);
+        request.open("POST", window.urlAPI + window.usersPath + window.suffix, true);
 
         request.send(JSON.stringify({
             username: username
@@ -211,6 +205,8 @@
         sendMessage: sendMessageFetch,
         messagesUpdate: messageUpdateFetch
     }
+
+    window.chatNetwork = window.fetchNetwork;
 
     window.HistoryItem = function (date, sender, text) {
         this.date = date.getHours().toString().concat(dateDelimeter, date.getMinutes().toString());
