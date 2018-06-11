@@ -607,14 +607,3 @@ function checkWindow() {
 window.onload = function check() {
     checkWindow();
 };
-
-
-
-
-
-
-
-
-
-
-
