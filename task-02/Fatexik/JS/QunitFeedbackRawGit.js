@@ -121,9 +121,9 @@ QUnit.test("Set name", function test(assert) {
     transferObject.sendMessage("test message").then(function sendMessage(value) {
         assert.ok(value, "Message send");
         doneMessageSend();
+        transferObject.getConfig("userName").then(function getUserName(value) {
+            assert.equal(configObj.userName, value, "Network config equal");
+            doneNameCorrect();
+         })
     });
-    transferObject.getConfig("userName").then(function getUserName(value) {
-        assert.equal(configObj.userName, value, "Network config equal");
-        doneNameCorrect();
-    })
 });
