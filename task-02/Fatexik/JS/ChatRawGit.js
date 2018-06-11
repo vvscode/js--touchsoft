@@ -603,10 +603,6 @@ function checkWindow() {
 
 }
 
-// function setConfigObject() {
-//     ...
-// }
-
 window.onload = function check() {
     checkWindow();
 };
