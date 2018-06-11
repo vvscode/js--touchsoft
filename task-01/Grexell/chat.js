@@ -146,7 +146,7 @@
     }
 
     function getUserInfoFetch() {
-        window.fetch(urlAPI + usersPath + "/" + userid + "/" + suffix, {
+        window.fetch(window.urlAPI + window.usersPath + "/" + window.userid + "/" + window.suffix, {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
@@ -487,7 +487,7 @@
         window.chatNetwork.messagesUpdate();
     }
 
-    eindow.initMinimized = function () {
+    window.initMinimized = function () {
         window.minimized = localStorage.getItem(window.minimizedKey) === "true";
     }
 
@@ -541,7 +541,7 @@
             window.chatNetwork = network;
         }
 
-        chat = initChatBox(header, minimise, cssClass, dragEnable);
+        chat = window.initChatBox(header, minimise, cssClass, dragEnable);
         if (!localStorage.getItem(window.userIdKey)) {
             if (userAuth) {
                 authForm = window.initAutorization();
