@@ -1,4 +1,3 @@
-/* global chatManager */
 /* global getElement */
 /* global chatManagerConfig */
 // Модуль для работы со списком сообщений ОДНОГО пользователя

@@ -1,6 +1,6 @@
 /* global dataBaseUrl */
 /* global dataSourceConfig */
-/* exported dashboardDataSource */
+/* global dataSource */
 // Модуль предоставляет способ отправки запроса к источнику данных
 // Для реквеста необходим путь, тело запроса, тип запроса
 // request возвращает Promise

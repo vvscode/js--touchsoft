@@ -1,6 +1,7 @@
 /* global chatManager */
 /* global getElement */
 /* global userListManager */
+/* global dashboardController */
 /* global dashboardDataSource */
 /* global dashboardControllerConfig */
 this.dashboardController = (function createController(
