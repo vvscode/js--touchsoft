@@ -24,35 +24,21 @@ var dashboardController = (function(
         this.dataSourceModule = dashboardDataSourceObj;
         this.DOMVariables = {
             users: [],
-            chat: document.getElementsByClassName(
+            chat: getElement(
                 this.config.CSS_CHAT_CONTAINS_BLOCK_STYLE
-            )[0],
-            sendMessageButton: document.getElementsByClassName(
+            ),
+            sendMessageButton: getElement(
                 this.config.CSS_SEND_MESSAGE_BUTTON_CLASS
-            )[0],
-            messageInput: document.getElementById(
+            ),
+            messageInput: getElement(
                 this.config.CSS_INPUT_MESSAGE_BLOCK_ID
             ),
-            closeButton: document.getElementsByClassName(
+            closeButton: getElement(
                 this.config.CSS_CLOSE_CHAT_BUTTON_CLASS
-            )[0],
-            filterInput: document.getElementById(this.config.CSS_FILTER_INPUT_ID),
-            sortSelect: document.getElementById(this.config.CSS_SORT_SELECT_ID)
+            ),
+            filterInput: getElement(this.config.CSS_FILTER_INPUT_ID),
+            sortSelect: getElement(this.config.CSS_SORT_SELECT_ID)
         };
-    }
-
-    function createController(
-        userListManagerObj,
-        chatManagerObj,
-        dashboardDataSourceObj,
-        configObj
-    ) {
-        return new DashboardController(
-            userListManagerObj,
-            chatManagerObj,
-            dashboardDataSourceObj,
-            configObj
-        );
     }
 
     DashboardController.prototype.startApp = function startApp() {
@@ -144,6 +130,7 @@ var dashboardController = (function(
         filterBy = this.DOMVariables.filterInput.value;
         this.saveCurrentConditionToLocalStorage();
         this.usersModule.filterByName(filterBy);
+        this.usersModule.displayUsers();
     };
 
     // сортировка списка юзеров
@@ -151,6 +138,7 @@ var dashboardController = (function(
         sortBy = this.DOMVariables.sortSelect.value;
         this.saveCurrentConditionToLocalStorage();
         this.usersModule.sortUsersByField(sortBy);
+        this.usersModule.displayUsers();
     };
 
     DashboardController.prototype.addUserToUsersArray = function addUserToUsersList(
@@ -221,8 +209,8 @@ var dashboardController = (function(
     ) {
         var controllerRef = this;
         return this.displayUsersList(newUserList).then(function() {
-            controllerRef.DOMVariables.users = document.getElementsByClassName(
-                controllerRef.usersModule.config.USER_ELEMENT_CSS_CLASS
+            controllerRef.DOMVariables.users = getElement(
+                controllerRef.usersModule.config.USER_ELEMENT_CSS_CLASS, true
             );
         });
     };
@@ -307,19 +295,10 @@ var dashboardController = (function(
     ) {
         var controllerRef = this;
         controllerRef.dataSourceModule.oneUserAPI
-            .getAmountOfNoReadMessage()
-            .then(function(count) {
-                controllerRef.chatModule.newMessagesCounter = count;
-                currentUserId = userId;
-                controllerRef.saveCurrentConditionToLocalStorage();
-            })
-            .then(function() {
-                controllerRef.dataSourceModule.oneUserAPI
                     .getUserData(userId)
                     .then(function(data) {
                         controllerRef.updateUserMessagesAndDisplayIt(data);
                     });
-            });
     };
 
     // Обновлет массив сообщений в модуле чата и выводит их на экран
@@ -341,25 +320,27 @@ var dashboardController = (function(
         messageArray
     ) {
         var controllerRef = this;
-        Object.keys(userData.messages).map(function(key) {
-            var messageObject;
-            var message = userData.messages[key][0].message;
-            var date = userData.messages[key][0].date;
-            var sender = userData.messages[key][0].user;
-            var isRead = true;
-            messageObject = controllerRef.chatModule.createMessageObject(
-                message,
-                date,
-                sender,
-                isRead
-            );
-            messageArray.push(messageObject);
-        });
+        if(userData.messages) {
+            Object.keys(userData.messages).map(function(key) {
+                var messageObject;
+                var message = userData.messages[key][0].message;
+                var date = userData.messages[key][0].date;
+                var sender = userData.messages[key][0].user;
+                var isRead = true;
+                messageObject = controllerRef.chatModule.createMessageObject(
+                    message,
+                    date,
+                    sender,
+                    isRead
+                );
+                messageArray.push(messageObject);
+            });
+        }
     };
 
     // data - объект данных пользователя на сервере
     DashboardController.prototype.setNewMessagesCounter = function(userData) {
-        if (!userData.readLastMessage) {
+        if (!userData.readLastMessage && userData.noReadMessage) {
             this.chatModule.newMessagesCounter = userData.noReadMessage.count;
         } else {
             this.chatModule.newMessagesCounter = 0;
@@ -428,7 +409,7 @@ var dashboardController = (function(
         }, controllerRef.config.BLINK_NEW_MESSAGES_TIME);
     };
 
-    dashboardControllerInstance = createController(
+    dashboardControllerInstance = new DashboardController(
         userListManagerObject,
         chatManagerObject,
         dashboardDataSourceObject,

@@ -1,3 +1,9 @@
+var getElement = function getElementFromDOM (selector, isAll) {
+    if(isAll) {
+        return document.querySelectorAll("." + selector);
+    }
+    return document.querySelector("." + selector);
+};
 var dataBaseUrl = "https://touchsoftchatproject.firebaseio.com";
 var dataSourceConfig = {
     typeOfRequest: "fetch"

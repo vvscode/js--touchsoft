@@ -108,23 +108,6 @@ dashboardDataSource = (function(dataSourceObject, dataBaseUrl) {
             });
     };
 
-    // Получает количество непрочитанных юзером сообщений
-    DashboardDataSource.prototype.getAmountOfNoReadMessage = function getAmountOfNoReadMessage(
-        userId
-    ) {
-        var count = 0;
-        var requestPath = this.createRequestPath(
-            this.dbURL,
-            userId,
-            "noReadMessage"
-        );
-        return this.dataSource
-            .request(requestPath, null, "GET", "application/json")
-            .then(function setUserData(data) {
-                return count;
-            });
-    };
-
     // Сохраняет количество непрочитанных юзером сообщений
     DashboardDataSource.prototype.setAmountOfNoReadMessage = function getAmountOfNoReadMessage(
         userId,
@@ -260,9 +243,6 @@ dashboardDataSource = (function(dataSourceObject, dataBaseUrl) {
                 dashboardDataSourceInstance
             ),
             setAmountOfNoReadMessage: dashboardDataSourceInstance.setAmountOfNoReadMessage.bind(
-                dashboardDataSourceInstance
-            ),
-            getAmountOfNoReadMessage: dashboardDataSourceInstance.getAmountOfNoReadMessage.bind(
                 dashboardDataSourceInstance
             ),
             setField: dashboardDataSourceInstance.setSettingField.bind(

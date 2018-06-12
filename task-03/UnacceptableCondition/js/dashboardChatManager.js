@@ -17,12 +17,14 @@ var chatManager = (function(configObject) {
         this.config = configObject;
         this.messageList = [];
         this.cDOM = {
-            messagesBlock: document.getElementsByClassName(
+            messagesBlock: getElement(
                 this.config.CSS_CHAT_MESSAGES_CONTAINER
-            )[0]
+            )
         };
         this.newMessagesCounter = 0;
     }
+
+
 
     // Возвращает текущую дату
     ChatManager.prototype.getCurrentDate = function getCurrentDate() {
@@ -109,5 +111,7 @@ var chatManager = (function(configObject) {
     };
 
     chatManagerInstance = new ChatManager(configObject);
+
+
     return chatManagerInstance;
 })(chatManagerConfig);

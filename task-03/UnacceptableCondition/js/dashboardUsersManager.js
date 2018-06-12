@@ -1,8 +1,6 @@
 // Модуль содержит объект списка юзеров и функции для работы с этим списком
 // такие как фильтрация, сортировка и тд
 userListManager = (function(sortObject, configObject) {
-    var userListManagerInstance;
-
     //////////////////////////////////////////////////////////////////////////
     /* Формат объекта в списке юзера
       * userId: "Ivan300000",
@@ -23,9 +21,9 @@ userListManager = (function(sortObject, configObject) {
         this.config = configObj;
         this.uList = {};
         this.uDOM = {
-            usersList: document.getElementsByClassName(
+            usersList: getElement(
                 this.config.USER_LIST_CSS_CLASS
-            )[0]
+            )
         };
         this.sorter = sortObj;
     }
@@ -95,7 +93,6 @@ userListManager = (function(sortObject, configObject) {
         this.uList.forEach(function(element) {
             element.visible = element.userId.indexOf(str) !== -1;
         });
-        this.displayUsers();
     };
 
     // Сортирует список юзеров по полю
@@ -103,7 +100,6 @@ userListManager = (function(sortObject, configObject) {
         sortField
     ) {
         this.sorter.quickSort(this.uList, 0, this.uList.length - 1, sortField);
-        this.displayUsers();
     };
 
     // Отобразить/ Обновить представление юзеров на странице
@@ -117,6 +113,5 @@ userListManager = (function(sortObject, configObject) {
         });
     };
 
-    userListManagerInstance = createUserListManager(sortObject, configObject);
-    return userListManagerInstance;
+    return createUserListManager(sortObject, configObject);
 })(sorter, userListManagerConfig);
