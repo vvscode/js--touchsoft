@@ -2,7 +2,7 @@
 /* global getElement */
 /* global chatManagerConfig */
 // Модуль для работы со списком сообщений ОДНОГО пользователя
-var chatManager = (function setupChatManager (configObject) {
+this.chatManager = (function setupChatManager (configObject) {
     //  //////////////////////////////////
     // Формат  messageList = [
     //    {

@@ -1,4 +1,4 @@
-var sorter = (function createNewSorter () {
+this.sorter = (function createNewSorter () {
     function Sorter() {}
 
     function createSorter() {

@@ -4,7 +4,7 @@
 // Модуль предоставляет способ отправки запроса к источнику данных
 // Для реквеста необходим путь, тело запроса, тип запроса
 // request возвращает Promise
-var dataSource = (function getDataSourceAPI(dataSourceConfigurationObject) {
+this.dataSource = (function getDataSourceAPI(dataSourceConfigurationObject) {
     var dataBaseConnector;
     var dataBaseAPI;
 
@@ -66,7 +66,7 @@ var dataSource = (function getDataSourceAPI(dataSourceConfigurationObject) {
 
 // Модуль для получения данных
 // Все API функции возвращают промисы
-var dashboardDataSource = (function createDashboardDataSource (dataSourceObject, dataBaseUrl) {
+this.dashboardDataSource = (function createDashboardDataSource (dataSourceObject, dataBaseUrl) {
     var dashboardDataSourceInstance;
     var dashboardDataSourceAPI;
 
@@ -97,7 +97,6 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
     DashboardDataSource.prototype.getUserData = function getUserData(userId) {
         var userData = {};
         var requestPath = this.createRequestPath(this.dbURL, userId, null);
-        console.log(requestPath);
         return this.dataSource
             .request(requestPath, null, "GET", "application/json")
             .then(function setUserData(data) {
@@ -123,7 +122,6 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
             userId,
             "noReadMessage"
         );
-        console.log(requestPath);
         var jsonMessage = JSON.stringify({
             count: count
         });
@@ -141,7 +139,6 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
         fieldName
     ) {
         var requestPath = this.createRequestPath(this.dbURL, userId, fieldName);
-        console.log(requestPath);
         return this.dataSource.request(
             requestPath,
             null,
@@ -157,7 +154,6 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
         value
     ) {
         var requestPath = this.createRequestPath(this.dbURL, userId, fieldName);
-        console.log(requestPath);
         return this.dataSource.request(
             requestPath,
             JSON.stringify(value),
@@ -172,7 +168,6 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
         messageObject
     ) {
         var requestPath = this.createRequestPath(this.dbURL, userId, "messages");
-        console.log(requestPath);
         var jsonMessage = JSON.stringify([
             {
                 date: messageObject.date,
@@ -201,7 +196,7 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
         );
         return this.dataSource
             .request(requestPath, null, "GET", "application/json")
-            .then(function setUserData(data) {
+            .then(function setUserData() {
                 return count;
             });
     };
@@ -213,7 +208,6 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
         settingsObject
     ) {
         var requestPath = this.createRequestPath(this.dbURL, userId, "settings");
-        console.log(requestPath);
         var jsonSettings = JSON.stringify([
             {
                 userSettings: {

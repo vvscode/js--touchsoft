@@ -3,7 +3,7 @@
 /* global userListManager */
 /* global dashboardDataSource */
 /* global dashboardControllerConfig */
-var dashboardController = (function createController(
+this.dashboardController = (function createController(
     userListManagerObject,
     chatManagerObject,
     dashboardDataSourceObject,
@@ -282,6 +282,7 @@ var dashboardController = (function createController(
                             userList[currentUserId]
                         );
                     }
+                    return true;
                 });
             })
             .then(function setNemList () {
@@ -305,15 +306,15 @@ var dashboardController = (function createController(
         var controllerRef = this;
         controllerRef.dataSourceModule.oneUserAPI
             .getAmountOfNoReadMessage()
-            .then(function(count) {
+            .then(function getNoRead (count) {
                 controllerRef.chatModule.newMessagesCounter = count;
                 currentUserId = userId;
                 controllerRef.saveCurrentConditionToLocalStorage();
             })
-            .then(function() {
+            .then(function getData() {
                 controllerRef.dataSourceModule.oneUserAPI
                     .getUserData(userId)
-                    .then(function(data) {
+                    .then(function displayData (data) {
                         controllerRef.updateUserMessagesAndDisplayIt(data);
                     });
             });
