@@ -1,4 +1,9 @@
-/* global getElement */
+/* exported getElement */
+/* exported dataBaseUrl */
+/* exported dataSourceConfig */
+/* exported userListManagerConfig */
+/* exported chatManagerConfig */
+/* exported dashboardControllerConfig */
 var getElement = function getElementFromDOM (selector, isAll) {
     if(isAll) {
         return document.querySelectorAll("." + selector);

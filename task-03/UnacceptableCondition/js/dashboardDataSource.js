@@ -1,4 +1,3 @@
-
 /* global dataBaseUrl */
 /* global dataSourceConfig */
 /* exported dashboardDataSource */

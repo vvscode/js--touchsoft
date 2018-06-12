@@ -1,8 +1,10 @@
-/* global userListManager */
+/* exported userListManager */
 /* global getElement */
+/* global sorter */
+/* global userListManagerConfig */
 // Модуль содержит объект списка юзеров и функции для работы с этим списком
 // такие как фильтрация, сортировка и тд
-var userListManager = (function(sortObject, configObject) {
+var userListManager = (function createUserList (sortObject, configObject) {
     //  ////////////////////////////////////////////////////////////////////////
     /* Формат объекта в списке юзера
       * userId: "Ivan300000",
@@ -93,7 +95,7 @@ var userListManager = (function(sortObject, configObject) {
 
     // Делает невидимыми тех пользователей в списке, в именах которых нет переданной подстроки
     UserListManager.prototype.filterByName = function filterByName(str) {
-        this.uList.forEach(function(element) {
+        this.uList.forEach(function filterName (element) {
             element.visible = element.userId.indexOf(str) !== -1;
         });
     };

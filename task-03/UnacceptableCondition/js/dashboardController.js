@@ -303,10 +303,10 @@ var dashboardController = (function createController(
     ) {
         var controllerRef = this;
         controllerRef.dataSourceModule.oneUserAPI
-                    .getUserData(userId)
-                    .then(function updateMessages (data) {
-                        controllerRef.updateUserMessagesAndDisplayIt(data);
-                    });
+            .getUserData(userId)
+            .then(function updateMessages (data) {
+                controllerRef.updateUserMessagesAndDisplayIt(data);
+            });
     };
 
     // Обновлет массив сообщений в модуле чата и выводит их на экран
