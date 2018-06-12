@@ -131,6 +131,8 @@ var dashboardController = (function createController(
             });
     };
 
+
+
     // фильтрация списка юзеров
     DashboardController.prototype.filter = function filter() {
         filterBy = this.DOMVariables.filterInput.value;
@@ -269,7 +271,7 @@ var dashboardController = (function createController(
         controllerRef.dataSourceModule.allUsersAPI
             .getAllUsers()
             .then(function update (userList) {
-                Object.keys(userList).map(function addusers(userId) {
+                Object.keys(userList).map(function addUsers(userId) {
                     controllerRef.addUserToUsersArray(
                         userList[userId],
                         userId,
@@ -280,7 +282,6 @@ var dashboardController = (function createController(
                             userList[currentUserId]
                         );
                     }
-                    return true;
                 });
             })
             .then(function setNemList () {
@@ -303,9 +304,18 @@ var dashboardController = (function createController(
     ) {
         var controllerRef = this;
         controllerRef.dataSourceModule.oneUserAPI
-            .getUserData(userId)
-            .then(function updateMessages (data) {
-                controllerRef.updateUserMessagesAndDisplayIt(data);
+            .getAmountOfNoReadMessage()
+            .then(function(count) {
+                controllerRef.chatModule.newMessagesCounter = count;
+                currentUserId = userId;
+                controllerRef.saveCurrentConditionToLocalStorage();
+            })
+            .then(function() {
+                controllerRef.dataSourceModule.oneUserAPI
+                    .getUserData(userId)
+                    .then(function(data) {
+                        controllerRef.updateUserMessagesAndDisplayIt(data);
+                    });
             });
     };
 
@@ -361,7 +371,7 @@ var dashboardController = (function createController(
         }
     };
 
-    DashboardController.prototype.sendMessageToUser = function sendMessageToUser() {
+    DashboardController.prototype.sendMessageToUser = function sendMessageToUser () {
         var controllerRef = this;
         var value = controllerRef.getMessageFromInputElement();
         var messageDate = controllerRef.chatModule.getCurrentDate();

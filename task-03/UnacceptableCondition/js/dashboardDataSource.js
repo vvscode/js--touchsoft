@@ -97,6 +97,7 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
     DashboardDataSource.prototype.getUserData = function getUserData(userId) {
         var userData = {};
         var requestPath = this.createRequestPath(this.dbURL, userId, null);
+        console.log(requestPath);
         return this.dataSource
             .request(requestPath, null, "GET", "application/json")
             .then(function setUserData(data) {
@@ -122,6 +123,7 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
             userId,
             "noReadMessage"
         );
+        console.log(requestPath);
         var jsonMessage = JSON.stringify({
             count: count
         });
@@ -139,6 +141,7 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
         fieldName
     ) {
         var requestPath = this.createRequestPath(this.dbURL, userId, fieldName);
+        console.log(requestPath);
         return this.dataSource.request(
             requestPath,
             null,
@@ -154,6 +157,7 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
         value
     ) {
         var requestPath = this.createRequestPath(this.dbURL, userId, fieldName);
+        console.log(requestPath);
         return this.dataSource.request(
             requestPath,
             JSON.stringify(value),
@@ -168,6 +172,7 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
         messageObject
     ) {
         var requestPath = this.createRequestPath(this.dbURL, userId, "messages");
+        console.log(requestPath);
         var jsonMessage = JSON.stringify([
             {
                 date: messageObject.date,
@@ -184,12 +189,31 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
         );
     };
 
+    // Получает количество непрочитанных юзером сообщений
+    DashboardDataSource.prototype.getAmountOfNoReadMessage = function getAmountOfNoReadMessage(
+        userId
+    ) {
+        var count = 0;
+        var requestPath = this.createRequestPath(
+            this.dbURL,
+            userId,
+            "noReadMessage"
+        );
+        return this.dataSource
+            .request(requestPath, null, "GET", "application/json")
+            .then(function setUserData(data) {
+                return count;
+            });
+    };
+
+
     // изменить настройки пользователя
     DashboardDataSource.prototype.setUserSettings = function setUserSettings(
         userId,
         settingsObject
     ) {
         var requestPath = this.createRequestPath(this.dbURL, userId, "settings");
+        console.log(requestPath);
         var jsonSettings = JSON.stringify([
             {
                 userSettings: {
@@ -248,6 +272,9 @@ var dashboardDataSource = (function createDashboardDataSource (dataSourceObject,
                 dashboardDataSourceInstance
             ),
             setAmountOfNoReadMessage: dashboardDataSourceInstance.setAmountOfNoReadMessage.bind(
+                dashboardDataSourceInstance
+            ),
+            getAmountOfNoReadMessage: dashboardDataSourceInstance.getAmountOfNoReadMessage.bind(
                 dashboardDataSourceInstance
             ),
             setField: dashboardDataSourceInstance.setSettingField.bind(

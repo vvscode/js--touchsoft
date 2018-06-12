@@ -4,13 +4,13 @@
 /* exported userListManagerConfig */
 /* exported chatManagerConfig */
 /* exported dashboardControllerConfig */
-this.getElement = function getElementFromDOM (selector, isAll) {
+var getElement = function getElementFromDOM (selector, isAll) {
     if(isAll) {
         return document.querySelectorAll("." + selector);
     }
     return document.querySelector("." + selector);
 };
-dataBaseUrl = "https://touchsoftchatproject.firebaseio.com";
+var dataBaseUrl = "https://touchsoftchatproject.firebaseio.com";
 var dataSourceConfig = {
     typeOfRequest: "fetch"
 };
