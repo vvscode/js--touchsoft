@@ -1,16 +1,16 @@
 /* exported getElement */
-/* exported dataBaseUrl */
+/* exports dataBaseUrl */
 /* exported dataSourceConfig */
 /* exported userListManagerConfig */
 /* exported chatManagerConfig */
 /* exported dashboardControllerConfig */
-var getElement = function getElementFromDOM (selector, isAll) {
+this.getElement = function getElementFromDOM (selector, isAll) {
     if(isAll) {
         return document.querySelectorAll("." + selector);
     }
     return document.querySelector("." + selector);
 };
-var dataBaseUrl = "https://touchsoftchatproject.firebaseio.com";
+dataBaseUrl = "https://touchsoftchatproject.firebaseio.com";
 var dataSourceConfig = {
     typeOfRequest: "fetch"
 };
