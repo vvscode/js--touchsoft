@@ -1,9 +1,9 @@
-/* exported chatManager */
-/* exported getElement */
-/* exported chatManagerConfig */
-/* exported userListManager */
-/* exported dashboardDataSource */
-/* exported dashboardControllerConfig */
+/* global chatManager */
+/* global getElement */
+/* global chatManagerConfig */
+/* global userListManager */
+/* global dashboardDataSource */
+/* global dashboardControllerConfig */
 var dashboardController = (function createController(
     userListManagerObject,
     chatManagerObject,
