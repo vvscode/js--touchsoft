@@ -1,4 +1,10 @@
-var dashboardController = (function(
+/* exported chatManager */
+/* exported getElement */
+/* exported chatManagerConfig */
+/* exported userListManager */
+/* exported dashboardDataSource */
+/* exported dashboardControllerConfig */
+var dashboardController = (function createController(
     userListManagerObject,
     chatManagerObject,
     dashboardDataSourceObject,
@@ -47,7 +53,7 @@ var dashboardController = (function(
         this.setupIntervalFunctions();
     };
 
-    DashboardController.prototype.setupCommonListenerFunctions = function() {
+    DashboardController.prototype.setupCommonListenerFunctions = function setupCommonListenerFunctions() {
         this.DOMVariables.sendMessageButton.addEventListener(
             "click",
             this.sendMessageToUser.bind(this)
@@ -66,7 +72,7 @@ var dashboardController = (function(
         );
     };
 
-    DashboardController.prototype.saveCurrentConditionToLocalStorage = function() {
+    DashboardController.prototype.saveCurrentConditionToLocalStorage = function saveCurrentConditionToLocalStorage() {
         var serialCondition = JSON.stringify({
             filter: filterBy,
             sort: sortBy,
@@ -75,7 +81,7 @@ var dashboardController = (function(
         localStorage.setItem("currentCondition", serialCondition);
     };
 
-    DashboardController.prototype.getCurrentUserIdFromLocalStorage = function() {
+    DashboardController.prototype.getCurrentUserIdFromLocalStorage = function getCurrentUserIdFromLocalStorage() {
         var serialCondition = localStorage.getItem("currentCondition");
         var condition = null;
         if (serialCondition) {
@@ -87,7 +93,7 @@ var dashboardController = (function(
         return condition;
     };
 
-    DashboardController.prototype.localSettingsSetup = function(condition) {
+    DashboardController.prototype.localSettingsSetup = function localSettingsSetup(condition) {
         if (condition) {
             if (condition.filter) {
                 this.DOMVariables.filterInput.value = condition.filter;
@@ -104,23 +110,24 @@ var dashboardController = (function(
         }
     };
 
-    ///////// WORK WITH USERS_MODULE /////////
+    // /////// WORK WITH USERS_MODULE // ///////
 
-    DashboardController.prototype.getUsersListFromDataSource = function() {
+    DashboardController.prototype.getUsersListFromDataSource = function getUsersListFromDataSource () {
         var usersList = [];
         var controllerRef = this;
         return this.dataSourceModule.allUsersAPI
             .getAllUsers()
-            .then(function(userData) {
-                Object.keys(userData).map(function(userId) {
+            .then(function setUserData (userData) {
+                Object.keys(userData).map(function setUserSetting (userId) {
                     controllerRef.addUserToUsersArray(
                         userData[userId],
                         userId,
                         usersList
                     );
+                    return true;
                 });
             })
-            .then(function() {
+            .then(function returnUsersList () {
                 return usersList;
             });
     };
@@ -160,7 +167,7 @@ var dashboardController = (function(
     };
 
     // Помечает канал юзера как прочитанный (если там есть непрочитанные сообщения)
-    DashboardController.prototype.markMessageFromUserAsRead = function(userId) {
+    DashboardController.prototype.markMessageFromUserAsRead = function markMessageFromUserAsRead (userId) {
         var userIndex = this.usersModule.getUserFromUserListById(userId);
         this.usersModule.uList[userIndex].sendNewMessage = false;
         this.dataSourceModule.oneUserAPI.setField(
@@ -171,20 +178,20 @@ var dashboardController = (function(
     };
 
     // Инициализация usersModule - цепочка промисов обновляющая usersList и его представление на экране
-    DashboardController.prototype.setupUsersListBlock = function(newUserList) {
+    DashboardController.prototype.setupUsersListBlock = function setupUsersListBlock (newUserList) {
         this.setupUsersListeners(newUserList);
     };
 
     // Добавляет юзер лист в юзер лист модуль. Важно: если передан как параметр новый юзер лист
     // (нужно для обновления), то добавляется он, иначе данные берутся с сервера
     // объект Promise создается для совместимости
-    DashboardController.prototype.setUsersListToUsersModule = function(
+    DashboardController.prototype.setUsersListToUsersModule = function setUsersListToUsersModule(
         newUserList
     ) {
         var controllerRef = this;
         if (!newUserList) {
             return this.getUsersListFromDataSource()
-                .then(function(usersListObject) {
+                .then(function getUserListObj (usersListObject) {
                     controllerRef.usersModule.setUserList(usersListObject);
                 })
                 .then(function localSettingsSetup() {
@@ -192,14 +199,14 @@ var dashboardController = (function(
                     controllerRef.localSettingsSetup(condition);
                 });
         }
-        return new Promise(function(resolve) {
+        return new Promise(function elseResolve (resolve) {
             resolve(controllerRef.usersModule.setUserList(newUserList));
         });
     };
 
-    DashboardController.prototype.displayUsersList = function(newUserList) {
+    DashboardController.prototype.displayUsersList = function displayUsersList(newUserList) {
         var controllerRef = this;
-        return this.setUsersListToUsersModule(newUserList).then(function() {
+        return this.setUsersListToUsersModule(newUserList).then(function displayUsersList () {
             controllerRef.usersModule.displayUsers();
         });
     };
@@ -208,7 +215,7 @@ var dashboardController = (function(
         newUserList
     ) {
         var controllerRef = this;
-        return this.displayUsersList(newUserList).then(function() {
+        return this.displayUsersList(newUserList).then(function setDOM () {
             controllerRef.DOMVariables.users = getElement(
                 controllerRef.usersModule.config.USER_ELEMENT_CSS_CLASS, true
             );
@@ -216,9 +223,9 @@ var dashboardController = (function(
     };
 
     // Переключает стили в списке юзеров у юзера, если от него есть новые не прочитанные мессаджи
-    DashboardController.prototype.blinkNewMessageFromUsers = function() {
+    DashboardController.prototype.blinkNewMessageFromUsers = function blinkNewMessageFromUsers() {
         var controllerRef = this;
-        Object.keys(controllerRef.usersModule.uList).map(function(key) {
+        Object.keys(controllerRef.usersModule.uList).map(function blink(key) {
             if (!controllerRef.usersModule.uList[key].sendNewMessage) {
                 controllerRef.usersModule.uList[key].userElement.classList.remove(
                     controllerRef.config.CSS_HAVE_NEW_MESSAGE_STYLE
@@ -228,6 +235,7 @@ var dashboardController = (function(
                     controllerRef.config.CSS_HAVE_NEW_MESSAGE_STYLE
                 );
             }
+            return true;
         });
     };
 
@@ -235,8 +243,8 @@ var dashboardController = (function(
         newUserList
     ) {
         var controllerRef = this;
-        return this.getAcessToUsersList(newUserList).then(function() {
-            Array.from(controllerRef.DOMVariables.users).forEach(function(element) {
+        return this.getAcessToUsersList(newUserList).then(function getAcess () {
+            Array.from(controllerRef.DOMVariables.users).forEach(function addListeners (element) {
                 element.addEventListener(
                     "click",
                     controllerRef.userListener.bind(
@@ -248,7 +256,7 @@ var dashboardController = (function(
         });
     };
 
-    DashboardController.prototype.userListener = function(userId) {
+    DashboardController.prototype.userListener = function userListener(userId) {
         this.startConversationWithUser(userId);
         this.markMessageFromUserAsRead(userId);
     };
@@ -261,8 +269,8 @@ var dashboardController = (function(
         var intermediateList = [];
         controllerRef.dataSourceModule.allUsersAPI
             .getAllUsers()
-            .then(function(userList) {
-                Object.keys(userList).map(function(userId) {
+            .then(function update (userList) {
+                Object.keys(userList).map(function addusers(userId) {
                     controllerRef.addUserToUsersArray(
                         userList[userId],
                         userId,
@@ -273,9 +281,10 @@ var dashboardController = (function(
                             userList[currentUserId]
                         );
                     }
+                    return true;
                 });
             })
-            .then(function() {
+            .then(function setNemList () {
                 uModuleRef.uList = intermediateList;
                 if (filterBy) {
                     controllerRef.filter();
@@ -287,7 +296,7 @@ var dashboardController = (function(
             });
     };
 
-    ///////// WORK CHAT_MODULE /////////
+    // /////// WORK CHAT_MODULE /////////
 
     // Открывает чат с юзером, загружает мессаджи юзера и отображает их
     DashboardController.prototype.startConversationWithUser = function startConversationWithUser(
@@ -296,7 +305,7 @@ var dashboardController = (function(
         var controllerRef = this;
         controllerRef.dataSourceModule.oneUserAPI
                     .getUserData(userId)
-                    .then(function(data) {
+                    .then(function updateMessages (data) {
                         controllerRef.updateUserMessagesAndDisplayIt(data);
                     });
     };
@@ -321,7 +330,7 @@ var dashboardController = (function(
     ) {
         var controllerRef = this;
         if(userData.messages) {
-            Object.keys(userData.messages).map(function(key) {
+            Object.keys(userData.messages).map(function addToMessageArray (key) {
                 var messageObject;
                 var message = userData.messages[key][0].message;
                 var date = userData.messages[key][0].date;
@@ -339,7 +348,7 @@ var dashboardController = (function(
     };
 
     // data - объект данных пользователя на сервере
-    DashboardController.prototype.setNewMessagesCounter = function(userData) {
+    DashboardController.prototype.setNewMessagesCounter = function setNewMessagesCounter (userData) {
         if (!userData.readLastMessage && userData.noReadMessage) {
             this.chatModule.newMessagesCounter = userData.noReadMessage.count;
         } else {
@@ -384,27 +393,27 @@ var dashboardController = (function(
         controllerRef.chatModule.displayMessages();
     };
 
-    DashboardController.prototype.getMessageFromInputElement = function() {
+    DashboardController.prototype.getMessageFromInputElement = function getMessageFromInputElement () {
         var value = this.DOMVariables.messageInput.value;
         this.DOMVariables.messageInput.value = "";
         return value;
     };
 
     // Закрывает канал общения с юзером и чат
-    DashboardController.prototype.closeConversation = function() {
+    DashboardController.prototype.closeConversation = function closeConversation () {
         this.DOMVariables.chat.classList.add(this.config.CSS_INVISIBLE_STYLE);
         currentUserId = null;
         this.saveCurrentConditionToLocalStorage();
     };
 
-    ///////// WORK WITH INTERVAL /////////
+    //  /////// WORK WITH INTERVAL /////////
 
-    DashboardController.prototype.setupIntervalFunctions = function() {
+    DashboardController.prototype.setupIntervalFunctions = function setupIntervalFunctions () {
         var controllerRef = this;
-        setInterval(function() {
+        setInterval(function setIntervalUpdateUsers () {
             controllerRef.updateUsers();
         }, controllerRef.config.UPDATE_USERS_TIME);
-        setInterval(function() {
+        setInterval(function setIntervalBlink () {
             controllerRef.blinkNewMessageFromUsers();
         }, controllerRef.config.BLINK_NEW_MESSAGES_TIME);
     };

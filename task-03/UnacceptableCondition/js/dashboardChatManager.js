@@ -1,6 +1,9 @@
+/* exported chatManager */
+/* exported getElement */
+/* exported chatManagerConfig */
 // Модуль для работы со списком сообщений ОДНОГО пользователя
-var chatManager = (function(configObject) {
-    ////////////////////////////////////
+var chatManager = (function setupChatManager (configObject) {
+    //  //////////////////////////////////
     // Формат  messageList = [
     //    {
     //       sender: sender
@@ -10,11 +13,10 @@ var chatManager = (function(configObject) {
     //    },
     // ]
     // read - было ли прочитано сообщение
-    /////////////////////////////////////
-    var chatManagerInstance;
+    //  ///////////////////////////////////
 
-    function ChatManager(configObject) {
-        this.config = configObject;
+    function ChatManager(configObj) {
+        this.config = configObj;
         this.messageList = [];
         this.cDOM = {
             messagesBlock: getElement(
@@ -55,10 +57,11 @@ var chatManager = (function(configObject) {
 
     // Помечает сообщения как непрочитанные если флаг isRead = false;
     // идет по списку с конца и пока не встретит сообщение не Admin, ставит флаг read в false
-    ChatManager.prototype.updateMessageList = function(newMessageList) {
-        this.messageList = newMessageList;
+    ChatManager.prototype.updateMessageList = function updateMessageList (newMessageList) {
+        var i;
         var count = 0;
-        for (var i = this.messageList.length - 1; i >= 0; i--) {
+        this.messageList = newMessageList;
+        for (i = this.messageList.length - 1; i >= 0; i--) {
             if (this.messageList[i].sender === this.config.DEFAULT_ADMIN_NAME) {
                 if (count === this.newMessagesCounter) {
                     break;
@@ -69,7 +72,7 @@ var chatManager = (function(configObject) {
         }
     };
 
-    ChatManager.prototype.createMessageObject = function(
+    ChatManager.prototype.createMessageObject = function createMessageObject (
         message,
         date,
         sender,
@@ -83,7 +86,7 @@ var chatManager = (function(configObject) {
         };
     };
 
-    ChatManager.prototype.addMessageToMessageList = function(newMessage) {
+    ChatManager.prototype.addMessageToMessageList = function addMessageToMessageList (newMessage) {
         this.messageList.push(newMessage);
     };
 
@@ -92,7 +95,7 @@ var chatManager = (function(configObject) {
         var chatManagerRef = this;
         var element;
         this.clearChat();
-        this.messageList.forEach(function(messageObject) {
+        this.messageList.forEach(function createMessage (messageObject) {
             element = chatManagerRef.createMessageElement(
                 messageObject.message,
                 messageObject.date,
@@ -110,8 +113,6 @@ var chatManager = (function(configObject) {
         }
     };
 
-    chatManagerInstance = new ChatManager(configObject);
+    return new ChatManager(configObject);
 
-
-    return chatManagerInstance;
 })(chatManagerConfig);

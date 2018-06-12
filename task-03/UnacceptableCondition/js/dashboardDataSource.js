@@ -1,3 +1,7 @@
+/* exported chatManager */
+/* exported dataBaseUrl */
+/* exported chatManagerConfig */
+/* exported userListManager */
 // Модуль предоставляет способ отправки запроса к источнику данных
 // Для реквеста необходим путь, тело запроса, тип запроса
 // request возвращает Promise
@@ -63,13 +67,13 @@ var dataSource = (function getDataSourceAPI(dataSourceConfigurationObject) {
 
 // Модуль для получения данных
 // Все API функции возвращают промисы
-dashboardDataSource = (function(dataSourceObject, dataBaseUrl) {
+var dashboardDataSource = (function(dataSourceObject, dataBaseUrl) {
     var dashboardDataSourceInstance;
     var dashboardDataSourceAPI;
 
-    function DashboardDataSource(dataSourceObject, dataBaseUrl) {
-        this.dataSource = dataSourceObject;
-        this.dbURL = dataBaseUrl;
+    function DashboardDataSource(dataSourceObj, dataBasePath) {
+        this.dataSource = dataSourceObj;
+        this.dbURL = dataBasePath;
     }
 
     DashboardDataSource.prototype.createRequestPath = function createRequestPath(
@@ -98,8 +102,9 @@ dashboardDataSource = (function(dataSourceObject, dataBaseUrl) {
             .request(requestPath, null, "GET", "application/json")
             .then(function setUserData(data) {
                 if (data) {
-                    Object.keys(data).map(function(key) {
+                    Object.keys(data).map(function setData (key) {
                         userData[key] = data[key];
+                        return true;
                     });
                 }
             })
@@ -215,8 +220,9 @@ dashboardDataSource = (function(dataSourceObject, dataBaseUrl) {
             .request(requestPath, null, "GET", "application/json")
             .then(function setUsersList(data) {
                 if (data) {
-                    Object.keys(data).map(function(key) {
+                    Object.keys(data).map(function setData(key) {
                         usersDataList[key] = data[key];
+                        return true
                     });
                 }
             })
