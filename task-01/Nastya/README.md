@@ -1,1 +1,0 @@
-[Ссылка на рабочий код](http://jsbin.com/nayitux/1/edit?js,output)
