@@ -1,13 +1,18 @@
+/* global QUnit */
+/* global dashboardDataSource */
+/* global userListManager */
+/* global userListManagerConfig */
+/* global chatManager */
+/* global chatManagerConfig */
 var tests = QUnit.test;
 var module = QUnit.module;
 var testUserId = "TestUser1528804945467";
-
 module("dashboardDataSource tests");
 tests("dashboardDataSource.oneUserAPI.getUserData should receive valid data", function test(
     assert
 ) {
     var done = assert.async();
-    dashboardDataSource.oneUserAPI.getUserData(testUserId).then( function (data) {
+    dashboardDataSource.oneUserAPI.getUserData(testUserId).then( function getData (data) {
             assert.equal(typeof data.readLastMessage, "boolean", " readLastMessage has valid type");
             assert.equal(typeof data.sendNewMessage, "boolean", " sendNewMessage has valid type");
             assert.equal(typeof data.messages, "object", " messages has valid type");
@@ -29,12 +34,12 @@ tests("sendMessageToUser should send message to dataBase", function test(
     };
     dashboardDataSource.oneUserAPI.sendMessageToUser(testUserId, testMessageObject).then(
         function () {
-            dashboardDataSource.oneUserAPI.getUserData(testUserId).then(function (data) {
-                Object.keys(data.messages).map(function (elem) {
+            dashboardDataSource.oneUserAPI.getUserData(testUserId).then(function getData (data) {
+                Object.keys(data.messages).map(function getElem (elem) {
                     testData = data.messages[elem][0].message;
                 });
                 assert.equal(testData, "testMessage", " sendMessageToUser has valid type");
-            }).then(function () {
+            }).then(function setDone () {
                 done();
             })
         }
@@ -55,14 +60,14 @@ tests("setUserSettings should send user settings to dataBase", function test(
     };
     dashboardDataSource.oneUserAPI.setUserSettings(testUserId, testUserSettings).then(
         function () {
-            dashboardDataSource.oneUserAPI.getUserData(testUserId).then(function (data) {
+            dashboardDataSource.oneUserAPI.getUserData(testUserId).then(function getData (data) {
                 testData = data.settings[0].userSettings;
                 assert.equal(testData.isMinimize, true, " isMinimize has valid data");
                 assert.equal(testData.lastOnline, 1, " lastOnline has valid data");
                 assert.equal(testData.readLastMessage, true, "readLastMessage has valid data");
                 assert.equal(testData.sendNewMessage, true, "sendNewMessage has valid data");
                 assert.equal(testData.userName, "TestUser", "userName has valid data");
-            }).then(function () {
+            }).then(function setDone () {
                 done();
             })
         }
@@ -75,11 +80,11 @@ tests("setAmountOfNoReadMessage should send amount of noReadMessages to dataBase
     var testData;
     dashboardDataSource.oneUserAPI.setAmountOfNoReadMessage(testUserId, 15).then(
         function () {
-            dashboardDataSource.oneUserAPI.getUserData(testUserId).then(function (data) {
+            dashboardDataSource.oneUserAPI.getUserData(testUserId).then(function getData (data) {
                 testData = data.noReadMessage.count;
                 assert.equal(testData, 15, " setAmountOfNoReadMessage true");
 
-            }).then(function () {
+            }).then(function setDone () {
                 done();
             })
         }
@@ -92,11 +97,11 @@ tests("setField should set a field to dataBase", function test(
     var testField = "testField";
     dashboardDataSource.oneUserAPI.setField(testUserId, testField, 99).then(
         function () {
-            dashboardDataSource.oneUserAPI.getUserData(testUserId).then(function (data) {
+            dashboardDataSource.oneUserAPI.getUserData(testUserId).then(function getData (data) {
                 testData = data.testField;
                 assert.equal(testData, 99, " setField true");
 
-            }).then(function () {
+            }).then(function setDone () {
                 done();
             })
         }
@@ -108,10 +113,10 @@ tests("getField should get a field from dataBase", function test(
     var done = assert.async();
     var testField = "testField";
     dashboardDataSource.oneUserAPI.getField(testUserId, testField).then(
-        function (data) {
+        function getData (data) {
             assert.equal(testData, 99, " getField true");
 
-            }).then(function () {
+            }).then(function setDone () {
                 done();
     });
 });

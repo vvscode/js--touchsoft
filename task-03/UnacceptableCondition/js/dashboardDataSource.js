@@ -1,7 +1,7 @@
-/* exported chatManager */
-/* exported dataBaseUrl */
-/* exported chatManagerConfig */
-/* exported userListManager */
+
+/* global dataBaseUrl */
+/* global dataSourceConfig */
+/* exported dashboardDataSource */
 // Модуль предоставляет способ отправки запроса к источнику данных
 // Для реквеста необходим путь, тело запроса, тип запроса
 // request возвращает Promise
@@ -67,7 +67,7 @@ var dataSource = (function getDataSourceAPI(dataSourceConfigurationObject) {
 
 // Модуль для получения данных
 // Все API функции возвращают промисы
-var dashboardDataSource = (function(dataSourceObject, dataBaseUrl) {
+var dashboardDataSource = (function createDashboardDataSource (dataSourceObject, dataBaseUrl) {
     var dashboardDataSourceInstance;
     var dashboardDataSourceAPI;
 

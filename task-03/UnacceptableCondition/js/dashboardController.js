@@ -1,6 +1,5 @@
 /* global chatManager */
 /* global getElement */
-/* global chatManagerConfig */
 /* global userListManager */
 /* global dashboardDataSource */
 /* global dashboardControllerConfig */
@@ -206,7 +205,7 @@ var dashboardController = (function createController(
 
     DashboardController.prototype.displayUsersList = function displayUsersList(newUserList) {
         var controllerRef = this;
-        return this.setUsersListToUsersModule(newUserList).then(function displayUsersList () {
+        return this.setUsersListToUsersModule(newUserList).then(function displayUList () {
             controllerRef.usersModule.displayUsers();
         });
     };
@@ -343,6 +342,7 @@ var dashboardController = (function createController(
                     isRead
                 );
                 messageArray.push(messageObject);
+                return true;
             });
         }
     };

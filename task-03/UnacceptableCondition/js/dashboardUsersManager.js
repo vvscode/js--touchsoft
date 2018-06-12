@@ -1,7 +1,9 @@
+/* global userListManager */
+/* global getElement */
 // Модуль содержит объект списка юзеров и функции для работы с этим списком
 // такие как фильтрация, сортировка и тд
-userListManager = (function(sortObject, configObject) {
-    //////////////////////////////////////////////////////////////////////////
+var userListManager = (function(sortObject, configObject) {
+    //  ////////////////////////////////////////////////////////////////////////
     /* Формат объекта в списке юзера
       * userId: "Ivan300000",
       * userElement: UserListManager.createUserElement(userId, userIsOnline),
@@ -15,7 +17,7 @@ userListManager = (function(sortObject, configObject) {
       *
       * visible - отображать ли юзера на странице
       */
-    //////////////////////////////////////////////////////////////////////////
+    //  ////////////////////////////////////////////////////////////////////////
 
     function UserListManager(sortObj, configObj) {
         this.config = configObj;
@@ -65,25 +67,26 @@ userListManager = (function(sortObject, configObject) {
         return userDiv;
     };
 
-    UserListManager.prototype.setUserList = function(userLustObject) {
+    UserListManager.prototype.setUserList = function setUserList (userLustObject) {
         this.uList = userLustObject;
     };
 
     // Возвращает index юзера в списке юзера если он там находится. В противно случае возвращает null
-    UserListManager.prototype.getUserFromUserListById = function(userId) {
+    UserListManager.prototype.getUserFromUserListById = function getUserFromUserListById(userId) {
         var userManager = this;
         var userIndex = null;
-        Object.keys(userManager.uList).map(function(key) {
+        Object.keys(userManager.uList).map(function getKey (key) {
             if (userManager.uList[key].userId === userId) {
                 userIndex = key;
             }
+            return true;
         });
         return userIndex;
     };
 
     // Определяет онлайн юзера находя разницу между датой последнего конекта юзера с бд и текущим временем
     // возвращает true если юзер онлайн, false - оффлайн
-    UserListManager.prototype.userIsOnline = function(lastUserOnlineTime) {
+    UserListManager.prototype.userIsOnline = function userIsOnline (lastUserOnlineTime) {
         var date = new Date();
         return date.getTime() - lastUserOnlineTime <= this.config.ONLINE_INTERVAL;
     };
@@ -106,7 +109,7 @@ userListManager = (function(sortObject, configObject) {
     UserListManager.prototype.displayUsers = function displayUsers() {
         var userManager = this;
         this.clearUsersListDOM();
-        this.uList.forEach(function(elem) {
+        this.uList.forEach(function getElem (elem) {
             if (elem.visible) {
                 userManager.uDOM.usersList.appendChild(elem.userElement);
             }

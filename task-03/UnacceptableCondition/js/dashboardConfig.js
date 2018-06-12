@@ -1,3 +1,4 @@
+/* global getElement */
 var getElement = function getElementFromDOM (selector, isAll) {
     if(isAll) {
         return document.querySelectorAll("." + selector);
