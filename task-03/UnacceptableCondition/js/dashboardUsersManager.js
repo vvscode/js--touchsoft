@@ -4,7 +4,7 @@
 /* global userListManagerConfig */
 // Модуль содержит объект списка юзеров и функции для работы с этим списком
 // такие как фильтрация, сортировка и тд
-this.userListManager = (function createUserList (sortObject, configObject) {
+var userListManager = (function createUserList (sortObject, configObject) {
     //  ////////////////////////////////////////////////////////////////////////
     /* Формат объекта в списке юзера
       * userId: "Ivan300000",

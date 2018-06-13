@@ -1,10 +1,10 @@
 /* global dataBaseUrl */
 /* global dataSourceConfig */
-/* global dataSource */
+/* exported dashboardDataSource */
 // Модуль предоставляет способ отправки запроса к источнику данных
 // Для реквеста необходим путь, тело запроса, тип запроса
 // request возвращает Promise
-this.dataSource = (function getDataSourceAPI(dataSourceConfigurationObject) {
+var dataSource = (function getDataSourceAPI(dataSourceConfigurationObject) {
     var dataBaseConnector;
     var dataBaseAPI;
 
@@ -66,7 +66,7 @@ this.dataSource = (function getDataSourceAPI(dataSourceConfigurationObject) {
 
 // Модуль для получения данных
 // Все API функции возвращают промисы
-this.dashboardDataSource = (function createDashboardDataSource (dataSourceObject, dataBaseUrl) {
+var dashboardDataSource = (function createDashboardDataSource (dataSourceObject, dataBaseUrl) {
     var dashboardDataSourceInstance;
     var dashboardDataSourceAPI;
 

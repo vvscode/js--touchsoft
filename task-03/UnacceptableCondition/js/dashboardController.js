@@ -4,7 +4,7 @@
 /* global dashboardController */
 /* global dashboardDataSource */
 /* global dashboardControllerConfig */
-this.dashboardController = (function createController(
+var dashboardController = (function createController(
     userListManagerObject,
     chatManagerObject,
     dashboardDataSourceObject,
