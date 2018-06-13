@@ -1,0 +1,59 @@
+.inputArea{
+    position: relative;
+    top: 8px;
+    resize: none;
+    height: 20px;
+    width: 350px;
+}
+
+.position{
+    position: relative;
+    top: 8px;
+}
+
+.ui{
+    position: relative;
+    top: 14px;
+}
+
+.checkBox{
+    margin-left: 80px;
+}
+
+.network{
+    position: relative;
+    top: 16px;
+}
+
+.codeFromUse{
+    position: relative;
+    top: 20px;
+}
+
+#codeForInsert{
+    top: 25px;
+    height: 260px;
+    width: 430px;
+   /* resize: none;*/
+}
+#radioBox1{
+    margin-left: 20px;
+}
+#minimize{
+    margin-left: 59px;
+}
+#position-chat{
+    margin-left: 23px;
+}
+#title{
+    left: 20px;
+}
+#bot-name{
+    left: 17px;
+}
+#url{
+    left: 13px;
+}
+#classCSS{
+    left: 12px;
+}
