@@ -1,6 +1,6 @@
 /* global getElement */
 /* global chatManagerConfig */
-/* exports chatManager */
+/* exported chatManager */
 // Модуль для работы со списком сообщений ОДНОГО пользователя
 var chatManager = (function setupChatManager (configObject) {
     //  //////////////////////////////////
