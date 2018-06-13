@@ -1,5 +1,5 @@
 /* exported getElement */
-/* exports dataBaseUrl */
+/* exported dataBaseUrl */
 /* exported dataSourceConfig */
 /* exported userListManagerConfig */
 /* exported chatManagerConfig */
