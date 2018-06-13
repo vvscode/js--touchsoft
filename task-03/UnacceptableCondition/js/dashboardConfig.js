@@ -4,18 +4,18 @@
 /* exported userListManagerConfig */
 /* exported chatManagerConfig */
 /* exported dashboardControllerConfig */
-this.getElement = function getElementFromDOM (selector, isAll) {
+var getElement = function getElementFromDOM (selector, isAll) {
     if(isAll) {
         return document.querySelectorAll("." + selector);
     }
     return document.querySelector("." + selector);
 };
-this.dataBaseUrl = "https://touchsoftchatproject.firebaseio.com";
-this.dataSourceConfig = {
+var dataBaseUrl = "https://touchsoftchatproject.firebaseio.com";
+var dataSourceConfig = {
     typeOfRequest: "fetch"
 };
 
-this.userListManagerConfig = {
+var userListManagerConfig = {
     // Css классы для работы с объектом списка юзеров
     USER_ELEMENT_CSS_CLASS: "root-touchsoft-dashboard_user",
     USER_ID_ELEMENT_CSS_CLASS: "root-touchsoft-dashboard_user-id",
@@ -27,7 +27,7 @@ this.userListManagerConfig = {
     ONLINE_INTERVAL: 120000
 };
 
-this.chatManagerConfig = {
+var chatManagerConfig = {
     // Css класс для элеменат с сообщение, если юзер не прочитал сообщения
     CSS_USER_NOT_READ_MESSAGES: "root-touchsoft-dashboard_message-not-read",
     // Css класс DOM элемента в котором будем отображать сообщения
@@ -35,7 +35,7 @@ this.chatManagerConfig = {
     DEFAULT_ADMIN_NAME: "ADMIN"
 };
 
-this.dashboardControllerConfig = {
+var dashboardControllerConfig = {
     // Интервал обновления users list
     UPDATE_USERS_TIME: 5000,
     // ID DOM элемента дял ввода параметра фильтрации пользователей
