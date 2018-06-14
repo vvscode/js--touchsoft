@@ -1,3 +1,16 @@
 module.exports = {
-  extends: ['airbnb-base', 'prettier']
+  extends: ['airbnb-base', 'prettier'],
+  rules: {
+    'no-var': 'off',
+    'no-useless-concat': 'off',
+    'prefer-destructuring': 'off',
+    'prefer-arrow-callback': 'off',
+    'prefer-template': 'off',
+    'no-param-reassign': ['error', { props: false }],
+    'object-shorthand': 'off',
+    'no-plusplus': 'off'
+  },
+  env: {
+    browser: true
+  }
 };
