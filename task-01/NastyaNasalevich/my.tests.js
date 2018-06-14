@@ -1,16 +1,18 @@
+/* eslint-disable no-undef */
+
 QUnit.module('Create a chat', {
   after() {
     document.body.removeChild(document.getElementById("chat"));
   }
 });
 
-QUnit.test('Creating of chat', function(assert) {
+QUnit.test('Creating of chat', function test(assert) {
   var chat = createChat();
   addHistoryToPage();
   assert.ok(chat !== null, 'Chat created!');
 });
 
-QUnit.test('Creating of style', function(assert) {
+QUnit.test('Creating of style', function test(assert) {
   var style = createStyle();
   assert.ok(style !== null, 'Style created!');
 });
@@ -42,7 +44,7 @@ QUnit.test('Change the inner on the button', function test(assert) {
 
 QUnit.module('Format of the message');
 
-QUnit.test('Check format of the message', function(assert) {
+QUnit.test('Check format of the message', function test(assert) {
   var message = new Message(new Date(), 'YOU', 'Test message');
   var testMessage = (new Date()).toLocaleString("en-US", options) + " YOU" + '<br>' + 'Test message' + '<br>';
   assert.equal(testMessage, message.showMessage(), 'Format is suitable!');
@@ -77,7 +79,7 @@ QUnit.test('Saving reply to localStorage', function test(assert) {
   document.getElementById("sendButton").click();
   messagesArrayLength = JSON.parse(localStorage.getItem("historyArray")).length;
   done = assert.async();
-  setTimeout(function () {
+  setTimeout(function checkAddingAnswer() {
     assert.ok( JSON.parse(localStorage.getItem("historyArray")).length - messagesArrayLength > 0, 'Answer was added!');
     done();
   }, 15000);
@@ -90,7 +92,7 @@ QUnit.test('Display reply on history panel', function test(assert) {
   document.getElementById("sendButton").click();
   previosMessages = historyPanel.innerHTML;
   done = assert.async();
-  setTimeout(function () {
+  setTimeout(function compareButtons() {
     assert.notPropEqual( historyPanel.innerHTML, previosMessages, 'Answer was displayed on history panel!');
     done();
   }, 15000);
