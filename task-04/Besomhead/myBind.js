@@ -4,9 +4,9 @@
  * встроенному методу .bind у функций
  * https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/bind
  */
-Function.prototype.myBind = function myBind(context){
+Function.prototype.myBind = function myBind(context) {
   var self = this;
-  return function binded(){
+  return function binded() {
     self.apply(context, arguments);
-  }
+  };
 };
