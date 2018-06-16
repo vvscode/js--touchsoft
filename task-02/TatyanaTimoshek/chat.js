@@ -4,10 +4,10 @@ var config = {
   chatURL: 'https://tanyachatfb.firebaseio.com', //any
   cssClass: 'tsChatGreen', //tsChatOrange, tsChatYellow, tsChatGreen
   position: 'left', //left, right
-  allowToMinimize: true, //true, false
-  allowToDragAndDrop: true, //true, false
-  requireName: true, //true, false
-  showTime: true, //true, false
+  allowToMinimize: false, //true, false
+  allowToDragAndDrop: false, //true, false
+  requireName: false, //true, false
+  showTime: false, //true, false
   networkXHR: true, //true, false
   networkFetch: false //true, false
 };
