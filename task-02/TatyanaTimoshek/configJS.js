@@ -53,7 +53,7 @@ function createPage() {
       <div>\
           <input type="checkbox" id="requireName">\
       </div>\
-      <div>Show data/time</div>\
+      <div>Show time</div>\
       <div>\
           <input type="checkbox" id="showTime">\
       </div>\
@@ -75,7 +75,7 @@ function createPage() {
 function changeConfiguration() {
   var generatedCode = document.getElementById('generatedCode');
   generatedCode.innerText =
-    '<script type="text/javascript" src="chat.js"></script>\n' +
+    '<script type="text/javascript" src="https://rawgit.com/TatyanaTimoshek/js--touchsoft/TanyaChatSecondTask/task-02/TatyanaTimoshek/chat.js"></script>\n' +
     '<script type="text/javascript">' +
     'newConfig = {\n' +
     '    chatTitle: "' +
