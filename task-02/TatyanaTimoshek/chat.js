@@ -214,7 +214,7 @@ var tanyaChatStyles =
 var aboutUser;
 var info;
 var tofb;
-var postData;
+var postMyData;
 
 function generateId() {
   return Math.random()
@@ -410,22 +410,25 @@ function createMinimizeWindow() {
 }
 
 function DragAndDrop(elem) {
-  var x, y, left1, top1;
+  var x;
+  var y;
+  var left1;
+  var top1;
   if (!elem.style.cursor === 'move') return;
   document.onmousedown = function() {
     return false;
   };
   elem.style.cursor = 'move';
-  document.onmousemove = function(element) {
-    x = element.pageX;
-    y = element.pageY;
+  document.onmousemove = function(myelement) {
+    x = myelement.pageX;
+    y = myelement.pageY;
     left1 = elem.offsetLeft;
     top1 = elem.offsetTop;
     left1 = x - left1;
     top1 = y - top1;
-    document.onmousemove = function(element) {
-      x = element.pageX;
-      y = element.pageY;
+    document.onmousemove = function(myelement) {
+      x = myelement.pageX;
+      y = myelement.pageY;
       elem.style.top = y - top1 + 'px';
       elem.style.left = x - left1 + 'px';
     };
@@ -458,6 +461,7 @@ function scrollDown() {
 }
 
 function addMes(time, sender, text) {
+  var raw;
   var h = document.getElementById('idHistoryOfTanyaChat');
   var man = sender;
   if (man === 'Bot' && config.botName !== 'Bot') man = config.botName;
@@ -466,12 +470,12 @@ function addMes(time, sender, text) {
     console.log('ab ' + aboutUser.userName);
     console.log('sen ' + man);
   }
-  var raw = config.showTime ? time + ' ' : ' ';
+  raw = config.showTime ? time + ' ' : ' ';
   h.innerHTML = h.innerHTML + raw + man + ': ' + text + '<br>';
   scrollDown();
 }
 
-function postDataFetch(url, requestType, data) {
+function postMyDataFetch(url, requestType, data) {
   var body;
   if (requestType !== 'GET') {
     body = {
@@ -500,7 +504,7 @@ function postDataFetch(url, requestType, data) {
     });
 }
 
-function postDataXHR(url, requestType, data) {
+function postMyDataXHR(url, requestType, data) {
   var request;
   return new Promise(function(resolve) {
     request = new XMLHttpRequest();
@@ -516,7 +520,7 @@ function postDataXHR(url, requestType, data) {
 
 function findUserAndGetChatStatus(url, requestType) {
   var id;
-  postData(url, requestType, aboutUser).then(function(users) {
+  postMyData(url, requestType, aboutUser).then(function(users) {
     id = localStorage.getItem('idForTanyaChat');
     if (users !== null && id !== null) {
       if (users.userId === id) {
@@ -528,7 +532,7 @@ function findUserAndGetChatStatus(url, requestType) {
 }
 
 function getMessage(url, requestType) {
-  postData(url, requestType, tofb).then(function(messages) {
+  postMyData(url, requestType, tofb).then(function(messages) {
     if (messages !== null) {
       Object.keys(messages).forEach(function(message) {
         addMes(
@@ -541,11 +545,11 @@ function getMessage(url, requestType) {
   });
 }
 
-postData = function postData(url, requestType, data) {
+postMyData = function postMyData(url, requestType, data) {
   var typeOfRequest;
   if (config.networkFetch)
-    typeOfRequest = postDataFetch(url, requestType, data);
-  else typeOfRequest = postDataXHR(url, requestType, data);
+    typeOfRequest = postMyDataFetch(url, requestType, data);
+  else typeOfRequest = postMyDataXHR(url, requestType, data);
   return typeOfRequest;
 };
 
@@ -554,12 +558,12 @@ function forMinButton() {
     document.getElementById('idChatWindow').style.visibility = 'hidden';
     document.getElementById('idMinimizeWindow').style.visibility = 'visible';
     aboutUser.minChat = true;
-    postData(info.usersUrl, info.requestPut, aboutUser);
+    postMyData(info.usersUrl, info.requestPut, aboutUser);
   } else {
     document.getElementById('idChatWindow').style.visibility = 'visible';
     document.getElementById('idMinimizeWindow').style.visibility = 'hidden';
     aboutUser.minChat = false;
-    postData(info.usersUrl, info.requestPut, aboutUser);
+    postMyData(info.usersUrl, info.requestPut, aboutUser);
   }
 }
 
@@ -571,7 +575,7 @@ function botAnswer() {
     tofb.text =
       ' Response to "' + info.messagesQueue.shift().toUpperCase() + '"';
     addMes(tofb.time, tofb.sender, tofb.text);
-    postData(info.messagesUrl, info.requestPost, tofb);
+    postMyData(info.messagesUrl, info.requestPost, tofb);
     scrollDown();
   }
 }
@@ -584,7 +588,7 @@ function sendMessage() {
   tofb.time = currentTime.getHours() + ':' + currentTime.getMinutes();
   tofb.text = message;
   addMes(tofb.time, tofb.sender, tofb.text);
-  postData(info.messagesUrl, info.requestPost, tofb);
+  postMyData(info.messagesUrl, info.requestPost, tofb);
   scrollDown();
   info.messagesQueue.push(tofb.text);
   document.getElementById('idChatInputMessage').value = '';
@@ -655,7 +659,7 @@ function workWithEnteredName() {
   if (name !== null && name !== ' ') {
     console.log('good');
     aboutUser.userName = name;
-    postData(info.usersUrl, info.requestPut, aboutUser);
+    postMyData(info.usersUrl, info.requestPut, aboutUser);
     hideRequireNameWindow();
     restoreSettings();
   } else console.log('bad');
@@ -695,7 +699,7 @@ function init() {
 
 function acceptNewSettings() {
   console.log('new');
-  postDataFetch(info.settingsUrl, info.requestGet, config).then(function(
+  postMyDataFetch(info.settingsUrl, info.requestGet, config).then(function(
     newConfig
   ) {
     if (newConfig !== null) {
