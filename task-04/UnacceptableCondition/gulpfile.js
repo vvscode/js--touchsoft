@@ -12,6 +12,7 @@ var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var rimraf = require('rimraf');
 var browserSync = require("browser-sync");
+
 var reload = browserSync.reload;
 
 var path = {

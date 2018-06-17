@@ -4,44 +4,41 @@
  * https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
  */
 
-with(Array) {
-    prototype.myFilter = function myFilter(cb, context) {
-        var that = this;
-        var array = that.slice();
-        var list = [];
-        var i;
-        var j;
-        var cbResult;
-        var callback = cb.bind(context);
-        if (typeof callback !== "function") {
-            throw { error: "callback is not function"};
+Array.prototype.myFilter = function myFilter(cb, context) {
+    var that = this;
+    var array = that.slice();
+    var list = [];
+    var i;
+    var j;
+    var cbResult;
+    var callback = cb.bind(context);
+    if (typeof callback !== "function") {
+        throw { error: "callback is not function"};
+    }
+    for (i = 0; i < array.length; i++) {
+        if (array[i]) {
+            cbResult = callback(array[i], i, array);
+            i++;
+            break
         }
-        for (i = 0; i < array.length; i++) {
-            if (array[i]) {
-                cbResult = callback(array[i], i, array);
-                i++;
-                break
-            }
-        }
-        if (cbResult === false) {
-            return list;
-        }
-        if (cbResult === true || typeof cbResult === "string") {
-            for (j = 0; j < array.length; j++) {
-                list.push(array[j]);
-            }
-            return list;
-
-        }
-        list.push(cbResult);
-        for (i; i < array.length; i++) {
-            if (array[i]) {
-                cbResult = callback(array[i], i, array);
-                if (cbResult) {
-                    list.push(array[i]);
-                }
-            }
+    }
+    if (cbResult === false) {
+        return list;
+    }
+    if (cbResult === true || typeof cbResult === "string") {
+        for (j = 0; j < array.length; j++) {
+            list.push(array[j]);
         }
         return list;
-    };
-}
+    }
+    list.push(cbResult);
+    for (i; i < array.length; i++) {
+        if (array[i]) {
+            cbResult = callback(array[i], i, array);
+            if (cbResult) {
+                list.push(array[i]);
+            }
+        }
+    }
+    return list;
+};
