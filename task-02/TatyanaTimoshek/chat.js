@@ -214,6 +214,7 @@ var tanyaChatStyles =
 var aboutUser;
 var info;
 var tofb;
+var postMyData;
 
 function generateId() {
   return Math.random()
@@ -544,7 +545,7 @@ function getMessage(url, requestType) {
   });
 }
 
-var postMyData = function postMyData(url, requestType, data) {
+postMyData = function postMyData(url, requestType, data) {
   var typeOfRequest;
   if (config.networkFetch)
     typeOfRequest = postMyDataFetch(url, requestType, data);
