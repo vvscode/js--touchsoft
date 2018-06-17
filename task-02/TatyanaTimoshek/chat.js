@@ -214,7 +214,6 @@ var tanyaChatStyles =
 var aboutUser;
 var info;
 var tofb;
-var postMyData;
 
 function generateId() {
   return Math.random()
@@ -426,9 +425,9 @@ function DragAndDrop(elem) {
     top1 = elem.offsetTop;
     left1 = x - left1;
     top1 = y - top1;
-    document.onmousemove = function(myelement) {
-      x = myelement.pageX;
-      y = myelement.pageY;
+    document.onmousemove = function(element) {
+      x = element.pageX;
+      y = element.pageY;
       elem.style.top = y - top1 + 'px';
       elem.style.left = x - left1 + 'px';
     };
@@ -545,7 +544,7 @@ function getMessage(url, requestType) {
   });
 }
 
-postMyData = function postMyData(url, requestType, data) {
+var postMyData = function postMyData(url, requestType, data) {
   var typeOfRequest;
   if (config.networkFetch)
     typeOfRequest = postMyDataFetch(url, requestType, data);
