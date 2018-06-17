@@ -23,14 +23,14 @@
  *
  */
 
-function debounce(f, ms){
+function debounce(f, ms) {
   var timerID;
-  return function wrapper(param){
-    if (timerID !== null){
+  return function wrapper(param) {
+    if (timerID !== null) {
       clearTimeout(timerID);
     }
     timerID = setTimeout(f.bind(this, param), ms);
-  }
+  };
 }
 
 debounce();
