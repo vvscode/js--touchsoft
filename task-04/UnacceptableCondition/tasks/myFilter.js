@@ -1,4 +1,4 @@
-/*eslint no-extend-native: ["error", { "exceptions": ["Array"] }]*/
+/* eslint no-extend-native: ["error", { "exceptions": ["Array"] }] */
 
 /**
  * Написать реализацию метода .myFilter, который работает

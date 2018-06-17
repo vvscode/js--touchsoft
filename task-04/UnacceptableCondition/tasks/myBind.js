@@ -1,4 +1,4 @@
-/*eslint no-extend-native: ["error", { "exceptions": ["Function"] }]*/
+/* eslint no-extend-native: ["error", { "exceptions": ["Function"] }] */
 
 /**
  * Написать метод .myBind, который будет работать аналогично
