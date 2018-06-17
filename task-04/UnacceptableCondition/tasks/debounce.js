@@ -33,9 +33,7 @@ function debounce(callback, time) {
 
     return function start () {
 
-        if(timerId) {
-            clearTimeout(timerId);
-        }
+        clearTimeout(timerId);
 
         function setupTimer() {
             timerId = setTimeout(

@@ -1,3 +1,5 @@
+/*eslint no-extend-native: ["error", { "exceptions": ["Array"] }]*/
+
 /**
  * Написать реализацию метода .myFilter, который работает
  * аналогично оригинальному
@@ -12,8 +14,10 @@ Array.prototype.myFilter = function myFilter(cb, context) {
     var j;
     var cbResult;
     var callback = cb.bind(context);
+    var e = new Error("callback is not function");
+
     if (typeof callback !== "function") {
-        throw { error: "callback is not function"};
+        throw e;
     }
     for (i = 0; i < array.length; i++) {
         if (array[i]) {
