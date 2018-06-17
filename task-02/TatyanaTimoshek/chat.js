@@ -211,7 +211,10 @@ var tanyaChatStyles =
   ' box-shadow: 0.2em 0.2em 3px rgba(122,122,122,0.5);' +
   '}';
 
-var aboutUser, info, tofb;
+var aboutUser;
+var info;
+var tofb;
+var postData;
 
 function generateId() {
   return Math.random()
@@ -413,16 +416,16 @@ function DragAndDrop(elem) {
     return false;
   };
   elem.style.cursor = 'move';
-  document.onmousemove = function(el) {
-    x = el.pageX;
-    y = el.pageY;
+  document.onmousemove = function(element) {
+    x = element.pageX;
+    y = element.pageY;
     left1 = elem.offsetLeft;
     top1 = elem.offsetTop;
     left1 = x - left1;
     top1 = y - top1;
-    document.onmousemove = function(el) {
-      x = el.pageX;
-      y = el.pageY;
+    document.onmousemove = function(element) {
+      x = element.pageX;
+      y = element.pageY;
       elem.style.top = y - top1 + 'px';
       elem.style.left = x - left1 + 'px';
     };
@@ -448,15 +451,24 @@ function setVisibility() {
   }
 }
 
-function postDataFetch(url, requestType, data) {}
-function postDataXHR(url, requestType, data) {}
+function scrollDown() {
+  document.getElementById(
+    'idHistoryOfTanyaChat'
+  ).scrollTop = document.getElementById('idHistoryOfTanyaChat').scrollHeight;
+}
 
-function postData(url, requestType, data) {
-  var typeOfRequest;
-  if (config.networkFetch)
-    typeOfRequest = postDataFetch(url, requestType, data);
-  else typeOfRequest = postDataXHR(url, requestType, data);
-  return typeOfRequest;
+function addMes(time, sender, text) {
+  var h = document.getElementById('idHistoryOfTanyaChat');
+  var man = sender;
+  if (man === 'Bot' && config.botName !== 'Bot') man = config.botName;
+  if (man === 'You' && aboutUser.userName !== 'You') {
+    man = aboutUser.userName;
+    console.log('ab ' + aboutUser.userName);
+    console.log('sen ' + man);
+  }
+  var raw = config.showTime ? time + ' ' : ' ';
+  h.innerHTML = h.innerHTML + raw + man + ': ' + text + '<br>';
+  scrollDown();
 }
 
 function postDataFetch(url, requestType, data) {
@@ -529,6 +541,14 @@ function getMessage(url, requestType) {
   });
 }
 
+postData = function postData(url, requestType, data) {
+  var typeOfRequest;
+  if (config.networkFetch)
+    typeOfRequest = postDataFetch(url, requestType, data);
+  else typeOfRequest = postDataXHR(url, requestType, data);
+  return typeOfRequest;
+};
+
 function forMinButton() {
   if (aboutUser.minChat === false) {
     document.getElementById('idChatWindow').style.visibility = 'hidden';
@@ -541,26 +561,6 @@ function forMinButton() {
     aboutUser.minChat = false;
     postData(info.usersUrl, info.requestPut, aboutUser);
   }
-}
-
-function scrollDown() {
-  document.getElementById(
-    'idHistoryOfTanyaChat'
-  ).scrollTop = document.getElementById('idHistoryOfTanyaChat').scrollHeight;
-}
-
-function addMes(time, sender, text) {
-  var h = document.getElementById('idHistoryOfTanyaChat');
-  var man = sender;
-  if (man === 'Bot' && config.botName !== 'Bot') man = config.botName;
-  if (man === 'You' && aboutUser.userName !== 'You') {
-    man = aboutUser.userName;
-    console.log('ab ' + aboutUser.userName);
-    console.log('sen ' + man);
-  }
-  var raw = config.showTime ? time + ' ' : ' ';
-  h.innerHTML = h.innerHTML + raw + man + ': ' + text + '<br>';
-  scrollDown();
 }
 
 function botAnswer() {

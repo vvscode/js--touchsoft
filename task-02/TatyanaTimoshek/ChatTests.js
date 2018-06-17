@@ -142,7 +142,6 @@ QUnit.test('Check the bot response.', function(assert) {
 });
 
 QUnit.test('Check the format of the user and bot messages.', function(assert) {
-  var done;
   var currentTime = new Date();
   init();
   document.getElementById('idHistoryOfTanyaChat').innerHTML = '';
@@ -157,11 +156,11 @@ QUnit.test('Check the format of the user and bot messages.', function(assert) {
           currentTime.getMinutes() +
           ' You: ' +
           document.getElementById('idChatInputMessage').innerHTML
-      ) !== -1,
+      ) !== false,
     'The test is successful'
   );
   botAnswer();
-  done = assert.async();
+  var done = assert.async();
   setTimeout(function() {
     assert.ok(
       document
