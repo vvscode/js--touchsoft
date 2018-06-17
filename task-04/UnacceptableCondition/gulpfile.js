@@ -98,7 +98,7 @@ gulp.task('fonts:build', function buildFonts () {
 });
 
 gulp.task('watch', function watches (){
-    watch([path.watch.html], function watchHTML) {
+    watch([path.watch.html], function watchHTML () {
         gulp.start('html:build');
     });
     watch([path.watch.style], function watchStyle () {

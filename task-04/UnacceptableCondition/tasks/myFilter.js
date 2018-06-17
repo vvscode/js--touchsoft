@@ -3,44 +3,45 @@
  * аналогично оригинальному
  * https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
  */
-Array.prototype.myFilter = function myFilter (cb, contextArg) {
-    var that = this;
-    var array = that.slice();
-    return function test(callback, context) {
+
+with(Array) {
+    prototype.myFilter = function myFilter(cb, context) {
+        var that = this;
+        var array = that.slice();
         var list = [];
         var i;
         var j;
         var cbResult;
-        callback = callback.bind(context);
-        if(typeof callback !== "function") {
-            throw "callback is not function";
+        var callback = cb.bind(context);
+        if (typeof callback !== "function") {
+            throw { error: "callback is not function"};
         }
-        for(i = 0; i< array.length; i++) {
-            if(array[i]) {
-                cbResult =  callback(array[i], i, array);
+        for (i = 0; i < array.length; i++) {
+            if (array[i]) {
+                cbResult = callback(array[i], i, array);
                 i++;
                 break
             }
         }
-        if(cbResult === false) {
+        if (cbResult === false) {
             return list;
         }
-        if(cbResult === true || typeof cbResult === "string") {
-            for(j = 0; j <array.length; j++) {
+        if (cbResult === true || typeof cbResult === "string") {
+            for (j = 0; j < array.length; j++) {
                 list.push(array[j]);
             }
             return list;
 
         }
         list.push(cbResult);
-        for(i; i <array.length; i++) {
-            if(array[i]) {
+        for (i; i < array.length; i++) {
+            if (array[i]) {
                 cbResult = callback(array[i], i, array);
-                if(cbResult) {
+                if (cbResult) {
                     list.push(array[i]);
                 }
             }
         }
         return list;
-    }.call(undefined, cb, contextArg);
-};
+    };
+}

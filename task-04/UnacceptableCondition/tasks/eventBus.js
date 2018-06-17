@@ -16,6 +16,7 @@ EventBus.prototype.trigger = function trigger (a, b) {
             this.callbacs[a][i].apply(this, args);
         }
     }
+    return b;
 };
 
 EventBus.prototype.on = function on (a, b) {
