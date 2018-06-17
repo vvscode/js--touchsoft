@@ -9,10 +9,8 @@ function EventBus() {
     if (this[event] === undefined) {
       return;
     }
-    index = 2;
-    while (index < arguments.length && arguments[index] !== undefined) {
-      params.push(arguments[index]);
-      index++;
+    if(arguments.length > 2){
+      params = params.concat(Array.from(arguments).splice(2));
     }
     for (index = 0; index < this[event].length; index++) {
       this[event][index].apply(this, params);
