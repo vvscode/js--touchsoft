@@ -214,7 +214,6 @@ var tanyaChatStyles =
 var aboutUser;
 var info;
 var tofb;
-var postMyData;
 
 function generateId() {
   return Math.random()
@@ -518,6 +517,14 @@ function postMyDataXHR(url, requestType, data) {
   });
 }
 
+function postMyData(url, requestType, data) {
+  var typeOfRequest;
+  if (config.networkFetch)
+    typeOfRequest = postMyDataFetch(url, requestType, data);
+  else typeOfRequest = postMyDataXHR(url, requestType, data);
+  return typeOfRequest;
+}
+
 function findUserAndGetChatStatus(url, requestType) {
   var id;
   postMyData(url, requestType, aboutUser).then(function(users) {
@@ -544,14 +551,6 @@ function getMessage(url, requestType) {
     }
   });
 }
-
-postMyData = function postMyData(url, requestType, data) {
-  var typeOfRequest;
-  if (config.networkFetch)
-    typeOfRequest = postMyDataFetch(url, requestType, data);
-  else typeOfRequest = postMyDataXHR(url, requestType, data);
-  return typeOfRequest;
-};
 
 function forMinButton() {
   if (aboutUser.minChat === false) {
