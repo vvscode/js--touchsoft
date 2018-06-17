@@ -33,6 +33,7 @@ Parallel.prototype.job = function job (cb) {
 
 Parallel.prototype.done = function done (cb) {
     var that = done.that;
+    var j;
     if(typeof cb === "function") {
         that.callback = cb;
     } else {
@@ -45,12 +46,12 @@ Parallel.prototype.done = function done (cb) {
         setTimeout(that.callback,0, that.result);
     }
     if(that.currentStreams === 0) {
-        for( var j = that.currentStreams + 1; j <= that.maxStream; j++) {
+        for(j = that.currentStreams + 1; j <= that.maxStream; j++) {
             if(that.jobs.length > 0) {
                 if(that.countOfStartJob === that.countOfJob) {
                     break;
                 }
-                setTimeout(function() {
+                setTimeout(function timeout() {
                     if(that.jobs.length > 0) {
                         that.count++;
                         that.jobs.shift().call(that, that.done);

@@ -1,18 +1,18 @@
-'use strict';
-
-var gulp = require('gulp'),
-    watch = require('gulp-watch'),
-    prefixer = require('gulp-autoprefixer'),
-    uglify = require('gulp-uglify'),
-    sass = require('gulp-sass'),
-    sourcemaps = require('gulp-sourcemaps'),
-    rigger = require('gulp-rigger'),
-    cssmin = require('gulp-minify-css'),
-    imagemin = require('gulp-imagemin'),
-    pngquant = require('imagemin-pngquant'),
-    rimraf = require('rimraf'),
-    browserSync = require("browser-sync"),
-    reload = browserSync.reload;
+/* global require */
+/* global gulp */
+var gulp = require('gulp');
+var watch = require('gulp-watch');
+var prefixer = require('gulp-autoprefixer');
+var uglify = require('gulp-uglify');
+var sass = require('gulp-sass');
+var sourcemaps = require('gulp-sourcemaps');
+var rigger = require('gulp-rigger');
+var cssmin = require('gulp-minify-css');
+var imagemin = require('gulp-imagemin');
+var pngquant = require('imagemin-pngquant');
+var rimraf = require('rimraf');
+var browserSync = require("browser-sync");
+var reload = browserSync.reload;
 
 var path = {
     build: {
@@ -51,7 +51,7 @@ var config = {
 
 
 
-gulp.task("html:build", function () {
+gulp.task("html:build", function buildHTML () {
     gulp.src(path.src.html)
         .pipe(rigger())
         .pipe(gulp.dest(path.build.html))
@@ -59,7 +59,7 @@ gulp.task("html:build", function () {
 });
 
 
-gulp.task('js:build', function () {
+gulp.task('js:build', function buildJS () {
     gulp.src(path.src.js)
         .pipe(rigger())
         .pipe(sourcemaps.init())
@@ -69,7 +69,7 @@ gulp.task('js:build', function () {
         .pipe(reload({stream: true}));
 });
 
-gulp.task('style:build', function () {
+gulp.task('style:build', function buildStyles () {
     gulp.src(path.src.style)
         .pipe(sourcemaps.init())
         .pipe(sass())
@@ -80,7 +80,7 @@ gulp.task('style:build', function () {
         .pipe(reload({stream: true}));
 });
 
-gulp.task('image:build', function () {
+gulp.task('image:build', function buildImages () {
     gulp.src(path.src.img)
         .pipe(imagemin({
             progressive: true,
@@ -92,35 +92,35 @@ gulp.task('image:build', function () {
         .pipe(reload({stream: true}));
 });
 
-gulp.task('fonts:build', function() {
+gulp.task('fonts:build', function buildFonts () {
     gulp.src(path.src.fonts)
         .pipe(gulp.dest(path.build.fonts))
 });
 
-gulp.task('watch', function(){
-    watch([path.watch.html], function(event, cb) {
+gulp.task('watch', function watches (){
+    watch([path.watch.html], function watchHTML) {
         gulp.start('html:build');
     });
-    watch([path.watch.style], function(event, cb) {
+    watch([path.watch.style], function watchStyle () {
         gulp.start('style:build');
     });
-    watch([path.watch.js], function(event, cb) {
+    watch([path.watch.js], function watchJS () {
         gulp.start('js:build');
     });
-    watch([path.watch.img], function(event, cb) {
+    watch([path.watch.img], function watchImg () {
         gulp.start('image:build');
     });
-    watch([path.watch.fonts], function(event, cb) {
+    watch([path.watch.fonts], function watchFonts () {
         gulp.start('fonts:build');
     });
 });
 
-gulp.task('clean', function (cb) {
+gulp.task('clean', function clean (cb) {
     rimraf(path.clean, cb);
 });
 
 
-gulp.task('serve', function () {
+gulp.task('serve', function startServer () {
     browserSync(config);
     gulp.watch(path.src.html, ["html:build"]);
     gulp.watch(path.build.html).on('change', browserSync.reload);

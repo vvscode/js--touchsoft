@@ -1,3 +1,4 @@
+/* exported promisify */
 /**
  * Все асинхронные функции node.js и подавляющее большинство асинхронных функций внешних модулей
  * на данный момент всё же используют колбэки,
@@ -11,11 +12,11 @@
 
 function promisify() {
     var cb = arguments[arguments.length-1];
-    return function () {
+    return function returnFunc () {
         var args = [].slice.call(arguments);
         var context  = this;
-        return new Promise(function(resolve, reject) {
-            var callback = function () {
+        return new Promise(function newPromise (resolve, reject) {
+            var callback = function callbackFunc () {
                 if(arguments[0]){
                     reject( arguments[0]);
                 }

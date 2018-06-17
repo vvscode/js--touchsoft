@@ -1,10 +1,9 @@
-'use strict';
 /**
  * Написать реализацию метода .myFilter, который работает
  * аналогично оригинальному
  * https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
  */
-Array.prototype.myFilter = function (callback, context) {
+Array.prototype.myFilter = function myFilter (cb, contextArg) {
     var that = this;
     var array = that.slice();
     return function test(callback, context) {
@@ -43,5 +42,5 @@ Array.prototype.myFilter = function (callback, context) {
             }
         }
         return list;
-    }.call(undefined, callback, context);
+    }.call(undefined, cb, contextArg);
 };

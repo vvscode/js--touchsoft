@@ -1,3 +1,4 @@
+/* exported sum */
 /**
  * Написать фукнцию сумматор, которая будет работать
  * var s = sum();
@@ -9,10 +10,10 @@
  */
 function sum(){
     var count  = arguments[0] || 0;
-    var testSum = function (arg) {
+    var testSum = function getTestSum (arg) {
         return sum((arg || 0) + testSum);
     };
-    testSum.valueOf = function () {
+    testSum.valueOf = function getValue () {
         return count;
     };
     return testSum

@@ -1,3 +1,4 @@
+/* exported unpromisify */
 /**
  * Написать фукнцию обратную promisify
  *
@@ -7,14 +8,16 @@
 
 function unpromisify (promisify) {
     var promise = promisify;
-    return function () {
-        var args = [].slice.call(arguments);
+    var callback;
+    var args;
+    return function getUnpromisify () {
+        args = [].slice.call(arguments);
         if(typeof args[args.length -1] === "function") {
-            var callback = args[args.length - 1];
+            callback = args[args.length - 1];
             args.pop();
-            promise.apply(this, args).then( function(data){
+            promise.apply(this, args).then( function setApply(data){
                 callback(null, data)
-            }, function (data) {
+            }, function setData (data) {
                 callback(data)
             });
             return;
