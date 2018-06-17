@@ -7,9 +7,16 @@ module.exports = {
     'prefer-arrow-callback': 'off',
     'prefer-template': 'off',
     'no-param-reassign': ['error', { props: false }],
-    'object-shorthand': 'off'
+    'object-shorthand': 'off',
+    'no-plusplus': 'off',
+    'prefer-rest-params': 'off'
   },
   env: {
-    browser: true
+    browser: true,
+    node: false
+  },
+  parserOptions: {
+    sourceType: 'script',
+    ecmaFeatures: { impliedStrict: true }
   }
 };
