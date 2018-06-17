@@ -256,7 +256,7 @@ function generateCollapsedFeedback() {
     collapsedFeedback.id = "elemShowFeedback";
     collapsedFeedback.className = "collapsedFeedback";
     collapsedFeedback.innerHTML =
-        "<div class='drag_drop_collapsed' id='dragdrop'></div> <p class='chatName' id='chatName'></p><form><input type='text' id='messageArea'><input type='button' id='sendMessageButton' value='Send Message'><input type='button' value='<<' id='maximize'>" +
+        "<div class='dragDropCollapsed' id='dragdrop'></div> <p class='chatName' id='chatName'></p><form><input type='text' id='messageArea'><input type='button' id='sendMessageButton' value='Send Message'><input type='button' value='<<' id='maximize'>" +
         "<span class='nameNote'><p>User Name</p></span><input type='text' id='userName'></form>";
     return collapsedFeedback;
 }
@@ -274,7 +274,7 @@ function generateFeedback() {
     container.id = "feedBack";
     container.className = "feedBack";
     container.innerHTML =
-        "<div class='drag_drop' id='dragdrop'></div><p class='chatName' id='chatName'></p><form><input type='button' value='>>' class='collapse' id='collapse'><p><textarea id='messageHistory' rows=\"8\" cols=\"30\" name=\"text\" disabled>" +
+        "<div class='dragDrop' id='dragdrop'></div><p class='chatName' id='chatName'></p><form><input type='button' value='>>' class='collapse' id='collapse'><p><textarea id='messageHistory' rows=\"8\" cols=\"30\" name=\"text\" disabled>" +
         '</textarea></p><textarea id=\'userName\' rows="1" cols="10" name="text"></textarea><span class=\'nameNote\'>User Name</span>' +
         '</textarea></p><textarea id=\'messageArea\' rows="3" cols="30" name="text"></textarea>' +
         "<br></ber><input type='button' id='sendMessageButton' value='Send Message' disabled></form>";

@@ -1,5 +1,7 @@
 /* exported sendMessage showFeedback hideFeedback */
 /* global Promise */
+
+
 var configObj = {
     title: "Chat",
     name: "Bot",
@@ -18,245 +20,234 @@ var configObj = {
 var transferObject;
 var userId = localStorage.getItem("userId");
 
-function FetchObject() {
-    this.getMessages = function getMessage() {
-        var fetchPromise = new Promise(function sendRequest(resolve) {
-            fetch(configObj.url.concat("users/".concat(userId.concat("/messages.json"))), {
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveResponse(responseObj) {
-                            var arrayMessages = Object.keys(responseObj).map(function createNewArray(value) {
-                                return responseObj[value]
-                            });
-                            resolve(arrayMessages);
-                        })
-                })
-        });
-        return fetchPromise;
-    };
-    this.sendMessage = function sendMsg(message) {
-        var fetchPromise = new Promise(function sendRequest(resolve) {
-            fetch(configObj.url.concat("users/").concat(userId).concat("/messages.json"), {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(message)
-            })
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveStatus() {
-                            resolve(true);
-                        })
-                })
-        });
-        return fetchPromise;
-    };
-    this.createNewUser = function create() {
-        var fetchPromise = new Promise(function createPromise(resolve) {
-            fetch(configObj.url.concat("users.json"), {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                    {
-                        chatConfig: configObj,
-                        messages: ""
-                    })
-            })
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveResponse(responseObj) {
-                            localStorage.setItem("userId", responseObj.name);
-                            resolve(responseObj);
-                        })
-                })
-        });
-        return fetchPromise;
-    };
-    this.getUserConfig = function getUserConfig() {
-        var fetchPromise = new Promise(function sendRequest(resolve) {
-            fetch(configObj.url.concat("users/").concat(userId).concat("/chatConfig.json"), {
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveResponseObj(responseObj) {
-                            configObj = responseObj;
-                            resolve(responseObj);
-                        })
-                })
-        });
-        return fetchPromise;
-    };
-    this.setConfig = function setConfig(nameConfig, valueConfig) {
-        var config = {};
-        var fetchPromise;
-        config[nameConfig] = valueConfig;
-        fetchPromise = new Promise(function sendRequest(resolve) {
-            fetch(configObj.url.concat("users/").concat(userId).concat("/chatConfig/" + nameConfig + ".json"), {
-                method: 'PUT',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(valueConfig)
-            })
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveStatus() {
-                            resolve(true);
-                        })
-                })
-        });
-        return fetchPromise;
-    };
-    this.getConfig = function getConfig(nameConfig) {
-        var fetchPromise = new Promise(function sendRequest(resolve) {
-            fetch(configObj.url.concat("users/").concat(userId).concat("/chatConfig/" + nameConfig + ".json"), {
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveResponse(responseObj) {
-                            resolve(responseObj);
-                        })
-                })
-        });
-        return fetchPromise;
-    }
+
+function sendFetchRequest(methodRequest, config, nameConfig, bodyObject) {
+    return fetch(configObj.url.concat("users/").concat(userId).concat(config).concat(nameConfig).concat(".json"), {
+        method: methodRequest,
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(bodyObject)
+    })
 }
+
+function FetchObject() {
+}
+
+function sendXHRRequest(methodRequest, config, nameConfig, bodyObject) {
+    var xhr = new XMLHttpRequest();
+    xhr.open(methodRequest, configObj.url.concat("users/").concat(userId).concat(config).concat(nameConfig).concat(".json"));
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.send(JSON.stringify(bodyObject));
+    return xhr;
+}
+
+FINAL_STATE_RESPONSE = 4;
+OK_RESPONSE_STATUS = 200;
+
+
+XHRObject.prototype.getMessages = function getMessages() {
+    var arrayMessages;
+    var messages;
+    var XhrPromise = new Promise(function sendRequest(resolve) {
+        sendXHRRequest("GET", "/messages","").onreadystatechange = function responseReady() {
+            if (this.status === OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
+                arrayMessages = JSON.parse(this.response);
+                messages = "";
+                messages = Object.keys(arrayMessages).map(function createNewArray(value) {
+                    return arrayMessages[value]
+                });
+                resolve(messages);
+            }
+        }
+    });
+    return XhrPromise;
+};
+
+
+XHRObject.prototype.sendMessage = function sendMessage(message) {
+    var XhrPromise = new Promise(function sendRequest(resolve) {
+        sendXHRRequest("POST", "/messages", "", message).onreadystatechange = function responseReady() {
+            if (this.status === OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
+                resolve(true);
+            }
+        }
+    });
+    return XhrPromise;
+};
+
+
+XHRObject.prototype.getUserConfig = function getUserConfig() {
+    var XhrPromise = new Promise(function sendRequest(resolve) {
+        var responseObj;
+        sendXHRRequest("GET", "/chatConfig", "").onreadystatechange = function responseReady() {
+            if (this.status === OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
+                responseObj = JSON.parse(this.response);
+                configObj = responseObj;
+                resolve(responseObj);
+            }
+        }
+    });
+    return XhrPromise;
+};
+
+
+XHRObject.prototype.createNewUser = function createNewUser() {
+    var XhrPromise = new Promise(function sendRequest(resolve) {
+        var xhr = new XMLHttpRequest();
+        var response;
+        xhr.open('POST', configObj.url.concat("users.json"));
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(
+            {
+                chatConfig: configObj,
+                messages: ""
+            })
+        );
+        xhr.onreadystatechange = function responseReady() {
+            if (this.status === OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
+                response = JSON.parse(this.response);
+                localStorage.setItem("userId", response.name);
+                resolve(response);
+            }
+        }
+    });
+    return XhrPromise;
+};
+
+
+XHRObject.prototype.getConfig = function getConfig(nameConfig) {
+    var XhrPromise = new Promise(function sendRequest(resolve) {
+        sendXHRRequest("GET", "/chatConfig/", nameConfig).onreadystatechange = function responseReady() {
+            if (this.status === OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
+                resolve(JSON.parse(this.response));
+            }
+        }
+    });
+    return XhrPromise;
+};
+
+XHRObject.prototype.setConfig = function setConfig(nameConfig, valueConfig) {
+    var XhrPromise = new Promise(function sendRequest(resolve) {
+        sendXHRRequest("PUT", "/chatConfig/", nameConfig, valueConfig).onreadystatechange = function requestReady() {
+            if (this.status === 200 && this.readyState === 4) {
+                resolve(true);
+            }
+        }
+    });
+    return XhrPromise;
+};
 
 
 function XHRObject() {
-    var arrayMessages;
-    var messages;
     userId = localStorage.getItem("userId");
-    this.getMessages = function getMessages() {
-        var XhrPromise = new Promise(function sendRequest(resolve) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', configObj.url.concat("users/").concat(userId).concat("/messages.json"));
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send();
-            xhr.onreadystatechange = function responseReady() {
-                if (this.status === 200 && this.readyState === 4) {
-                    arrayMessages = JSON.parse(this.response);
-                    messages = "";
-                    messages = Object.keys(arrayMessages).map(function createNewArray(value) {
-                        return arrayMessages[value]
-                    });
-                    resolve(messages);
-                }
-            }
-        });
-        return XhrPromise;
-    };
-    this.sendMessage = function sendMsg(message) {
-        var XhrPromise = new Promise(function sendRequest(resolve) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', configObj.url.concat("users/").concat(userId).concat("/messages.json"));
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify(message));
-            xhr.onreadystatechange = function responseReady() {
-                if (this.status === 200 && this.readyState === 4) {
-                    resolve(true);
-                }
-            }
-        });
-        return XhrPromise;
-    };
-    this.createNewUser = function createNewUser() {
-        var XhrPromise = new Promise(function sendRequest(resolve) {
-            var xhr = new XMLHttpRequest();
-            var response;
-            xhr.open('POST', configObj.url.concat("users.json"));
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify(
+}
+
+
+FetchObject.prototype.getMessages = function getMessages() {
+    var fetchPromise = new Promise(function sendRequest(resolve) {
+        sendFetchRequest("GET", "/messages", "")
+            .then(function responseReady(response) {
+                response.json()
+                    .then(function resolveResponse(responseObj) {
+                        var arrayMessages = Object.keys(responseObj).map(function createNewArray(value) {
+                            return responseObj[value]
+                        });
+                        resolve(arrayMessages);
+                    })
+            })
+    });
+    return fetchPromise;
+};
+
+FetchObject.prototype.sendMessage = function (message) {
+    var fetchPromise = new Promise(function sendRequest(resolve) {
+        sendFetchRequest("POST", "/messages", "", message)
+            .then(function responseReady(response) {
+                response.json()
+                    .then(function resolveStatus() {
+                        resolve(true);
+                    })
+            })
+    });
+    return fetchPromise;
+};
+
+FetchObject.prototype.createNewUser = function create() {
+    var fetchPromise = new Promise(function createPromise(resolve) {
+        fetch(configObj.url.concat("users.json"), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
                 {
                     chatConfig: configObj,
                     messages: ""
                 })
-            );
-            xhr.onreadystatechange = function responseReady() {
-                if (this.status === 200 && this.readyState === 4) {
-                    response = JSON.parse(this.response);
-                    localStorage.setItem("userId", response.name);
-                    resolve(response);
-                }
-            }
-        });
-        return XhrPromise;
-    };
-    this.getUserConfig = function getUserConfig() {
-        var XhrPromise = new Promise(function sendRequest(resolve) {
-            var xhr = new XMLHttpRequest();
-            var responseObj;
-            xhr.open('GET', configObj.url.concat("users/").concat(userId).concat("/chatConfig.json"));
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send();
-            xhr.onreadystatechange = function responseReady() {
-                if (this.status === 200 && this.readyState === 4) {
-                    responseObj = JSON.parse(this.response);
-                    configObj = responseObj;
-                    resolve(responseObj);
-                }
-            }
-        });
-        return (XhrPromise);
-    };
-    this.setConfig = function setConfig(nameConfig, valueConfig) {
-        var XhrPromise = new Promise(function sendRequest(resolve) {
-            var xhr = new XMLHttpRequest();
-            var config = {};
-            config[nameConfig] = valueConfig;
-            xhr.open('PUT', configObj.url.concat("users/".concat(userId.concat("/chatConfig/" + nameConfig + ".json"))));
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify(valueConfig));
-            xhr.onreadystatechange = function requestReady() {
-                if (this.status === 200 && this.readyState === 4) {
-                    resolve(true);
-                }
-            }
-        });
-        return XhrPromise;
-    };
-    this.getConfig = function getConfig(nameConfig) {
-        var XhrPromise = new Promise(function getRequest(resolve) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', configObj.url.concat("users/").concat(userId).concat("/chatConfig/" + nameConfig + ".json"));
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send();
-            xhr.onreadystatechange = function responseReady() {
-                if (this.status === 200 && this.readyState === 4) {
-                    resolve(JSON.parse(this.response));
-                }
-            }
-        });
-        return XhrPromise;
-    }
-}
+        })
+            .then(function responseReady(response) {
+                response.json()
+                    .then(function resolveResponse(responseObj) {
+                        localStorage.setItem("userId", responseObj.name);
+                        resolve(responseObj);
+                    })
+            })
+    });
+    return fetchPromise;
+};
 
+FetchObject.prototype.getUserConfig = function getUserConfig() {
+    var fetchPromise = new Promise(function sendRequest(resolve) {
+        sendFetchRequest("GET", "/chatConfig", "")
+            .then(function responseReady(response) {
+                response.json()
+                    .then(function resolveResponseObj(responseObj) {
+                        configObj = responseObj;
+                        resolve(responseObj);
+                    })
+            })
+    });
+    return fetchPromise;
+};
+
+FetchObject.prototype.getConfig = function getConfig(nameConfig) {
+    var fetchPromise = new Promise(function sendRequest(resolve) {
+        sendFetchRequest("GET", "/chatConfig/", nameConfig)
+            .then(function responseReady(response) {
+                response.json()
+                    .then(function resolveResponse(responseObj) {
+                        resolve(responseObj);
+                    })
+            })
+    });
+    return fetchPromise;
+};
+
+FetchObject.prototype.setConfig = function setConfig(nameConfig, valueConfig) {
+    var config = {};
+    var fetchPromise;
+    config[nameConfig] = valueConfig;
+    fetchPromise = new Promise(function sendRequest(resolve) {
+        sendFetchRequest("PUT", "/chatConfig/", nameConfig, valueConfig)
+            .then(function responseReady(response) {
+                response.json()
+                    .then(function resolveStatus() {
+                        resolve(true);
+                    })
+            })
+    });
+    return fetchPromise;
+}
 
 function generateCollapsedFeedback() {
     var collapsedFeedback = document.createElement("div");
     collapsedFeedback.id = "elemShowFeedback";
     collapsedFeedback.className = "collapsedFeedback";
     collapsedFeedback.innerHTML =
-        "<div class='drag_drop_collapsed' id='dragdrop'></div> <p class='chatName' id='chatName'></p><form><input type='text' id='messageArea'><input type='button' id='sendMessageButton' value='Send Message'><input type='button' value='<<' id='maximize'>" +
+        "<div class='dragDropCollapsed' id='dragdrop'></div> <p class='chatName' id='chatName'></p><form><input type='text' id='messageArea'><input type='button' id='sendMessageButton' value='Send Message'><input type='button' value='<<' id='maximize'>" +
         "<span class='nameNote'><p>User Name</p></span><input type='text' id='userName'></form>";
     return collapsedFeedback;
 }
@@ -274,7 +265,7 @@ function generateFeedback() {
     container.id = "feedBack";
     container.className = "feedBack";
     container.innerHTML =
-        "<div class='drag_drop' id='dragdrop'></div><p class='chatName' id='chatName'></p><form><input type='button' value='>>' class='collapse' id='collapse'><p><textarea id='messageHistory' rows=\"8\" cols=\"30\" name=\"text\" disabled>" +
+        "<div class='dragDrop' id='dragdrop'></div><p class='chatName' id='chatName'></p><form><input type='button' value='>>' class='collapse' id='collapse'><p><textarea id='messageHistory' rows=\"8\" cols=\"30\" name=\"text\" disabled>" +
         '</textarea></p><textarea id=\'userName\' rows="1" cols="10" name="text"></textarea><span class=\'nameNote\'>User Name</span>' +
         '</textarea></p><textarea id=\'messageArea\' rows="3" cols="30" name="text"></textarea>' +
         "<br></ber><input type='button' id='sendMessageButton' value='Send Message' disabled></form>";
@@ -602,7 +593,6 @@ function checkWindow() {
     }
 
 }
-
 
 window.onload = function check() {
     checkWindow();
