@@ -31,10 +31,10 @@
 
     };
 
+    window.scriptURL = "https://rawgit.com/Grexell/js--touchsoft/master/task-01/Grexell/chat.js";
     window.pattern = "<script src='" + window.scriptURL + "'></script>\n<script> (function(){\n" + 
     "initChat(" + window.keys.join(", ") + ");"
     + "})();</script";
-    window.scriptURL = "https://rawgit.com/Grexell/js--touchsoft/master/task-01/Grexell/chat.js";
     window.resultText = "chat-script-uses";
     
     window.printProperties = function (prop) {
@@ -81,9 +81,9 @@
     
     window.startGenerator = function () {
         var form = window.document.getElementById("chat-configurator");
-        var resultTextArea = window.document.getElementById(resultText);
+        var resultTextArea = window.document.getElementById(window.resultText);
     
-        properties = window.initProperties(form);
+        window.properties = window.initProperties(form);
         resultTextArea.value = window.printProperties(properties);
     
         form.onchange = window.changeProperties;
