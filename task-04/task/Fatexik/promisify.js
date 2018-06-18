@@ -8,3 +8,20 @@
  *
  * Аналог https://nodejs.org/api/util.html#util_util_promisify_original
  */
+function promisify(callBack) {
+    return function () {
+        var args = [].slice.call(arguments);
+        var context = this;
+        return new Promise(function (resolve, reject) {
+            function callBackPromise () {
+                if (arguments[0]) {
+                    reject(arguments[0]);
+                }
+                resolve(arguments[1])
+
+            };
+            args.push(callBackPromise);
+            callBack.apply(context, args);
+        })
+    }
+}

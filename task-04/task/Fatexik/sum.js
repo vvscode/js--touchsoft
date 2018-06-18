@@ -7,18 +7,17 @@
  * console.log(s(3)(4)(5)); // 12
  * Число вызовов может быть неограниченым
  */
-
-
-function sum(value){
-    var summ = value || 0;
+function sum(value) {
     function add(value) {
-        summ = summ + value;
-        return add;
+        return sum(value == null ? add.captured : add.captured + value);
     }
+    add.captured = value || 0;
     add.toString = function () {
-        return summ;
-    }
+        return add.captured;
+    };
     return add;
 }
+
+
 
 

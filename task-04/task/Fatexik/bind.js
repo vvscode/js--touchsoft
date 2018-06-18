@@ -5,7 +5,6 @@
  * var oGreet = bind(greet, o);
  * oGreet(); // 'Bob'
  */
-
 function bind(func,context){
     function getFunct () {
         return func.apply(context,arguments);
