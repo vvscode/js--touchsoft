@@ -29,7 +29,7 @@ QUnit.test("test init minimized", function (assert) {
 
 QUnit.test("test init userid", function (assert) {
     var userId = "test id";
-    localStorage.setItem(window.userIdKey, window.userId);
+    localStorage.setItem(window.userIdKey, userId);
 
     window.initUserId();
 
@@ -46,7 +46,7 @@ QUnit.test("test save userid", function (assert) {
 });
 
 QUnit.test("test init side", function (assert) {
-    var testSide = right;
+    var testSide = window.right;
     localStorage.setItem(window.sideKey, testSide);
 
     window.initSide();
