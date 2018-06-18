@@ -168,7 +168,7 @@ Module = (function chat(ConfigObj) {
         return fetchPromise;
     };
 
-    FetchObject.prototype.sendMessage = function (message) {
+    FetchObject.prototype.sendMessage = function sendMsg(message) {
         var fetchPromise = new Promise(function sendRequest(resolve) {
             sendFetchRequest("POST", "/messages", "", message)
                 .then(function responseReady(response) {
