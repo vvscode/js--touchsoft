@@ -1,7 +1,8 @@
 var QUnit = window.QUnit;
 QUnit.testDone(function () {
     var chats = window.document.querySelectorAll("#chat-panel");
-    for (var i = 0; i < chats.length; i++) {
+    var i;
+    for (i = 0; i < chats.length; i+=1) {
         chats[i].classList.add(window.hiddenClass);
     }
 });
