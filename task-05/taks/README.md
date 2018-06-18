@@ -18,4 +18,4 @@
 
 ### Доп. информация
 
-https://rawgit.com/vvscode/js--base-course/maste/04/cls/index.html#/10
+https://rawgit.com/vvscode/js--base-course/master/04/cls/index.html#/8
