@@ -15,7 +15,7 @@ function update() {
     var codeArea = document.getElementById("generate_code");
     codeArea.innerText = "<script type=\"text/javascript\" src=\"../JS/Chat.js\"></script>\n" +
         "<script type=\"text/javascript\">" +
-        "configObj = {\n" +
+        "setConfig({\n" +
         "    title: \"" + configValue.chatTitle + "\",\n" +
         "    name: \"" + configValue.botName + "\",\n" +
         "    url: \"" + configValue.chatUrl + "\",\n" +
