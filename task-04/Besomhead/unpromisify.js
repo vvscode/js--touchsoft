@@ -9,6 +9,10 @@ function unpromisify(promisified) {
   return function wrapper() {
     var args = Array.from(arguments);
     var callback = args.pop();
+    if(typeof callback !== 'function'){
+      promisified();
+      return;
+    }
     promisified.apply(this, args).then(
       function resolve(promiseData) {
         callback(null, promiseData);
