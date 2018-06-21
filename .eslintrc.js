@@ -9,7 +9,9 @@ module.exports = {
     'no-param-reassign': ['error', { props: false }],
     'object-shorthand': 'off',
     'no-plusplus': 'off',
-    'prefer-rest-params': 'off'
+    'prefer-rest-params': 'off',
+    'import/no-unresolved': 'off',
+    'func-names': ['error', 'as-needed']
   },
   env: {
     browser: true,
