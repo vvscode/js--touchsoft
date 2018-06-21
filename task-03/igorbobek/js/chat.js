@@ -425,7 +425,6 @@ function Message(name, message, time) {
     this.name = name;
     this.message = message;
     this.time = time;
-    this.unread = true;
 }
 
 
@@ -441,7 +440,20 @@ Message.prototype.saveMessage = function f() {
         "POST",
         JSON.stringify(this),
         HEADER_JSON
-    );
+    ).then(function () {
+        var chatObjectForSave = {};
+        chatObjectForSave.lastMessageTime = new Date().getTime();
+        chat.makeRequest(
+            chat.config.chatUrl +
+            "/chats/" +
+            getObjectFromLocalStorage("chat").name +
+            ".json?auth=" +
+            chat.user.tokenId,
+            "PUT",
+            JSON.stringify(chatObjectForSave),
+            HEADER_JSON
+        )
+    });
 };
 
 Message.prototype.getTimeForMessage = function f() {
