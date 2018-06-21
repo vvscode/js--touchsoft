@@ -1,7 +1,14 @@
 Пример работающего кода:
+    dashboard:
+        http://htmlpreview.github.io/?https://github.com/igorbobek/js--touchsoft/blob/master/task-03/igorbobek/html/index.html
 
-http://jsbin.com/pijere/10/edit?html,js,output
+    chat:
+        http://htmlpreview.github.io/?https://github.com/igorbobek/js--touchsoft/blob/master/task-03/igorbobek/html/dashboard.html
+
 
 Работающие тесты:
+    dashboard:
+        http://htmlpreview.github.io/?https://github.com/igorbobek/js--touchsoft/blob/master/task-03/igorbobek/html/dashboardTest.html
 
-http://jsbin.com/quyegix/6/edit?html,output
+    chat:
+        http://htmlpreview.github.io/?https://github.com/igorbobek/js--touchsoft/blob/master/task-03/igorbobek/html/indexTest.html
