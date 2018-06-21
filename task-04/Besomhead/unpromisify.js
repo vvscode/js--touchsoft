@@ -9,7 +9,7 @@ function unpromisify(promisified) {
   return function wrapper() {
     var args = Array.from(arguments);
     var callback = args.pop();
-    if(typeof callback !== 'function'){
+    if (typeof callback !== "function") {
       promisified();
       return;
     }
@@ -23,3 +23,5 @@ function unpromisify(promisified) {
     );
   };
 }
+
+unpromisify();
