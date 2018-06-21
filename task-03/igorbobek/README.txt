@@ -1,9 +1,9 @@
 Пример работающего кода:
     dashboard:
-        http://htmlpreview.github.io/?https://github.com/igorbobek/js--touchsoft/blob/master/task-03/igorbobek/html/index.html
+        http://htmlpreview.github.io/?https://github.com/igorbobek/js--touchsoft/blob/master/task-03/igorbobek/html/dashboard.html
 
     chat:
-        http://htmlpreview.github.io/?https://github.com/igorbobek/js--touchsoft/blob/master/task-03/igorbobek/html/dashboard.html
+        http://htmlpreview.github.io/?https://github.com/igorbobek/js--touchsoft/blob/master/task-03/igorbobek/html/index.html
 
 
 Работающие тесты:
