@@ -23,7 +23,7 @@ function Admin() {
 
 Admin.prototype = Object.create(User.prototype);
 
-Admin.prototype.initUser = function(jsonData) {
+Admin.prototype.initUser = function initUser(jsonData) {
     this.userId = jsonData.user_id;
     this.accessToken = jsonData.access_token;
     this.refreshToken = jsonData.refresh_token;
@@ -31,7 +31,7 @@ Admin.prototype.initUser = function(jsonData) {
     this.isAuthenticated = true;
 };
 
-Admin.prototype.init = function () {
+Admin.prototype.init = function init() {
     var that = this;
     var request = chat.makeRequest;
 
@@ -85,7 +85,7 @@ ChatInstance = (function fun() {
 
 AdminChat.prototype = Object.create(Chat.prototype);
 
-AdminChat.prototype.getMessagesByChatUID = function(uid){
+AdminChat.prototype.getMessagesByChatUID = function getMessagesByChatUID(uid){
     return chat.makeRequest(
         this.config.chatUrl +
         "chatMessages/" + uid +
@@ -98,17 +98,17 @@ AdminChat.prototype.getMessagesByChatUID = function(uid){
     );
 };
 
-AdminChat.prototype.clearContent = function () {
+AdminChat.prototype.clearContent = function clearContent() {
     content.innerHTML = '';
 };
 
-AdminChat.prototype.initChatByUID = function (uid) {
+AdminChat.prototype.initChatByUID = function initChatByUID(uid) {
     this.showMessagesByChatUID(uid);
     this.sendTo = uid;
     this.setTitle(dashboard.chats[uid].name);
 };
 
-AdminChat.prototype.sortMessages = function (data) {
+AdminChat.prototype.sortMessages = function sortMessages(data) {
         var result;
 
         if (data === null){
@@ -116,7 +116,7 @@ AdminChat.prototype.sortMessages = function (data) {
         }else{
             result = chat.clearContent();
             return Object.keys(data)
-                .map(function (value){
+                .map(function returnValue(value){
                     return data[value];
                 })
                 .sort(function compare(a, b) {
@@ -140,25 +140,25 @@ AdminChat.prototype.sortMessages = function (data) {
 };
 
 
-AdminChat.prototype.showMessagesByChatUID = function(uid){
+AdminChat.prototype.showMessagesByChatUID = function showMessagesByChatUID(uid){
     var message;
     this.getMessagesByChatUID(uid)
-        .then(function(data){
+        .then(function showMessages(data){
             chat.clearContent();
-            chat.sortMessages(data).forEach(function (value) {
+            chat.sortMessages(data).forEach(function showMessage(value) {
                 message = new Message(value.name, value.message, value.time, value.answered);
                 message.sendMessage();
             });
         });
 };
 
-AdminChat.prototype.update = function () {
+AdminChat.prototype.update = function update() {
     if(this.sendTo) {
         this.showMessagesByChatUID(this.sendTo);
     }
 };
 
-Message.prototype.saveMessage = function () {
+Message.prototype.saveMessage = function saveMessage() {
     chat.makeRequest(
         chat.config.chatUrl +
         "/chatMessages/" +
@@ -172,7 +172,7 @@ Message.prototype.saveMessage = function () {
 };
 
 
-Message.prototype.answer = function () {};
+Message.prototype.answer = function answer() {};
 
 
 function Dashboard(){
@@ -181,25 +181,25 @@ function Dashboard(){
     this.match = "";
 
     (function f(that) {
-       setInterval(function () {
+       setInterval(function updateDashboard() {
            that.update();
        }, 30000);
     })(this);
 
 }
 
-Dashboard.prototype.update = function () {
+Dashboard.prototype.update = function update() {
     this.initUserChatsList();
     ChatInstance.getInstance().update();
 };
 
 
-Dashboard.prototype.initListeners = function () {
+Dashboard.prototype.initListeners = function initListeners() {
     var sortElement = document.getElementById('sort');
     var filter = document.getElementById('filter');
     var buttonClose = document.getElementById('button-close-dashboard');
 
-    buttonClose.addEventListener('click', function () {
+    buttonClose.addEventListener('click', function hideMainContainer() {
         activeContainer.removeAttribute('class');
         activeContainer.classList.add('hide');
     });
@@ -213,19 +213,19 @@ Dashboard.prototype.initListeners = function () {
         }
     }
 
-    sortElement.addEventListener('change', function (event) {
+    sortElement.addEventListener('change', function sortUsers(event) {
         dashboard.sort = getValueForSort(event.target.value);
         dashboard.showUsers();
     });
 
-    filter.addEventListener('input', function () {
+    filter.addEventListener('input', function filterUsers() {
         dashboard.match = this.value;
         dashboard.showUsers();
     });
 
 };
 
-Dashboard.prototype.getUsers = function () {
+Dashboard.prototype.getUsers = function getUsers() {
     return chat.makeRequest(
         chat.config.chatUrl +
         'users/.json?',
@@ -235,22 +235,22 @@ Dashboard.prototype.getUsers = function () {
     );
 };
 
-Dashboard.prototype.initUserChatsList = function () {
+Dashboard.prototype.initUserChatsList = function initUserChatsList() {
     return this.getUsers()
-        .then(function (data){
+        .then(function initChats(data){
             var promises = [];
             Object.keys(data).forEach(
-                    function (value) {
+                    function getChatsFromFirebase(value) {
                         promises.push(chat.makeRequest(
                             chat.config.chatUrl + 'userChat/' + value +'.json',
                             'GET',
                             undefined,
                             HEADER_JSON
-                        ).then(function (result) {
+                        ).then(function initData(result) {
                             var myReturn;
                             if(result) {
                                 myReturn = dashboard.setUserStatus(result[0])
-                                    .then(function (isOnline) {
+                                    .then(function updateData(isOnline) {
                                         data[value].online = isOnline;
                                         dashboard.chats[result[0]] = data[value];
                                     });
@@ -259,14 +259,14 @@ Dashboard.prototype.initUserChatsList = function () {
                         }));
                     });
             Promise.all(promises)
-                .then(function () {
+                .then(function showUsers() {
                     dashboard.showUsers();
             });
             return true;
         });
 };
 
-Dashboard.prototype.checkUserStatus = function (chatUID) {
+Dashboard.prototype.checkUserStatus = function checkUserStatus(chatUID) {
     return chat.makeRequest(
         chat.config.chatUrl +
         "/chats/" +
@@ -275,12 +275,12 @@ Dashboard.prototype.checkUserStatus = function (chatUID) {
         "GET",
         undefined,
         HEADER_JSON
-    ).then(function (result) {
+    ).then(function calcTime(result) {
         return ((new Date()).getTime() - result.lastMessageTime) < 30000;
     });
 };
 
-Dashboard.prototype.initChatForDashboard = function () {
+Dashboard.prototype.initChatForDashboard = function initChatForDashboard() {
     ChatInstance.getInstance().initConfig(
             {"title":"Admin",
                 "botName":"Bot",
@@ -297,44 +297,46 @@ Dashboard.prototype.initChatForDashboard = function () {
     chat.init();
 };
 
-Dashboard.prototype.appendUserToListContent = function (chatUID) {
+Dashboard.prototype.appendUserToListContent = function appendUserToList(chatUID) {
     var newLi = document.createElement('li');
     newLi.innerText = dashboard.chats[chatUID].name;
     newLi.setAttribute('value', chatUID);
-    newLi.addEventListener('click', function () {
+
+    newLi.addEventListener('click', function showChat() {
         activeContainer.removeAttribute('class');
         activeContainer.classList.add('show');
         chat.initChatByUID(this.getAttribute('value'))
     });
+
     if(dashboard.chats[chatUID].online){
         newLi.style.background = 'green';
     }
     containerForUsers.appendChild(newLi);
 };
 
-Dashboard.prototype.clearUserListContainer = function () {
+Dashboard.prototype.clearUserListContainer = function clearUserList() {
     containerForUsers.innerHTML = '';
 };
 
-Dashboard.prototype.setUserStatus = function (chatUID) {
+Dashboard.prototype.setUserStatus = function setUserStatus(chatUID) {
     return dashboard.checkUserStatus(chatUID);
 };
 
-Dashboard.prototype.showUsers = function(){
+Dashboard.prototype.showUsers = function showUsers(){
     dashboard.clearUserListContainer();
-    this.getfilteredAndSortedUsers().forEach(function (chatUID) {
+    this.getfilteredAndSortedUsers().forEach(function appendUserToList(chatUID) {
         dashboard.appendUserToListContent(chatUID);
     });
 
 };
 
-Dashboard.prototype.getfilteredAndSortedUsers = function () {
+Dashboard.prototype.getfilteredAndSortedUsers = function filterAndSort() {
       return this.filterUsers(this.sortUser(dashboard.chats));
 };
 
-Dashboard.prototype.filterUsers = function (data) {
+Dashboard.prototype.filterUsers = function filterUsers(data) {
     return data
-        .filter(function (value) {
+        .filter(function filter(value) {
             if(dashboard.match === ''){
                 return true;
             } else if(value[Object.keys(value)[0]].name.search('^' + dashboard.match) === 0){
@@ -343,19 +345,19 @@ Dashboard.prototype.filterUsers = function (data) {
 
             return false;
         })
-        .map(function (obj) {
+        .map(function map(obj) {
             return Object.keys(obj)[0];
         });
 };
 
-Dashboard.prototype.sortUser = function () {
+Dashboard.prototype.sortUser = function sortUser() {
     return Object.keys(dashboard.chats)
-        .map(function (key) {
+        .map(function map(key) {
             var obj = {};
             obj[key] = dashboard.chats[key];
             return obj;
         })
-        .sort(function (a, b) {
+        .sort(function sort(a, b) {
             var first = a[Object.keys(a)[0]][dashboard.sort];
             var second = b[Object.keys(b)[0]][dashboard.sort];
             var result;
@@ -376,7 +378,7 @@ Dashboard.prototype.sortUser = function () {
         });
 };
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function creatingDashboard() {
     containerForChat = document.getElementById('chat');
     containerForUsers = document.getElementById('user-list');
     activeContainer = document.getElementById('active-container');

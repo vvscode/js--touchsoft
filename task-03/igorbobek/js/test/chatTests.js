@@ -5,7 +5,7 @@ var chat = ChatInstance.getInstance();
 QUnit.config.autostart = false;
 
 
-setTimeout(function () {
+setTimeout(function startTest() {
     QUnit.start();
 }, 1600);
 
@@ -15,12 +15,12 @@ test('Chat is created', function fun(assert) {
     assert.equal(ChatInstance.getInstance() instanceof Object, true);
 });
 
-test('Create chat firebase', function (assert) {
+test('Create chat firebase', function result(assert) {
     var done;
     assert.timeout(1000);
     done = assert.async();
     chat.connectToChatFirebase();
-    setTimeout(function () {
+    setTimeout(function returnResult() {
         assert.ok(getObjectFromLocalStorage('chat').name !== undefined);
         done();
     }, 800);
@@ -29,7 +29,7 @@ test('Create chat firebase', function (assert) {
 test('Init chat style', function fun(assert) {
     var saver = document.body.appendChild;
     var result;
-    document.body.appendChild = function(item){
+    document.body.appendChild = function appendChild(item){
         result = item;
     };
     ChatInstance.getInstance().initStyle();
@@ -37,19 +37,19 @@ test('Init chat style', function fun(assert) {
     assert.equal('STYLE', result.tagName);
 });
 
-test('Set title', function (assert){
+test('Set title', function result(assert){
    var newTitle = '1234A';
    ChatInstance.getInstance().setTitle(newTitle);
    assert.equal(newTitle, iconChat.innerText);
 });
 
-test('Set position', function (assert){
+test('Set position', function result(assert){
     var position = 'left';
     ChatInstance.getInstance().setPosition(position);
     assert.equal(mainDiv.style !== undefined, true);
 });
 
-test('Set cssClass', function (assert){
+test('Set cssClass', function result(assert){
     var saver = mainDiv.className;
     var cssClass;
     ChatInstance.getInstance().setCssClass('bla');
@@ -58,10 +58,10 @@ test('Set cssClass', function (assert){
    assert.equal('bla', cssClass);
 });
 
-test('Allow require name', function(assert){
+test('Allow require name', function result(assert){
     var saver = chat.addRequireContainer;
     var flag;
-    chat.addRequireContainer = function(s){
+    chat.addRequireContainer = function addRequireContainer(s){
         flag = true;
     };
     chat.requireName(true);
@@ -69,7 +69,7 @@ test('Allow require name', function(assert){
     assert.equal(true, flag);
 });
 
-test('Init config', function (assert) {
+test('Init config', function result(assert) {
     var config;
     var newConfig = 'cfg';
     var saver = ChatInstance.getInstance().config;
@@ -81,13 +81,13 @@ test('Init config', function (assert) {
 
 QUnit.module('About message');
 
-test('Sending message to chat', function(assert) {
+test('Sending message to chat', function result(assert) {
     var message ;
     var done;
     message = new Message('User', 'Sending message to chat', (new Date()).getTime(), true);
     assert.timeout(5000);
     done = assert.async();
-    setTimeout(function() {
+    setTimeout(function sendMessage() {
         content.innerHTML = '';
     message.sendMessage();
     assert.equal(1, content.childNodes.length, 'Done');
@@ -95,7 +95,7 @@ test('Sending message to chat', function(assert) {
     }, 100);
 });
 
-test('Save a message to firebase', function (assert) {
+test('Save a message to firebase', function result(assert) {
     var saver = chat.makeRequest;
     var message = new Message(
         'User',
@@ -104,7 +104,7 @@ test('Save a message to firebase', function (assert) {
         true
     );
     var dataMessage;
-    chat.makeRequest = function (url, type, data, header){
+    chat.makeRequest = function makeRequest(url, type, data, header){
         dataMessage = data;
     };
 
@@ -123,17 +123,17 @@ test('Init user', function f(assert){
     done = assert.async();
     chat.user.name = 'iamuser';
     chat.user.init();
-    setTimeout(function () {
+    setTimeout(function initUser() {
         assert.equal(getObjectFromLocalStorage('user').name, chat.user.name);
         done();
     }, 800);
 });
 
 /* eslint no-unused-vars: ["error", { "args": "none" }] */
-test('Save user to firebase', function(assert){
+test('Save user to firebase', function result(assert){
     var saver = chat.makeRequest;
     var data;
-    chat.makeRequest = function (url, type, dataUser, headers) {
+    chat.makeRequest = function makeRequest(url, type, dataUser, headers) {
         data = dataUser;
     };
     chat.user.saveToFirebase();
@@ -144,17 +144,17 @@ test('Save user to firebase', function(assert){
 
 QUnit.module('About utils');
 
-test('Object to URI', function(assert){
+test('Object to URI', function result(assert){
     assert.equal('first=1&second=2&', encodeURI({
         'first': '1',
         'second': '2'
     }));
 });
 
-test('Save object to local storage', function(assert){
+test('Save object to local storage', function saveObject(assert){
     var saver = window.localStorage.setItem;
     var result;
-    window.localStorage.setItem = function (key, value) {
+    window.localStorage.setItem = function setItem(key, value) {
         result = {key: value};
     };
     window.localStorage.setItem('key', 'value');

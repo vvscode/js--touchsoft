@@ -154,7 +154,7 @@ function xhrRequest(url, method, data, headers) {
                 xhr.setRequestHeader(key, headers[key]);
             });
         }
-        xhr.onload = function() {
+        xhr.onload = function onload() {
             if (xhr.status >= 200 && xhr.status < 300) {
                 resolve(xhr.response);
             } else {
@@ -162,11 +162,11 @@ function xhrRequest(url, method, data, headers) {
             }
         };
 
-        xhr.onerror = function() {
+        xhr.onerror = function onerror() {
             reject(xhr.statusText);
         };
         xhr.send(data);
-    }).then(function(dataForParse) {
+    }).then(function returnData(dataForParse) {
         return JSON.parse(dataForParse);
     });
 }
@@ -201,7 +201,7 @@ User = function() {
     this.isAuthenticated = false;
 };
 
-User.prototype.initUser = function(jsonData) {
+User.prototype.initUser = function initUser(jsonData) {
     this.userId = jsonData.user_id;
     this.accessToken = jsonData.access_token;
     this.name = this.name || this.userId;
@@ -210,7 +210,7 @@ User.prototype.initUser = function(jsonData) {
     this.isAuthenticated = true;
 };
 
-User.prototype.saveToFirebase = function() {
+User.prototype.saveToFirebase = function saveToFirebase() {
     var request = ChatInstance.getInstance().makeRequest;
     request(
         ChatInstance.getInstance().config.chatUrl +
@@ -343,7 +343,7 @@ Chat.prototype.setCssClass = function f(className) {
     mainDiv.classList = className;
 };
 
-Chat.prototype.addRequireContainer = function(callback) {
+Chat.prototype.addRequireContainer = function addRequireContainer(callback) {
     var saveContent = content.innerHTML;
     var requireButton = document.createElement("button");
     var requireInput = document.createElement("input");
@@ -382,7 +382,7 @@ Chat.prototype.requireName = function f(flag, callback) {
     }
 };
 
-Chat.prototype.setRequestMethod = function(type) {
+Chat.prototype.setRequestMethod = function setRequestMethod(type) {
     if (type === "fetch") {
         this.makeRequest = fetchRequst;
     } else if (type === "xhr") {
@@ -428,7 +428,7 @@ function Message(name, message, time) {
 }
 
 
-Message.prototype.saveMessage = function f() {
+Message.prototype.saveMessage = function saveMessage() {
     var chat = ChatInstance.getInstance();
     this.sender = ChatInstance.getInstance().user.userId;
     chat.makeRequest(
@@ -440,7 +440,7 @@ Message.prototype.saveMessage = function f() {
         "POST",
         JSON.stringify(this),
         HEADER_JSON
-    ).then(function () {
+    ).then(function saveTime() {
         var chatObjectForSave = {};
         chatObjectForSave.lastMessageTime = new Date().getTime();
         chat.makeRequest(
@@ -506,12 +506,12 @@ Chat.prototype.recoveryMessages = function f() {
             undefined,
             HEADER_JSON
         )
-        .then(function(result) {
+        .then(function shopMessages(result) {
             var messages = [];
 
             if (result) {
                 content.innerHTML ='';
-                Object.keys(result).forEach(function(key) {
+                Object.keys(result).forEach(function showMessage(key) {
                     var messageObj = result[key];
                     var message = new Message(
                         messageObj.name,
@@ -564,12 +564,12 @@ Chat.prototype.dragAndDrop = function f(e) {
 
     moveAt(e);
 
-    document.onmousemove = function(event) {
+    document.onmousemove = function move(event) {
         moveAt(event);
     };
 };
 
-Chat.prototype.positioningChat = function() {
+Chat.prototype.positioningChat = function positioningChat() {
     var rect = mainDiv.getBoundingClientRect();
     mainDiv.removeAttribute("style");
 
@@ -608,7 +608,7 @@ Chat.prototype.initListeners = function f() {
     }
 };
 
-Chat.prototype.createChatFirebase = function(callback) {
+Chat.prototype.createChatFirebase = function createChatFirebase(callback) {
     var chat = ChatInstance.getInstance();
     this.makeRequest(
         chat.config.chatUrl + "chats.json?" + "&auth=" + chat.user.tokenId,
@@ -625,13 +625,13 @@ Chat.prototype.createChatFirebase = function(callback) {
             "PUT",
             JSON.stringify([getObjectFromLocalStorage("chat").name]),
             HEADER_JSON
-        ).then(function() {
+        ).then(function call() {
             callback.call(chat);
         });
     });
 };
 
-Chat.prototype.connectToChatFirebase = function() {
+Chat.prototype.connectToChatFirebase = function connectToChatFirebase() {
     if (getObjectFromLocalStorage("chat") == null) {
         this.createChatFirebase(this.recoveryMessages);
     } else {
@@ -676,7 +676,7 @@ Chat.prototype.drawChat = function f() {
     form.appendChild(sendButton);
 };
 
-Chat.prototype.update = function (){
+Chat.prototype.update = function update(){
     this.recoveryMessages();
 };
 
@@ -684,7 +684,9 @@ Chat.prototype.init = function f() {
     this.initStyle();
     this.drawChat();
     this.initChatConfiguration();
-    setInterval(function(){ChatInstance.getInstance().update();}, 2000);
+    setInterval(function update(){
+        ChatInstance.getInstance().update();
+        }, 2000);
 };
 
 /* exported createChat */
@@ -693,7 +695,7 @@ function createChat() {
 }
 
 /* global AdminChat */
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function creatingChat() {
     if (typeof AdminChat === 'undefined'){
         containerForChat = document.body;
         createChat();
