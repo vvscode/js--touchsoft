@@ -1,3 +1,4 @@
+/* exported unpromisify  */
 /**
  * Написать фукнцию обратную promisify
  *
@@ -5,18 +6,17 @@
  * и возвращает обертку работающую на errorfirst коллбэке
  */
 
-
 function unpromisify(promisify) {
     var promise = promisify;
     var callBack;
-    return function () {
+    return function unpromis () {
         var args = [].slice.call(arguments);
         if (typeof args[args.length - 1] === "function") {
             callBack = args[args.length - 1];
             args.pop();
-            promise.apply(this, args).then(function (data) {
+            promise.apply(this, args).then(function callback(data) {
                 callBack(null, data)
-            }, function (data) {
+            }, function callback(data) {
                 callBack(data)
             });
             return;

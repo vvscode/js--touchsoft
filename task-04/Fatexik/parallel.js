@@ -1,3 +1,5 @@
+/* exported Parallel */
+
 /**
  * Реализовать класс, который позволяет запускать задачи параллельно
  * с заданным числом параллельно выполняющихся задач
@@ -13,6 +15,18 @@
  *
  *  Задача представляет из себя функцию, принимающую коллбэк, для информирования о результате работы
  */
+
+
+function Parallel(a) {
+    this.jobs = [];
+    this.maxStream = a || 1;
+    this.done.that = this;
+    this.currentStreams = 0;
+    this.callback = null;
+    this.result = [];
+    this.countOfStartJob = 0;
+    this.countOfJob = 0;
+}
 
 Parallel.prototype.done = function done(cb) {
     var that = done.that;
@@ -47,18 +61,6 @@ Parallel.prototype.done = function done(cb) {
     }
 
 };
-
-
-function Parallel(a) {
-    this.jobs = [];
-    this.maxStream = a || 1;
-    this.done.that = this;
-    this.currentStreams = 0;
-    this.callback = null;
-    this.result = [];
-    this.countOfStartJob = 0;
-    this.countOfJob = 0;
-}
 
 Parallel.prototype.job = function job(cb) {
     this.jobs.push(cb);

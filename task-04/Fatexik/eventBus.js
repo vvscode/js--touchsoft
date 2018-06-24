@@ -4,8 +4,7 @@
 function EventBus() {
     this.functionsBack = [];
 }
-
-EventBus.prototype.trigger = function (key, cb) {
+EventBus.prototype.trigger = function trigger (key) {
     var i = 0;
     var args = [].slice.call(arguments);
     args.shift();
@@ -15,7 +14,7 @@ EventBus.prototype.trigger = function (key, cb) {
         }
     }
 };
-EventBus.prototype.on = function (key, cb) {
+EventBus.prototype.on = function On(key, cb) {
     if (typeof cb !== "function") {
         return null;
     }
@@ -24,7 +23,7 @@ EventBus.prototype.on = function (key, cb) {
     }
     this.functionsBack[key].push(cb);
 };
-EventBus.prototype.off = function (key, cb) {
+EventBus.prototype.off = function off(key, cb) {
     var i = 0;
     for (i = 0; i < this.functionsBack[key].length; i++) {
         if (this.functionsBack[key][i] === cb) {

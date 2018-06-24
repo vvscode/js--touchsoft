@@ -1,3 +1,4 @@
+/* exported promisify  */
 /**
  * Все асинхронные функции node.js и подавляющее большинство асинхронных функций внешних модулей
  * на данный момент всё же используют колбэки,
@@ -9,10 +10,10 @@
  * Аналог https://nodejs.org/api/util.html#util_util_promisify_original
  */
 function promisify(callBack) {
-    return function () {
+    return function retPromisify() {
         var args = [].slice.call(arguments);
         var context = this;
-        return new Promise(function (resolve, reject) {
+        return new Promise(function promise(resolve, reject) {
             function callBackPromise() {
                 if (arguments[0]) {
                     reject(arguments[0]);

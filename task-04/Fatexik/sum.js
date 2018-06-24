@@ -1,3 +1,4 @@
+/* exported sum  */
 /**
  * Написать фукнцию сумматор, которая будет работать
  * var s = sum();
@@ -8,12 +9,11 @@
  * Число вызовов может быть неограниченым
  */
 function sum(value) {
-    function add(value) {
-        return sum(value == null ? add.captured : add.captured + value);
+    function add(val) {
+        return sum(val == null ? add.captured : add.captured + val);
     }
-
     add.captured = value || 0;
-    add.toString = function () {
+    add.toString = function toString() {
         return add.captured;
     };
     return add;

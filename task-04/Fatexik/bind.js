@@ -1,3 +1,4 @@
+/* exported bind */
 /**
  * Функция bind фиксирует контекст, так что
  * var o = { name: 'Bob' }
@@ -5,10 +6,10 @@
  * var oGreet = bind(greet, o);
  * oGreet(); // 'Bob'
  */
+
 function bind(func, context) {
     function getFunct() {
         return func.apply(context, arguments);
     }
-
     return getFunct;
 }

@@ -1,4 +1,5 @@
-/* exported require */
+/* global require */
+/* global gulp */
 
 var gulp = require('gulp');
 var include = require('gulp-include');
@@ -7,7 +8,7 @@ var imageMin = require('gulp-imagemin');
 var browserSync = require('browser-sync');
 
 
-gulp.task('createCss',['minImage'],function(){
+gulp.task('createCss',['minImage'],function createCSS(){
     gulp.src('app/CSS/mainCSS.css')
         .pipe(include())
         .pipe(minifyCSS())
@@ -17,14 +18,14 @@ gulp.task('createCss',['minImage'],function(){
         }))
 });
 
-gulp.task('updateHTML',['minImage'],function () {
+gulp.task('updateHTML',['minImage'],function updateHTML() {
     gulp.src('app/index.html')
         .pipe(browserSync.reload({
             stream:true
         }))
 });
 
-gulp.task('minImage',function(){
+gulp.task('minImage',function minImage(){
     gulp.src('app/Image/*.jpg')
         .pipe(imageMin({
             interplaced: true
@@ -32,7 +33,7 @@ gulp.task('minImage',function(){
         .pipe(gulp.dest("app/Dest/Image"))
 });
 
-gulp.task('browserSynch',function(){
+gulp.task('browserSynch',function browserSynch(){
     browserSync({
         server:{
             baseDir:"app"
@@ -40,7 +41,7 @@ gulp.task('browserSynch',function(){
     })
 });
 
-gulp.task('server',['browserSynch', 'createCss'],function(){
+gulp.task('server',['browserSynch', 'createCss'],function server(){
     gulp.watch('app/CSS/*.css',['createCss']);
     gulp.watch('app/*.html',['updateHTML']);
 });
