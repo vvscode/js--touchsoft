@@ -135,11 +135,11 @@ QUnit.test('Check user search.', function i(assert) {
   var count = 0;
   var x;
   document.getElementById('idSortUsers').options[0].selected = true;
-  for (x = 0; i < document.getElementById('idUsers').length; i++) {
+  for (x = 0; x < document.getElementById('idUsers').length; x++) {
     if (
       document
         .getElementById('idUsers')
-        .options[i].innerHTML.indexOf('Guest') !== -1
+        .options[x].innerHTML.indexOf('Guest') !== -1
     ) {
       count++;
     }
