@@ -1,0 +1,202 @@
+.dashboard-container {
+  height: 550px;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  border: solid 2px black;
+  border-radius: 5px;
+  font-family: "Comic Sans MS", cursive;
+  font-size: 10pt;
+  resize: none;
+}
+.dashboard-container-legend {
+  font: inherit;
+  padding: 3px;
+}
+
+.dashboard-container-inner {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.dashboard-users-container {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  width: 200px;
+  height: 525px;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 15px;
+  font: inherit;
+}
+
+.dashboard-users-filter-bar {
+  width: 195px;
+  border: solid 2px black;
+  border-radius: 15px;
+  padding: 2px 2px 2px 5px;
+  margin-bottom: 10px;
+  font: inherit;
+  outline: none;
+}
+
+.dashboard-users-sort-bar {
+  width: 205px;
+  margin-bottom: 10px;
+  border: solid 2px black;
+  font: inherit;
+  outline: none;
+}
+
+.dashboard-users-list-container {
+  border: solid 2px black;
+  width: 200px;
+  height: 480px;
+  margin-bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.dashboard-single-user-container {
+  width: 185px;
+  height: 40px;
+  padding: 5px;
+  display: grid;
+  grid-template-columns: auto 40px;
+  grid-row-gap: 5px;
+  cursor: pointer;
+}
+
+.dashboard-single-user-container-unread {
+  background: lightsteelblue;
+}
+
+.dashboard-user-status {
+  align-self: center;
+  justify-self: center;
+  width: 1px;
+  height: 1px;
+  border: solid 5px;
+  border-radius: 50px;
+}
+
+.dashboard-user-status-online {
+  border-color: lightgreen;
+  background: lightgreen;
+}
+
+.dashboard-user-status-offline {
+  border-color: lightgrey;
+  background: lightgrey;
+}
+
+.dashboard-selected-user-container {
+  width: 700px;
+  height: 525px;
+  margin-top: auto;
+  margin-bottom: auto;
+  background: url("../../assets/Chinchilla.png") center center no-repeat;
+  font: inherit;
+}
+
+.dashboard-selected-user-container-inner {
+  position: relative;
+  border: solid 2px black;
+  border-radius: 5px;
+  background: white;
+  width: 676px;
+  height: 505px;
+  margin-left: auto;
+  margin-right: auto;
+  font: inherit;
+}
+
+.dashboard-selected-user-container-button {
+  position: absolute;
+  right: -10px;
+  top: -5px;
+  width: 23px;
+  height: 23px;
+  padding: 0;
+  margin: 0;
+  border: solid 2px black;
+  background: lightgrey;
+  border-radius: 30px;
+  font: inherit;
+  text-align: center;
+  outline: none;
+}
+
+.dashboard-selected-user-controls-container {
+  width: 676px;
+  height: 470px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.dashboard-selected-user-chat-container {
+  width: 280px;
+  height: 470px;
+  margin: 5px;
+  padding: 5px;
+  border: solid 2px black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font: inherit;
+}
+
+.dashboard-selected-user-chat-messages {
+  height: 320px;
+  margin-bottom: 5px;
+  padding-left: 2px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: solid 2px black;
+  border-radius: 5px;
+  font: inherit;
+  display: grid;
+  grid-template-columns: 100px auto;
+  grid-row-gap: 5px;
+  align-content: start;
+}
+
+.dashboard-selected-user-chat-input {
+  width: 250px;
+  height: 80px;
+  padding: 5px;
+  margin-bottom: 5px;
+  border: solid 2px black;
+  border-radius: 5px;
+  outline: none;
+  resize: none;
+  font: inherit;
+}
+
+.dashboard-selected-user-chat-button {
+  width: 265px;
+  height: 25px;
+  border: solid 2px black;
+  border-radius: 5px;
+  outline: none;
+  background: white;
+  font: inherit;
+}
+
+.dashboard-selected-user-controller {
+  width: 450px;
+  height: 460px;
+  margin: 5px;
+  padding: 10px;
+  border: solid 2px black;
+  border-radius: 5px;
+  font: inherit;
+}
