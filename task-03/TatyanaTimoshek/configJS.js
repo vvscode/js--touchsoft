@@ -55,7 +55,7 @@ function sendSettings() {
 function changeConfiguration() {
   var generatedCode = document.getElementById('generatedCode');
   generatedCode.innerText =
-    '<script type="text/javascript" src="https://rawgit.com/TatyanaTimoshek/js--touchsoft/TanyaChatTwo/task-02/TatyanaTimoshek/chat.js"></script>\n' +
+    '<script type="text/javascript" src="https://rawgit.com/TatyanaTimoshek/js--touchsoft/Dashboard/task-03/TatyanaTimoshek/chat.js"></script>\n' +
     '<script type="text/javascript">' +
     'newConfig = {\n' +
     '    chatTitle: "' +
