@@ -1,6 +1,4 @@
-/* global init,  scrollDown, sendMessage, getId, aboutUser, addMinChatSymbol,
-    addUnreadMessageSymbol, makeUserName, makeUserId, closeActivePane,
-    addUser, removeUserFromList, setUsersInList, myData, info*/
+/* global init,  scrollDown, sendMessage, getId, aboutUser, addMinChatSymbol, addUnreadMessageSymbol, makeUserName, makeUserId, closeActivePane, addUser, removeUserFromList, setUsersInList, myData, info*/
 /* global QUnit */
 
 function hideDashboard() {

@@ -1,6 +1,6 @@
 var chatURL = 'https://tanyachatfb.firebaseio.com';
 
-aboutUser = {
+var aboutUser = {
   userName: 'You',
   userId: '',
   minChat: false,
@@ -8,7 +8,7 @@ aboutUser = {
   unreadMessages: false
 };
 
-findUser = {
+var findUser = {
   userName: 'You',
   userId: '',
   minChat: false,
@@ -16,7 +16,7 @@ findUser = {
   unreadMessages: false
 };
 
-info = {
+var info = {
   messagesUrl: chatURL + '/messages/' + aboutUser.userId + '/.json',
   chatStatusUrl: chatURL + '/chatStatus/' + aboutUser.userId + '/.json',
   usersUrl: chatURL + '/users/' + aboutUser.userId + '/.json',
@@ -34,7 +34,7 @@ info = {
   updateMess: false
 };
 
-tofb = {
+var tofb = {
   time: '14:19',
   sender: 'Tan',
   text: 'letter'
@@ -263,8 +263,8 @@ function setUsersInList() {
       });
       if (sortOption === 'Name') {
         toSortNames.sort();
-        for (i = 0; i < toSortNames.length; i++) {
-          for (j = 0; j < toSortNames.length; j++) {
+        for (var i = 0; i < toSortNames.length; i++) {
+          for (var j = 0; j < toSortNames.length; j++) {
             if (
               toSortNames[i].indexOf(toSort[j].userId) !== -1 &&
               makeUserName(toSort[j].userName, toSort[j].userId).indexOf(
@@ -292,8 +292,7 @@ function closeActivePane() {
   var n = document.getElementById('idUsers').options.selectedIndex;
   document.getElementById('idActive').style.visibility = 'hidden';
   document.getElementById('idMountains').style.visibility = 'visible';
-  if (n < 0) return;
-  else {
+  if (n > -1) {
     document.getElementById('idUsers').options[n].selected = false;
   }
 }

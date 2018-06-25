@@ -587,7 +587,7 @@ function forMinButton() {
 }
 
 function sendMessage() {
-  if (document.getElementById('idChatWindow').style.visibility == 'hidden')
+  if (document.getElementById('idChatWindow').style.visibility === 'hidden')
     return;
   var currentTime = new Date();
   var message = document.getElementById('idChatInputMessage').value;
