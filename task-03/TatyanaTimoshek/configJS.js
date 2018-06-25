@@ -44,10 +44,10 @@ function sendSettings() {
       'Content-Type': 'application/json'
     }
   })
-    .then(function(response) {
+    .then(function a(response) {
       return response.json();
     })
-    .then(function(res) {
+    .then(function b(res) {
       return res;
     });
 }
@@ -107,31 +107,31 @@ function applyConfiguration() {
   var showTime = document.getElementById('showTime');
   var xhr = document.getElementById('networkRadioXHR');
   var fetch = document.getElementById('networkRadioFetch');
-  chatTitle.addEventListener('change', function() {
+  chatTitle.addEventListener('change', function c() {
     if (chatTitle.value !== '' && chatTitle.value !== ' ') {
       newConfig.chatTitle = chatTitle.value;
       changeConfiguration();
     }
   });
-  botName.addEventListener('change', function() {
+  botName.addEventListener('change', function d() {
     if (botName.value !== '' && botName.value !== ' ') {
       newConfig.botName = botName.value;
       changeConfiguration();
     }
   });
-  chatUrl.addEventListener('change', function() {
+  chatUrl.addEventListener('change', function e() {
     if (chatUrl.value !== '' && chatUrl.value !== ' ') {
       newConfig.chatUrl = chatUrl.value;
       changeConfiguration();
     }
   });
-  cssClass.addEventListener('change', function() {
+  cssClass.addEventListener('change', function f() {
     if (cssClass.value !== '' && cssClass.value !== ' ') {
       newConfig.cssClass = cssClass.value;
       changeConfiguration();
     }
   });
-  chatPositionSelect.addEventListener('change', function() {
+  chatPositionSelect.addEventListener('change', function g() {
     var position = chatPositionSelect.value;
     if (position === 'Left') {
       newConfig.position = 'left';
@@ -140,28 +140,28 @@ function applyConfiguration() {
     }
     changeConfiguration();
   });
-  allowToMinimize.addEventListener('change', function() {
+  allowToMinimize.addEventListener('change', function h() {
     newConfig.allowToMinimize = allowToMinimize.checked;
     changeConfiguration();
   });
-  allowToDragAndDrop.addEventListener('change', function() {
+  allowToDragAndDrop.addEventListener('change', function i() {
     newConfig.allowToDragAndDrop = allowToDragAndDrop.checked;
     changeConfiguration();
   });
-  requireName.addEventListener('change', function() {
+  requireName.addEventListener('change', function j() {
     newConfig.requireName = requireName.checked;
     changeConfiguration();
   });
-  showTime.addEventListener('change', function() {
+  showTime.addEventListener('change', function k() {
     newConfig.showTime = showTime.checked;
     changeConfiguration();
   });
-  xhr.addEventListener('change', function() {
+  xhr.addEventListener('change', function l() {
     newConfig.networkXHR = true;
     newConfig.networkFetch = false;
     changeConfiguration();
   });
-  fetch.addEventListener('change', function() {
+  fetch.addEventListener('change', function m() {
     newConfig.networkXHR = false;
     newConfig.networkFetch = true;
     changeConfiguration();
