@@ -61,10 +61,10 @@ function myData(url, requestType, data) {
     };
   }
   return fetch(url, body)
-    .then(function(response) {
+    .then(function a(response) {
       return response.json();
     })
-    .then(function(res) {
+    .then(function b(res) {
       return res;
     });
 }
@@ -86,10 +86,10 @@ function addMes(time, sender, text) {
 
 function loadHistory(id) {
   var newMessUrl = info.getMessagesUrl + id + info.jsonPart;
-  myData(newMessUrl, info.requestGet, tofb).then(function(messages) {
+  myData(newMessUrl, info.requestGet, tofb).then(function c(messages) {
     if (messages !== null) {
       document.getElementById('idHistory').innerHTML = '';
-      Object.keys(messages).forEach(function(message) {
+      Object.keys(messages).forEach(function d(message) {
         addMes(
           messages[message].time,
           messages[message].sender,
@@ -120,18 +120,18 @@ function getId(name) {
 
 function addMinChatSymbol() {
   if (aboutUser.minChat) return '&#128469;';
-  else return '&#128470;';
+  return '&#128470;';
 }
 
 function addUnreadMessageSymbol() {
   if (aboutUser.unreadMessages) return '&#128386;';
-  else return '';
+  return '';
 }
 
 function findSelectedUser(id) {
   var newUrl = info.setUsersUrl + id + info.jsonPart;
   findUser.userId = id;
-  myData(newUrl, info.requestGet, aboutUser).then(function(users) {
+  myData(newUrl, info.requestGet, aboutUser).then(function e(users) {
     if (users !== null && id !== null) {
       if (users.userId === findUser.userId) {
         findUser.userName = users.userName;
@@ -145,7 +145,7 @@ function findSelectedUser(id) {
 
 function makeUserName(name, id) {
   if (name === 'You') return 'Guest (' + id + ')';
-  else return name + ' (' + id + ')';
+  return name + ' (' + id + ')';
 }
 
 function makeUserId(id) {
@@ -170,7 +170,7 @@ function putInfoAboutUser() {
 
 function setListaners(myOption, userName) {
   var value;
-  myOption.addEventListener('click', function() {
+  myOption.addEventListener('click', function f() {
     document.getElementById('idHistory').innerHTML = '';
     value = this.value;
     info.infoUserId = getId(value);
@@ -224,15 +224,16 @@ function sortUsers(option, user) {
   var currentTime = new Date();
   var onlinePeriod = 120000;
   var name = makeUserName(user.userName, user.userId);
+  var newName;
   currentTime = currentTime.getTime();
-  if (user.unreadMessages) name = name + '&#128386;';
+  if (user.unreadMessages) newName = name + '&#128386;';
   if (option === 'Sort by') return true;
-  if (option === 'Unread Messages' && name.indexOf('&#128386;') !== -1)
+  if (option === 'Unread Messages' && newName.indexOf('&#128386;') !== -1)
     return true;
   if (option === 'Activity' && currentTime - user.online < onlinePeriod) {
     return true;
   }
-  if (option === 'Name') return false;
+  return false;
 }
 
 function setUsersInList() {
@@ -241,9 +242,11 @@ function setUsersInList() {
   var sortOption = document.getElementById('idSortUsers').options[n].value;
   var toSortNames = [];
   var toSort = [];
-  myData(info.getUsersUrl, info.requestGet, aboutUser).then(function(users) {
+  var i;
+  var j;
+  myData(info.getUsersUrl, info.requestGet, aboutUser).then(function g(users) {
     if (users !== null) {
-      Object.keys(users).forEach(function(user) {
+      Object.keys(users).forEach(function h(user) {
         removeUserFromList(users[user].userId);
         if (
           makeUserName(users[user].userName, users[user].userId).indexOf(
@@ -263,8 +266,8 @@ function setUsersInList() {
       });
       if (sortOption === 'Name') {
         toSortNames.sort();
-        for (var i = 0; i < toSortNames.length; i++) {
-          for (var j = 0; j < toSortNames.length; j++) {
+        for (i = 0; i < toSortNames.length; i++) {
+          for (j = 0; j < toSortNames.length; j++) {
             if (
               toSortNames[i].indexOf(toSort[j].userId) !== -1 &&
               makeUserName(toSort[j].userName, toSort[j].userId).indexOf(
@@ -321,8 +324,8 @@ function init() {
   setSearchListener();
 }
 
-(function() {
-  document.addEventListener('DOMContentLoaded', function() {
+(function i() {
+  document.addEventListener('DOMContentLoaded', function j() {
     init();
   });
 })();
