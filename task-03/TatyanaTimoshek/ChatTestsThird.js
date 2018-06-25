@@ -67,7 +67,7 @@ QUnit.test('Check id extraction function.', function c(assert) {
 
 QUnit.test(
   'Check adding a character for a collapsed and deployed chat.',
-  function(assert) {
+  function k(assert) {
     aboutUser.minChat = true;
     assert.ok(addMinChatSymbol() === '&#128469;', 'The test is successful');
     aboutUser.minChat = false;
@@ -133,9 +133,9 @@ QUnit.module('Sorting and searching');
 
 QUnit.test('Check user search.', function i(assert) {
   var count = 0;
-  var i;
+  var x;
   document.getElementById('idSortUsers').options[0].selected = true;
-  for (i = 0; i < document.getElementById('idUsers').length; i++) {
+  for (x = 0; i < document.getElementById('idUsers').length; i++) {
     if (
       document
         .getElementById('idUsers')
