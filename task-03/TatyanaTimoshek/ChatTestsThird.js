@@ -1,4 +1,4 @@
-/* global init,  scrollDown, sendMessage, getId, aboutUser, addMinChatSymbol, addUnreadMessageSymbol, makeUserName, makeUserId, closeActivePane, addUser, removeUserFromList, setUsersInList, myData, info*/
+/* global init,  scrollDown, sendMessage, getId, aboutUser, addMinChatSymbol, addUnreadMessageSymbol, makeUserName, makeUserId, closeActivePane, addUser, removeUserFromList, setUsersInList, myData, info */
 /* global QUnit */
 
 function hideDashboard() {
@@ -7,7 +7,7 @@ function hideDashboard() {
 
 QUnit.module('Scrolling');
 
-QUnit.test('Check scrolling the history of messages.', function(assert) {
+QUnit.test('Check scrolling the history of messages.', function a(assert) {
   var history;
   init();
   history = document.getElementById('idHistory');
@@ -34,7 +34,7 @@ QUnit.test('Check scrolling the history of messages.', function(assert) {
 
 QUnit.module('Message template');
 
-QUnit.test('Check the format of the operator messages.', function(assert) {
+QUnit.test('Check the format of the operator messages.', function b(assert) {
   var currentTime = new Date();
   document.getElementById('idHistory').innerHTML = '';
   document.getElementById('idInputMessage').innerHTML = 'hello';
@@ -58,7 +58,7 @@ QUnit.test('Check the format of the operator messages.', function(assert) {
 
 QUnit.module('Сreating names with special characters');
 
-QUnit.test('Check id extraction function.', function(assert) {
+QUnit.test('Check id extraction function.', function c(assert) {
   assert.ok(
     getId('User (idOfUser1)') === 'idOfUser1',
     'The test is successful'
@@ -75,7 +75,7 @@ QUnit.test(
   }
 );
 
-QUnit.test('Check adding the character of an unread message.', function(
+QUnit.test('Check adding the character of an unread message.', function d(
   assert
 ) {
   aboutUser.unreadMessages = true;
@@ -84,7 +84,7 @@ QUnit.test('Check adding the character of an unread message.', function(
   assert.ok(addUnreadMessageSymbol() === '', 'The test is successful');
 });
 
-QUnit.test('Check the creation of the user name and id.', function(assert) {
+QUnit.test('Check the creation of the user name and id.', function e(assert) {
   assert.ok(
     makeUserName('You', 'idOfUser1') === 'Guest (idOfUser1)',
     'The test is successful'
@@ -101,7 +101,7 @@ QUnit.test('Check the creation of the user name and id.', function(assert) {
 
 QUnit.module('Close the active window');
 
-QUnit.test('Check closing button.', function(assert) {
+QUnit.test('Check closing button.', function f(assert) {
   closeActivePane();
   assert.ok(
     document.getElementById('idMountains').style.visibility === 'visible',
@@ -113,7 +113,7 @@ QUnit.test('Check closing button.', function(assert) {
 
 QUnit.module('Creation and deletion of user options');
 
-QUnit.test('Check user addition.', function(assert) {
+QUnit.test('Check user addition.', function g(assert) {
   addUser('Jessie', '5Jessie55');
   assert.ok(
     document.getElementById('idOption5Jessie55') !== null,
@@ -121,7 +121,7 @@ QUnit.test('Check user addition.', function(assert) {
   );
 });
 
-QUnit.test('Check user deletion.', function(assert) {
+QUnit.test('Check user deletion.', function h(assert) {
   removeUserFromList('5Jessie55');
   assert.ok(
     document.getElementById('idOption5Jessie55') === null,
@@ -131,9 +131,9 @@ QUnit.test('Check user deletion.', function(assert) {
 
 QUnit.module('Sorting and searching');
 
-QUnit.test('Check user search.', function(assert) {
-  var userNamesList;
+QUnit.test('Check user search.', function i(assert) {
   var count = 0;
+  var i;
   document.getElementById('idSortUsers').options[0].selected = true;
   for (i = 0; i < document.getElementById('idUsers').length; i++) {
     if (
@@ -153,7 +153,7 @@ QUnit.test('Check user search.', function(assert) {
   document.getElementById('idInputMessage').value = '';
 });
 
-QUnit.test('Check user sorting.', function(assert) {
+QUnit.test('Check user sorting.', function j(assert) {
   var done;
   var holdOn = 1500;
   var index;
@@ -174,7 +174,7 @@ QUnit.test('Check user sorting.', function(assert) {
   document.getElementById('idSortUsers').options[2].selected = true;
   setUsersInList();
   done = assert.async();
-  setTimeout(function() {
+  setTimeout(function k() {
     assert.ok(
       document
         .getElementById('idUsers')

@@ -415,28 +415,28 @@ function DragAndDrop(elem) {
   var left1;
   var top1;
   if (!elem.style.cursor === 'move') return;
-  document.onmousedown = function() {
+  document.onmousedown = function a() {
     return false;
   };
   elem.style.cursor = 'move';
-  document.onmousemove = function(myelement) {
+  document.onmousemove = function b(myelement) {
     x = myelement.pageX;
     y = myelement.pageY;
     left1 = elem.offsetLeft;
     top1 = elem.offsetTop;
     left1 = x - left1;
     top1 = y - top1;
-    document.onmousemove = function(element) {
+    document.onmousemove = function c(element) {
       x = element.pageX;
       y = element.pageY;
       elem.style.top = y - top1 + 'px';
       elem.style.left = x - left1 + 'px';
     };
   };
-  document.onmouseup = function() {
+  document.onmouseup = function d() {
     elem.style.cursor = 'auto';
-    document.onmousedown = function() {};
-    document.onmousemove = function() {};
+    document.onmousedown = function e() {};
+    document.onmousemove = function f() {};
   };
 }
 
@@ -467,8 +467,6 @@ function addMes(time, sender, text) {
   if (man === 'Bot' && config.botName !== 'Bot') man = config.botName;
   if (man === 'You' && aboutUser.userName !== 'You') {
     man = aboutUser.userName;
-    console.log('ab ' + aboutUser.userName);
-    console.log('sen ' + man);
   }
   raw = config.showTime ? time + ' ' : ' ';
   h.innerHTML = h.innerHTML + raw + man + ': ' + text + '<br>';
@@ -496,22 +494,22 @@ function postMyDataFetch(url, requestType, data) {
     };
   }
   return fetch(url, body)
-    .then(function(response) {
+    .then(function g(response) {
       return response.json();
     })
-    .then(function(res) {
+    .then(function h(res) {
       return res;
     });
 }
 
 function postMyDataXHR(url, requestType, data) {
   var request;
-  return new Promise(function(resolve) {
+  return new Promise(function i(resolve) {
     request = new XMLHttpRequest();
     request.open(requestType, url, true);
     request.setRequestHeader('Accept', 'application/json');
     request.setRequestHeader('Content-Type', 'application/json');
-    request.addEventListener('load', function() {
+    request.addEventListener('load', function j() {
       resolve(JSON.parse(request.response));
     });
     request.send(JSON.stringify(data));
@@ -528,7 +526,7 @@ function postMyData(url, requestType, data) {
 
 function findUserAndGetChatStatus(url, requestType) {
   var id;
-  postMyData(url, requestType, aboutUser).then(function(users) {
+  postMyData(url, requestType, aboutUser).then(function k(users) {
     id = localStorage.getItem('idForTanyaChat');
     if (users !== null && id !== null) {
       if (users.userId === id) {
@@ -542,10 +540,10 @@ function findUserAndGetChatStatus(url, requestType) {
 }
 
 function getMessage(url, requestType) {
-  postMyData(url, requestType, tofb).then(function(messages) {
+  postMyData(url, requestType, tofb).then(function l(messages) {
     if (messages !== null) {
       document.getElementById('idHistoryOfTanyaChat').innerHTML = '';
-      Object.keys(messages).forEach(function(message) {
+      Object.keys(messages).forEach(function m(message) {
         addMes(
           messages[message].time,
           messages[message].sender,
@@ -559,7 +557,6 @@ function getMessage(url, requestType) {
 function updateMessages() {
   getMessage(info.messagesUrl, info.requestGet);
   scrollDown();
-  console.log('update');
 }
 
 function setMinChatTrue() {
@@ -587,10 +584,12 @@ function forMinButton() {
 }
 
 function sendMessage() {
+  var currentTime;
+  var message;
   if (document.getElementById('idChatWindow').style.visibility === 'hidden')
     return;
-  var currentTime = new Date();
-  var message = document.getElementById('idChatInputMessage').value;
+  currentTime = new Date();
+  message = document.getElementById('idChatInputMessage').value;
   tofb.sender = aboutUser.userName;
   tofb.time = currentTime.getHours() + ':' + currentTime.getMinutes();
   tofb.text = message;
@@ -613,7 +612,7 @@ function disableSettings() {
   if (config.allowToDragAndDrop) {
     document.getElementById('idChatWindowTopText').style.cursor = 'auto';
   }
-  document.getElementById('idMinimizeButton').onclick = function() {};
+  document.getElementById('idMinimizeButton').onclick = function n() {};
 }
 
 function restoreSettings() {
@@ -666,13 +665,12 @@ function workWithEnteredName() {
   var currentTime = new Date();
   var name = document.getElementById('idInputNameField').value;
   if (name !== null && name !== ' ') {
-    console.log('good');
     aboutUser.userName = name;
     aboutUser.online = currentTime.getTime();
     postMyData(info.usersUrl, info.requestPut, aboutUser);
     hideRequireNameWindow();
     restoreSettings();
-  } else console.log('bad');
+  }
 }
 
 function requireNameFunction() {
@@ -710,7 +708,7 @@ function init() {
 }
 
 function acceptNewSettings() {
-  postMyDataFetch(info.settingsUrl, info.requestGet, config).then(function(
+  postMyDataFetch(info.settingsUrl, info.requestGet, config).then(function o(
     newConfig
   ) {
     if (newConfig !== null) {
@@ -729,8 +727,8 @@ function acceptNewSettings() {
   });
 }
 
-(function() {
-  document.addEventListener('DOMContentLoaded', function() {
+(function p() {
+  document.addEventListener('DOMContentLoaded', function q() {
     var holdOn = 2000;
     acceptNewSettings();
     setTimeout(init, holdOn);
