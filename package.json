@@ -25,8 +25,5 @@
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-import": "2.12.0",
     "lint-diff": "1.2.0"
-  },
-  "dependencies": {
-    "gulp-include": "^2.3.1"
   }
 }
