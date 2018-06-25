@@ -471,12 +471,8 @@ function addMes(time, sender, text) {
     console.log('sen ' + man);
   }
   raw = config.showTime ? time + ' ' : ' ';
-  // if (info.updateMess == false) {
   h.innerHTML = h.innerHTML + raw + man + ': ' + text + '<br>';
   scrollDown();
-  // } else {
-  //   info.messagesList = info.messagesList + raw + man + ': ' + text + '<br>';
-  // }
 }
 
 function postMyDataFetch(url, requestType, data) {
@@ -558,30 +554,13 @@ function getMessage(url, requestType) {
       });
     }
   });
-  // info.updateMessQueue = true;
-  // console.log(info.updateMessQueue);
 }
 
 function updateMessages() {
-  // info.messagesQueue = '';
   getMessage(info.messagesUrl, info.requestGet);
-  // document.getElementById('idHistoryOfTanyaChat').innerHTML = info.messagesList;
   scrollDown();
   console.log('update');
 }
-
-// function updateUnreadMess() {
-//   postMyData(info.usersUrl, info.requestGet, aboutUser).then(function(users) {
-//     id = localStorage.getItem('idForTanyaChat');
-//     if (users !== null && id !== null) {
-//       if (users.userId === id) {
-//         aboutUser.userName = users.userName;
-//         aboutUser.minChat = users.minChat;
-//         aboutUser.online = users.online;
-//       }
-//     }
-//   });
-// }
 
 function setMinChatTrue() {
   aboutUser.minChat = true;
@@ -607,24 +586,10 @@ function forMinButton() {
   }
 }
 
-// function botAnswer() {
-//   var currentTime = new Date();
-//   while (info.messagesQueue.length !== 0) {
-//     tofb.sender = config.botName;
-//     tofb.time = currentTime.getHours() + ':' + currentTime.getMinutes();
-//     tofb.text =
-//       ' Response to "' + info.messagesQueue.shift().toUpperCase() + '"';
-//     addMes(tofb.time, tofb.sender, tofb.text);
-//     postMyData(info.messagesUrl, info.requestPost, tofb);
-//     scrollDown();
-//   }
-// }
-
 function sendMessage() {
   if (document.getElementById('idChatWindow').style.visibility == 'hidden')
     return;
   var currentTime = new Date();
-  // var hangOnTenSeconds = 10000;
   var message = document.getElementById('idChatInputMessage').value;
   tofb.sender = aboutUser.userName;
   tofb.time = currentTime.getHours() + ':' + currentTime.getMinutes();
@@ -636,7 +601,6 @@ function sendMessage() {
   aboutUser.unreadMessages = true;
   postMyData(info.usersUrl, info.requestPut, aboutUser);
   scrollDown();
-  // setTimeout(botAnswer, hangOnTenSeconds);
 }
 
 function setOnclickFunctions() {
