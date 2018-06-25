@@ -99,7 +99,8 @@
   height: 525px;
   margin-top: auto;
   margin-bottom: auto;
-  background: url("../../assets/Chinchilla.png") center center no-repeat;
+  background: url("https://rawgit.com/Besomhead/js--touchsoft/besomhead-task03/task-03/Besomhead/assets/Chinchilla.png")
+    center center no-repeat;
   font: inherit;
 }
 

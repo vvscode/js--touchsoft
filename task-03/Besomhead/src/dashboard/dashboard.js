@@ -106,10 +106,16 @@ function appendSingleMessage(message) {
 }
 
 function sendMessage(userContainer) {
-  var operatorMessage = new Message(
+  var inputValue = getDOMElement(USER_CHAT_INPUT_ID).value;
+  var operatorMessage;
+
+  if (inputValue === "") {
+    return;
+  }
+  operatorMessage = new Message(
     new Date(),
     config.operatorName + ":",
-    getDOMElement(USER_CHAT_INPUT_ID).value
+    inputValue
   );
   appendSingleMessage(operatorMessage);
   getDOMElement(USER_CHAT_INPUT_ID).value = "";
@@ -228,11 +234,19 @@ function isUserOnline(user) {
   var lastMessage;
   var lastMessageTime;
   var lastMessageDate;
+  var messagesKeys;
 
   if (!user.messages) {
     return false;
   }
-  lastMessage = user.messages[Object.keys(user.messages).pop()];
+  messagesKeys = Object.keys(user.messages);
+  lastMessage = user.messages[messagesKeys.pop()];
+  while (lastMessage && lastMessage.sender === config.operatorName) {
+    lastMessage = user.messages[messagesKeys.pop()];
+  }
+  if (!lastMessage) {
+    return false;
+  }
   lastMessageTime = lastMessage.time.split(":");
   lastMessageDate = new Date(
     new Date().getFullYear(),
@@ -243,6 +257,11 @@ function isUserOnline(user) {
   );
 
   return new Date() - lastMessageDate <= USER_ONLINE_TIMEOUT;
+}
+
+function setUserStatus(statusContainer, classToRemove, classToAdd) {
+  statusContainer.classList.remove(classToRemove);
+  statusContainer.classList.add(classToAdd);
 }
 
 function appendSingleUser(user, generated) {
@@ -264,9 +283,9 @@ function appendSingleUser(user, generated) {
   generatedField.hidden = true;
   userStatusElement.className = "dashboard-user-status";
   if (isUserOnline(user)) {
-    userStatusElement.classList.add(ONLINE_CLASS_NAME);
+    setUserStatus(userStatusElement, ONLINE_CLASS_NAME, ONLINE_CLASS_NAME);
   } else {
-    userStatusElement.classList.add(OFFLINE_CLASS_NAME);
+    setUserStatus(userStatusElement, OFFLINE_CLASS_NAME, OFFLINE_CLASS_NAME);
   }
   chatStateElement.innerHTML = user.chatState;
 
@@ -401,26 +420,36 @@ function checkUpdates() {
       return;
     }
     Object.keys(data).forEach(function checkUser(key) {
-      var user = data[key];
-      var userContainer = getDOMChildrenByClass(
-        USERS_LIST_CONTAINER_ID,
-        SINGLE_USER_CLASS_NAME
-      ).filter(function filterContainers(container) {
-        return getUserID(container) === key;
-      });
-      var userStatusElement = getDOMChildrenByTag(userContainer, "div").shift();
+      var user;
+      var userContainer;
+      var userStatusElement;
       var appendedMessagesAmount;
 
+      user = data[key];
+      userContainer = getDOMChildrenByClass(
+        USERS_LIST_CONTAINER_ID,
+        SINGLE_USER_CLASS_NAME
+      )
+        .filter(function filterContainers(container) {
+          return getUserID(container) === key;
+        })
+        .shift();
+      if (!userContainer) {
+        appendSingleUser(user, key);
+        return;
+      }
+      userStatusElement = getDOMChildrenByTag(userContainer, "div").shift();
       if (isUserOnline(user)) {
-        userStatusElement.classList.remove(OFFLINE_CLASS_NAME);
-        userStatusElement.classList.add(ONLINE_CLASS_NAME);
+        setUserStatus(userStatusElement, OFFLINE_CLASS_NAME, ONLINE_CLASS_NAME);
+      } else {
+        setUserStatus(userStatusElement, ONLINE_CLASS_NAME, OFFLINE_CLASS_NAME);
       }
       getDOMChildrenByTag(userContainer, "label").pop().innerHTML =
         user.chatState;
       if (user.read) {
         return;
       }
-      if (!getDOMChildrenByClass(SELECTED_USER_INNER_ID)) {
+      if (!getDOMElement(SELECTED_USER_INNER_ID)) {
         userContainer.classList.add(UNREAD_CLASS_NAME);
         return;
       }
