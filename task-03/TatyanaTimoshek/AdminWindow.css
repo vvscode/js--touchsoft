@@ -17,7 +17,7 @@ body {
 .operatorDashboardText {
   padding-left: 15px;
   padding-top: 5px;
-  font-family: Arial Black;
+  font-family: Arial Black !important;
 }
 
 .borders {
