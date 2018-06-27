@@ -9,5 +9,5 @@
 
 function bind(func, context) {
     return function getFunct(){
-        func.apply(context,arguments);
+        return func.apply(context,arguments);
 }
