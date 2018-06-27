@@ -1,4 +1,11 @@
-var userDataManager =  (function (config) {
+/* exported userDataManager */
+/* global dataSource */
+/* global messageListManager */
+/* global createMessageObject */
+/* global getCurrentDate */
+/* global getElement */
+/* global mainConfig */
+var userDataManager =  (function createUserDataManager (config) {
     function UserDataManager () {
     }
 
@@ -14,13 +21,13 @@ var userDataManager =  (function (config) {
     };
 
     UserDataManager.prototype.getUserData = function getUserData (userId) {
-        return dataSource.usersAPI.getUserData(userId).then(function (data) {
+        var newMessageList;
+        var messagesObject = [];
+        return dataSource.usersAPI.getUserData(userId).then(function userDataSet (data) {
             config.currentUserSettings.userName = data.userName;
             config.currentUserSettings.isMinimize = data.isMinimize;
             if(data.messages) {
-                var newMessageList;
-                var messagesObject = [];
-                Object.keys(data.messages).map(function (message) {
+                Object.keys(data.messages).map(function addMessageObject (message) {
                     messagesObject.push(createMessageObject(
                         data.messages[message].message,
                         data.messages[message].date,
@@ -28,6 +35,7 @@ var userDataManager =  (function (config) {
                         data.messages[message].itIsRead,
                         message
                     ));
+                    return true;
                 });
                 newMessageList = messageListManager.createMessageList(messagesObject);
                 messageListManager.updateMessageList(newMessageList);
@@ -35,10 +43,11 @@ var userDataManager =  (function (config) {
         });
     };
 
-    UserDataManager.prototype.createNewUserProfileToDataBase = function () {
+    UserDataManager.prototype.createNewUserProfileToDataBase = function createNewUserProfileToDataBase () {
         var that = this;
-        Object.keys(config.currentUserSettings).map(function (key) {
+        Object.keys(config.currentUserSettings).map(function saveField (key) {
             that.saveSettingField(key);
+            return true;
         });
     };
 
@@ -63,7 +72,7 @@ var userDataManager =  (function (config) {
         this.saveMessageToDataSource(messageObject);
     };
 
-    UserDataManager.prototype.getMessageFromInputElement = function () {
+    UserDataManager.prototype.getMessageFromInputElement = function getMessageFromInputElement () {
         var element = getElement(config.CSS_CURRENT_INPUT_CLASS);
         var value = element.value;
         element.value = "";
@@ -80,8 +89,9 @@ var userDataManager =  (function (config) {
 
 
     UserDataManager.prototype.saveMessageToDataSource = function saveMessageToDataSource (messageObject) {
+        var userSettings;
         if(messageObject.sender === config.currentUserSettings.userName) {
-            var userSettings = [{
+            userSettings = [{
                 userId: config.currentUserSettings.userId,
                 fieldName: "sendNewMessage",
                 fieldValue: true
@@ -97,8 +107,8 @@ var userDataManager =  (function (config) {
     };
 
     // Settings = [{userId, fieldName, fieldValue},{}...]
-    UserDataManager.prototype.saveUserSettingsToDataSource = function (settings) {
-        settings.forEach(function (newFieldSetting) {
+    UserDataManager.prototype.saveUserSettingsToDataSource = function saveUserSettingsToDataSource (settings) {
+        settings.forEach(function saveSetting (newFieldSetting) {
             dataSource.usersAPI.setField(
                 newFieldSetting.userId,
                 newFieldSetting.fieldName,

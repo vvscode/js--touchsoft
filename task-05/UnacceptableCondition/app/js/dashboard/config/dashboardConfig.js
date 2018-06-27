@@ -1,3 +1,4 @@
+/* exported mainConfig */
 var mainConfig = {
     DOM: {
         // Css класс DOM элемента в котором необходимо отображать список юзеров

@@ -1,6 +1,6 @@
 /* global getElement */
-/* global chatManagerConfig */
-/* exported chatManager */
+/* global mainConfig */
+/* exported messageListManager */
 // Модуль для работы со списком сообщений ОДНОГО пользователя
 var messageListManager = (function setupMessageListManager (config) {
     //  //////////////////////////////////
@@ -16,7 +16,7 @@ var messageListManager = (function setupMessageListManager (config) {
     //  ///////////////////////////////////
     function MessageListManager() {}
 
-    MessageListManager.prototype.setup = function () {
+    MessageListManager.prototype.setup = function setup () {
         this.messageList = [];
         this.cDOM = {
             messagesBlock: getElement(
@@ -95,9 +95,9 @@ var messageListManager = (function setupMessageListManager (config) {
         return messageContainerDiv;
     };
 
-    MessageListManager.prototype.createDivForMessageBlock = function (text, isDisplay, styleClasses) {
+    MessageListManager.prototype.createDivForMessageBlock = function createDivForMessageBlock (text, isDisplay, styleClasses) {
         var div = document.createElement("div");
-        styleClasses.forEach(function (style) {
+        styleClasses.forEach(function classAdd (style) {
             div.classList.add(style);
         });
         div.innerHTML = text;

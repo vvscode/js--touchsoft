@@ -1,3 +1,8 @@
+/* exported userListManager */
+/* global clearElementContent */
+/* global getElement */
+/* global mainConfig */
+/* global sorter */
 var userListManager = (function createUserList (config, sorter) {
     //  ////////////////////////////////////////////////////////////////////////
     /* Формат объекта в списке юзера
@@ -18,7 +23,7 @@ var userListManager = (function createUserList (config, sorter) {
         this.uList = {};
     }
 
-    UserListManager.prototype.setup = function () {};
+    UserListManager.prototype.setup = function setup () {};
 
     // Создает DOM елемент для отображения юзера в списке
     UserListManager.prototype.createUserElement = function createUserElement(

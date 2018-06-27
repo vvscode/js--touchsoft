@@ -1,4 +1,10 @@
-var chatController = (function (config) {
+/* global userDataManager */
+/* global chatCustomizer */
+/* global getHash */
+/* global getElement */
+/* global mainConfig */
+/* global viewFactory */
+var chatController = (function createChatController (config) {
 
     // INCLUDE //
 
@@ -8,15 +14,15 @@ var chatController = (function (config) {
 
     function ChatController() {}
 
-    ChatController.prototype.startApp = function () {
+    ChatController.prototype.startApp = function startApp () {
         var that = this;
         // localStorage.removeItem(config.LOCAL_STORAGE_NAME);
-        return this.setupChatView().then( function () {
+        return this.setupChatView().then( function startAuthorizationAndBasicListeners () {
             that.authorization(config.chatSettings.requireName);
             that.setupChatBasicListeners();
-        }).then(function () {
+        }).then(function afterSetupViewConfiguration () {
             if(config.currentUserSettings.userId) {
-                userDataManager.getUserData(config.currentUserSettings.userId).then(function () {
+                userDataManager.getUserData(config.currentUserSettings.userId).then(function afterUserDataSetup () {
                     that.setupChatStyle();
                     that.setupIntervalFunctions();
                     that.setupChatSendListeners();
@@ -24,7 +30,7 @@ var chatController = (function (config) {
             } else {
                 that.setupChatStyle();
             }
-        }).then(function () {
+        }).then(function postChatSetup () {
             chatCustomizer.setupOuterChatSettings();
         })
     };
@@ -47,14 +53,14 @@ var chatController = (function (config) {
         }
     };
 
-    ChatController.prototype.toggleAuthorizationMenuVisible = function () {
+    ChatController.prototype.toggleAuthorizationMenuVisible = function toggleAuthorizationMenuVisible () {
         getElement(config.DOM.AUTHORIZATION_MENU_CLASS).classList.toggle(
             config.INVISIBLE_CLASS
         )
     };
 
     // Если требуется ввести имя, получаем его и заносим юзера в бд
-    ChatController.prototype.getUserNameFromInput = function () {
+    ChatController.prototype.getUserNameFromInput = function getUserNameFromInput () {
         config.currentUserSettings.userName = getElement(
             config.DOM.USER_NAME_INPUT_CLASS
         ).value;
@@ -71,7 +77,7 @@ var chatController = (function (config) {
 
     // Setup Chat //
 
-    ChatController.prototype.setupChatSendListeners = function () {
+    ChatController.prototype.setupChatSendListeners = function setupChatSendListeners () {
         // setup chat listeners
         getElement(config.DOM.SEND_MESSAGE_FULL_SIZE_BUTTON).addEventListener(
             'click',
@@ -89,7 +95,7 @@ var chatController = (function (config) {
         document.addEventListener("mousemove", userDataManager.setMessageAsRead.bind(userDataManager));
     };
 
-    ChatController.prototype.setupChatBasicListeners = function () {
+    ChatController.prototype.setupChatBasicListeners = function setupChatBasicListeners () {
         var that = this;
         getElement(config.DOM.SEND_USER_NAME_BUTTON).addEventListener(
             "click",
@@ -140,7 +146,7 @@ var chatController = (function (config) {
         userDataManager.saveSettingField("lastOnline");
     };
 
-    ChatController.prototype.changeInputAndSendButtonClass = function () {
+    ChatController.prototype.changeInputAndSendButtonClass = function changeInputAndSendButtonClass () {
         if(config.currentUserSettings.isMinimize) {
             config.CSS_CURRENT_INPUT_CLASS = config.DOM.CSS_MIN_SIZE_INPUT_MESSAGE_BLOCK_CLASS
         } else {
@@ -160,9 +166,9 @@ var chatController = (function (config) {
 
     // WORK WITH LOCAL STORAGE //
 
-    ChatController.prototype.setupIntervalFunctions = function () {
+    ChatController.prototype.setupIntervalFunctions = function setupIntervalFunctions () {
         var that = this;
-        setInterval( function () {
+        setInterval( function intervalFunctions () {
             userDataManager.getUserData(config.currentUserSettings.userId);
             that.activityNotify();
         }, config.UPDATE_USER_DATA_TIME)

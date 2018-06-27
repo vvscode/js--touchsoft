@@ -1,12 +1,13 @@
+/* exported dataSource */
+/* global dataBaseUrl */
+/* global dataConnector */
 // Модуль для получения данных
 // Все API функции возвращают промисы
 var dataSource = (function createDataSource (dataConnector) {
     var dataSourceInstance;
     var dataSourceAPI;
 
-    function DataSource() {
-        dataConnector = dataConnector;
-    }
+    function DataSource() {}
 
     DataSource.prototype.createRequestPath = function createRequestPath(
         dataBaseURL,

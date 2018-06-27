@@ -1,9 +1,9 @@
+/* exported launcher */
+/* global getElement */
+/* global mainConfig */
 var launcher = (function createLauncher (config) {
 
     var DOMVariables = {};
-
-    function Launcher() {}
-
     var keyOfValue = {
         chatTitle: {
             typeOfValue: "value"
@@ -39,12 +39,14 @@ var launcher = (function createLauncher (config) {
         }
     };
 
-    Launcher.prototype.getDataFromElement = function (keyOfValue) {
+    function Launcher() {}
+
+    Launcher.prototype.getDataFromElement = function getDataFromElement (key) {
         var src = "";
         var that = this;
         var typeOfValue;
-        Object.keys(DOMVariables).map(function (elementName, index) {
-            if(keyOfValue[elementName]) {
+        Object.keys(DOMVariables).map(function setupData (elementName, index) {
+            if(key[elementName]) {
                 if(index > 0) {
                     typeOfValue = DOMVariables[elementName].getAttribute("type");
                     src += "'&" + elementName + "='" + that.getElementValue(elementName, typeOfValue);
@@ -52,6 +54,7 @@ var launcher = (function createLauncher (config) {
                     src += elementName + "='" + that.getElementValue(elementName);
                 }
             }
+            return true;
         });
         if(src.length < 1) {
             src = null;
@@ -59,7 +62,7 @@ var launcher = (function createLauncher (config) {
         return src;
     };
 
-    Launcher.prototype.getElementValue = function (name, type) {
+    Launcher.prototype.getElementValue = function getElementValue (name, type) {
         var value = DOMVariables[name][keyOfValue[name].typeOfValue];
         if(type === "radio") {
             return keyOfValue[name][value];
@@ -78,6 +81,7 @@ var launcher = (function createLauncher (config) {
         config.launcher.after.map((function createScriptPart (element) {
             DOMVariables[element] =  getElement(config.launcher.pattern + element, false, true);
             DOMVariables[element].addEventListener("input", createScript.bind(that));
+            return true;
         }));
     };
 

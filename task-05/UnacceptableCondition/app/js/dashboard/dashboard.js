@@ -1,10 +1,17 @@
-var dashboard = (function createController(config, dataSource, uDataManager, uListManager, sorter){
+/* exported dashboard */
+/* global getElement */
+/* global userDataManager */
+/* global mainConfig */
+/* global userListManager */
+/* global dataSource */
+/* global sorter */
+var dashboard = (function createDashboardController(config, dataSource, uDataManager, uListManager, sorter){
 
     var intervalId = [];
 
     function DashboardController() {}
 
-    DashboardController.prototype.startApp = function () {
+    DashboardController.prototype.startApp = function startApp () {
         uListManager.setup(config, sorter);
         uDataManager.setup(config);
         this.setupUsersListBlock();
@@ -106,7 +113,7 @@ var dashboard = (function createController(config, dataSource, uDataManager, uLi
         var that = this;
         return this.setUsersListToUsersModule(newUserList).then(function displayUList () {
             uListManager.displayUsers();
-        }).then(function () {
+        }).then(function toggleMessageIndicator () {
             that.toggleNewMessageIndicatorToUser();
         });
     };
@@ -134,7 +141,7 @@ var dashboard = (function createController(config, dataSource, uDataManager, uLi
         });
     };
 
-    DashboardController.prototype.getUserList = function () {
+    DashboardController.prototype.getUserList = function getUserList () {
         var usersList = [];
         return dataSource.usersAPI.getAllUsers().then(function setUserData(userData) {
             Object.keys(userData).map(function setUserSetting(userId) {
@@ -163,7 +170,7 @@ var dashboard = (function createController(config, dataSource, uDataManager, uLi
         var that = this;
         config.currentUserSettings.userId = userId;
         uDataManager.getUserData(userId)
-            .then(function  () {
+            .then(function saveLocalData () {
                 getElement(config.DOM.CSS_CHAT_CONTAINS_BLOCK_STYLE).classList.remove(config.INVISIBLE_CLASS);
                 that.saveCurrentConditionToLocalStorage();
             })
@@ -275,8 +282,8 @@ var dashboard = (function createController(config, dataSource, uDataManager, uLi
         }, config.interval.UPDATE_USERS_TIME))
     };
 
-    DashboardController.prototype.closeApp = function () {
-        intervalId.forEach(function (id) {
+    DashboardController.prototype.closeApp = function closeApp () {
+        intervalId.forEach(function clear (id) {
             clearInterval(id)
         })
     };

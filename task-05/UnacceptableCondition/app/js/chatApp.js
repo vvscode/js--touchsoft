@@ -1,4 +1,4 @@
-//config
+// config
 
 //= chatApplication/config/userChatConfig.js
 //= common/config/commonConfig.js
