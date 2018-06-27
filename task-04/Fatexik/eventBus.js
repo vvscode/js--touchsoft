@@ -22,7 +22,7 @@ EventBus.prototype.on = function on(key, cb) {
         this.functionsBack[key] = [];
     }
     this.functionsBack[key].push(cb);
-    return;
+    return true;
 };
 EventBus.prototype.off = function off(key, cb) {
     var i;
