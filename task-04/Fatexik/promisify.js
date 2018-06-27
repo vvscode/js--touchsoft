@@ -14,7 +14,7 @@ function promisify() {
     return function promise() {
         var args = [].slice.call(arguments);
         var context = this;
-        return new Promise(function promise(resolve, reject) {
+        return new Promise(function newPromise(resolve, reject) {
             function callBackPromise() {
                 var error = arguments[0];
                 var data = arguments[1];

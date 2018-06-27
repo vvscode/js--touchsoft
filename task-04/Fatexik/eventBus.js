@@ -5,12 +5,11 @@ function EventBus() {
     this.functionsBack = [];
 }
 
-EventBus.prototype.trigger = function trigger(key, cb) {
-    var i = 0;
+EventBus.prototype.trigger = function trigger(key) {
     var args = [].slice.call(arguments);
     args.shift();
     if (this.functionsBack[key]) {
-        this.functionsBack[key].forEach(function (value) {
+        this.functionsBack[key].forEach(function arrayProcessing(value) {
             value.apply(this,args)
         })
     }
