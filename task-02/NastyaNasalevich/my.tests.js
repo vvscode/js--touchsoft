@@ -41,7 +41,7 @@ QUnit.test('Change chat state', function test(assert) {
         done();
       }
     );
-  }, 1500);
+  }, 3000);
 });
 
 QUnit.test('Hire chat history', function test(assert) {
