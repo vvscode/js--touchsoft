@@ -9,20 +9,23 @@
  *
  * Аналог https://nodejs.org/api/util.html#util_util_promisify_original
  */
-function promisify(callBack) {
-    return function retPromisify() {
+function promisify() {
+    var cb = arguments[arguments.length-1];
+    return function promise() {
         var args = [].slice.call(arguments);
         var context = this;
         return new Promise(function promise(resolve, reject) {
             function callBackPromise() {
-                if (arguments[0]) {
-                    reject(arguments[0]);
+                var error = arguments[0];
+                var data = arguments[1];
+                if (error) {
+                    reject(error);
                 }
-                resolve(arguments[1])
+                resolve(data)
 
             }
             args.push(callBackPromise);
-            callBack.apply(context, args);
+            cb.apply(context, args);
         })
     }
 }

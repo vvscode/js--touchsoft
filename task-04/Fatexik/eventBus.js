@@ -4,17 +4,18 @@
 function EventBus() {
     this.functionsBack = [];
 }
-EventBus.prototype.trigger = function trigger (key) {
+
+EventBus.prototype.trigger = function trigger(key, cb) {
     var i = 0;
     var args = [].slice.call(arguments);
     args.shift();
     if (this.functionsBack[key]) {
-        for (i = 0; i < this.functionsBack[key].length; i++) {
-            this.functionsBack[key][i].apply(this, args);
-        }
+        this.functionsBack[key].forEach(function (value) {
+            value.apply(this,args)
+        })
     }
 };
-EventBus.prototype.on = function On(key, cb) {
+EventBus.prototype.on = function on(key, cb) {
     if (typeof cb !== "function") {
         return null;
     }
@@ -24,10 +25,11 @@ EventBus.prototype.on = function On(key, cb) {
     this.functionsBack[key].push(cb);
 };
 EventBus.prototype.off = function off(key, cb) {
-    var i = 0;
+    var i;
     for (i = 0; i < this.functionsBack[key].length; i++) {
         if (this.functionsBack[key][i] === cb) {
             this.functionsBack[key].splice(i, 1);
+            break;
         }
     }
 };

@@ -28,18 +28,9 @@ function debounce(callback, time) {
     var callbackTime = time;
     var timerId;
     return function start() {
-
-        if (timerId) {
-            clearTimeout(timerId);
-        }
-
-        function setupTimer() {
-            timerId = setTimeout(
-                callbackFunc.bind(this, arguments[0]),
-                callbackTime
-            );
-        }
-
-        setupTimer(arguments[0])
+        clearTimeout(timerId);
+        timerId = setTimeout(
+            callbackFunc.bind(this, arguments[0]),
+            callbackTime);
     };
 }

@@ -9,12 +9,12 @@
  * Число вызовов может быть неограниченым
  */
 function sum(value) {
+    var captured = value || 0;
     function add(val) {
-        return sum(val == null ? add.captured : add.captured + val);
+        return sum(val == null ? captured : captured + val);
     }
-    add.captured = value || 0;
     add.toString = function toString() {
-        return add.captured;
+        return captured;
     };
     return add;
 }
