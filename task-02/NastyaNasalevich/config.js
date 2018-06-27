@@ -32,9 +32,10 @@ function createChatScript(){
   "&gt&lt/script&gt";
  }
 
-window.addEventListener('load', function createPage(){
+ window.addEventListener('load', function createPage(){
   elementsId.forEach(function changeScript(e) {
     chatSetup[e] = document.getElementById(e);
-    chatSetup[e].addEventListener('input', function createChatScript);
+    chatSetup[e].addEventListener('input', createChatScript)
+  });
   createChatScript();
 });

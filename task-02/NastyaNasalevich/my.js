@@ -136,7 +136,7 @@ function parseConfigFromScript() {
 
 function setConfig() {
     var configObject = parseConfigFromScript();
-    Object.keys(configObject).forEach(function (key) {
+    Object.keys(configObject).forEach(function assignConfig(key) {
         if (configObject[key] !== '') {
             config[key] = configObject[key];
           }
@@ -356,7 +356,7 @@ function addHistoryToPage() {
             if (!body) {
                 return;
               }
-              Object.keys(body).forEach(function (key) {
+              Object.keys(body).forEach(function addEachMessage(key) {
                 message = new Message(new Date(body[key].time), body[key].sender, body[key].body);
                 historyPanel.innerHTML += '<br>' + message.showMessage();
               });
