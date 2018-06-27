@@ -136,7 +136,8 @@ function parseConfigFromScript() {
 
 function setConfig() {
     var configObject = parseConfigFromScript();
-    for (var key in configObject) {
+    var key;
+    for (key in configObject) {
       if (configObject[key] !== '') {
         config[key] = configObject[key];
       }
@@ -172,7 +173,7 @@ function sendFetchRequest(method, path, key, body) {
     )  
     .then(function getResponse(response) {
         return response.json();
-      }).catch(function(error) {
+      }).catch(function err(error) {
         console.log('There has been a problem with your fetch operation: ', error.message);
       });
 }
@@ -338,24 +339,28 @@ function createHistory() {
 }
 
 function initChatPosition() {
+    var chatPosition;
+
     if (config.position === 'left') {
-        return 'chatPositionLeft';
+        chatPosition = 'chatPositionLeft';
     } else {
-        return 'chatPositionRight';
+        chatPosition = 'chatPositionRight';
     }
+
+    return chatPosition;
 }
 
 function addHistoryToPage() {
     sendRequestToDatabase('GET', 'messages/', '').then(
         function displayMessages(body) {
-          var message;
-          if (!body) {
-            return;
-          }
-          for (var key in body) {
-            message = new Message(new Date(body[key].time), body[key].sender, body[key].body);
-            historyPanel.innerHTML += '<br>' + message.showMessage();
-          }
+            var key;
+            var message;
+            if (body) {
+                for (key in body) {
+                    message = new Message(new Date(body[key].time), body[key].sender, body[key].body);
+                    historyPanel.innerHTML += '<br>' + message.showMessage();
+                }
+            }
         }
     );    
 }
@@ -367,11 +372,11 @@ function createUserID() {
 }
 
 function createFullChat() {
-    getChatState();
-
     var history = createHistory();
     var textInput = createTextInput();
-    var sendButton = createSendButton();
+    sendButton = createSendButton();
+    getChatState();
+
     historyElement = history;
     inputElement = textInput;
     buttonElement = sendButton;
@@ -440,13 +445,14 @@ function createChat() {
     document.body.appendChild(main);
     
     setTimeout(function check(){
+        var nameRequest;
         if (!JSON.parse(config.requireName)) {
             createFullChat();
         } else if (userName !== null) {
             console.log(userName);
             createFullChat();
         } else {
-            var nameRequest = createDivForNameRequest();
+            nameRequest = createDivForNameRequest();
             main.appendChild(nameRequest);
         }
     }, 1000)

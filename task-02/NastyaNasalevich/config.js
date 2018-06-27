@@ -6,11 +6,15 @@ var elementsId = [
 var chatSetup = {};
 
 function getRequestValue(){
+  var requestType;
+
   if(chatSetup['config-xhr'].checked) {
-    return "XHR'";
+    requestType = "XHR'";
   } else {
-    return "fetch'";
+    requestType = "fetch'";
   }
+  
+  return requestType;
 }
 
 function createChatScript(){
@@ -31,9 +35,6 @@ function createChatScript(){
 window.addEventListener('load', function createPage(){
   elementsId.forEach(function changeScript(e) {
     chatSetup[e] = document.getElementById(e);
-    chatSetup[e].addEventListener('input', function () {
-      createChatScript();
-    });
-  });
+    chatSetup[e].addEventListener('input', function createChatScript);
   createChatScript();
 });

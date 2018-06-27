@@ -7,9 +7,7 @@ QUnit.module('Create a chat', {
 });
 
 QUnit.test('Creating of chat', function test(assert) {
-  setTimeout(function checkChatCreating() {
-    var chat = createChat();
-  }, 1000);
+  var chat = createChat();
   assert.ok(chat !== null, 'Chat created!');
 });
 
@@ -26,6 +24,7 @@ QUnit.module('Change chat state', {
 
 QUnit.test('Change chat state', function test(assert) {
   var prevState;
+  var done = assert.async();
   setTimeout(function findoutChatState() {
     sendRequestToDatabase('GET', 'users/', 'isChatHidden').then(
       function setState(body) {
@@ -35,7 +34,6 @@ QUnit.test('Change chat state', function test(assert) {
     );
   }, 1000);
 
-  var done = assert.async();
   setTimeout(function findoutChatState() {
     sendRequestToDatabase('GET', 'users/', 'isChatHidden').then(
       function setState(body) {
@@ -80,13 +78,12 @@ QUnit.test('Check the adding messages to the history panel', function test(asser
 QUnit.module('Set Username');
 
 QUnit.test('Check saving Username to database', function test(assert) {
-
+  var done = assert.async();
   var nameRequest = createDivForNameRequest();
   main.appendChild(nameRequest);
   requireNameInput.value = 'Luis Suarez';
   requireNameButton.click();
 
-  var done = assert.async();
   setTimeout(function sendRequest() {
     sendRequestToDatabase('GET', 'users/', 'userName').then(
       function checkUserName(body) {
@@ -103,13 +100,13 @@ QUnit.test('Check fetch request', function test(assert) {
   var prevData;
   var done = assert.async();
   sendFetchRequest('GET', 'messages/', '')
-        .then(function sendRequest(body) {
+        .then(function sendGetRequest(body) {
           prevData = body;
         });
   sendFetchRequest('POST', 'messages/', '', new Message(new Date(), 'YOU', 'New message'))
-    .then(function sendRequest() {
+    .then(function sendPostRequest() {
       sendFetchRequest('GET', 'messages/', '')
-        .then(function sendRequest(body) {
+        .then(function sendGetRequest(body) {
           assert.notStrictEqual(body, prevData, 'Fetch request are working!');
           done();
         });
@@ -120,13 +117,13 @@ QUnit.test('Check XHR request', function test(assert) {
   var prevData;
   var done = assert.async();
   sendXhrRequest('GET', 'messages/', '')
-        .then(function sendRequest(body) {
+        .then(function sendGetRequest(body) {
           prevData = body;
         });
   sendXhrRequest('POST', 'messages/', '', new Message(new Date(), 'YOU', 'New message'))
-    .then(function sendRequest() {
+    .then(function sendPostRequest() {
       sendXhrRequest('GET', 'messages/', '')
-        .then(function sendRequest(body) {
+        .then(function sendGetRequest(body) {
           assert.notStrictEqual(body, prevData, 'XHR request are working!');
           done();
         });

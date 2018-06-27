@@ -2,4 +2,4 @@
 
 [Ссылка на чат](http://htmlpreview.github.io/?https://github.com/NastyaNasalevich/js--touchsoft/blob/master/task-02/NastyaNasalevich/chat.html)
 
-[Ссылка на тесты](https://rawgit.com/NastyaNasalevich/js--touchsoft/master/task-02/NastyaNasalevich/tests.html)
+[Ссылка на тесты](http://htmlpreview.github.io/?https://github.com/NastyaNasalevich/js--touchsoft/blob/master/task-02/NastyaNasalevich/tests.html)
