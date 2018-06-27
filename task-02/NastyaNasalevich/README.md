@@ -1,2 +1,3 @@
-[Ссылка на рабочий код](http://jsbin.com/nayitux/4/edit?js,output)
-[Ссылка на тесты](http://jsbin.com/kejanik/2/edit?js,output)
+[Ссылка на конфигуратор](http://htmlpreview.github.io/?https://github.com/NastyaNasalevich/js--touchsoft/blob/master/task-02/NastyaNasalevich/config.html)
+
+[Ссылка на тесты](https://rawgit.com/NastyaNasalevich/js--touchsoft/master/task-02/NastyaNasalevich/tests.html)
