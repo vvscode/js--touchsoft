@@ -8,6 +8,7 @@
  */
 
 function bind(func, context) {
-    return function getFunct(){
-        return func.apply(context,arguments);
+        return function getFunct() {
+            return func.apply(context, arguments);
+        }
 }
