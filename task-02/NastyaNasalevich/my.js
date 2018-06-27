@@ -136,12 +136,11 @@ function parseConfigFromScript() {
 
 function setConfig() {
     var configObject = parseConfigFromScript();
-    var key;
-    for (key in configObject) {
-      if (configObject[key] !== '') {
-        config[key] = configObject[key];
-      }
-    }
+    Object.keys(configObject).forEach(function (key) {
+        if (configObject[key] !== '') {
+            config[key] = configObject[key];
+          }
+      });
 }
 
 function sendXhrRequest(method, path, key, body) {
@@ -353,14 +352,14 @@ function initChatPosition() {
 function addHistoryToPage() {
     sendRequestToDatabase('GET', 'messages/', '').then(
         function displayMessages(body) {
-            var key;
             var message;
-            if (body) {
-                for (key in body) {
-                    message = new Message(new Date(body[key].time), body[key].sender, body[key].body);
-                    historyPanel.innerHTML += '<br>' + message.showMessage();
-                }
-            }
+            if (!body) {
+                return;
+              }
+              Object.keys(body).forEach(function (key) {
+                message = new Message(new Date(body[key].time), body[key].sender, body[key].body);
+                historyPanel.innerHTML += '<br>' + message.showMessage();
+              });
         }
     );    
 }
