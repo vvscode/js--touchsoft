@@ -68,6 +68,7 @@ var mainController = (function createMainController (config) {
             if(key !== hash) {
                 closeFunctions[key]();
             }
+            return true;
         })
     };
 

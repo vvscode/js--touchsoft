@@ -6,6 +6,7 @@
 /* global viewFactory */
 /* global getElement */
 /* global chatCustomizer */
+/* global userDataManager */
 var tests = QUnit.test;
 var module = QUnit.module;
 var testConfig = {
@@ -266,7 +267,7 @@ tests("addMessageToMessageList should add message", function test(assert) {
 module("viewFactory tests");
 tests("add html to page", function test(assert) {
     var done = assert.async();
-    viewFactory.includeViewHTMLToPage(mainConfig.router.ABOUT_HTML_PATH, "content").then(function test () {
+    viewFactory.includeViewHTMLToPage(mainConfig.router.ABOUT_HTML_PATH, "content").then(function testIncludeHtml () {
         assert.ok(
             getElement("root-touchsoft-about"),
             "add html to page"
