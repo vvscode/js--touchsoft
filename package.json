@@ -1,7 +1,7 @@
 {
   "name": "js--touchsoft",
   "version": "1.0.0",
-  "description": "",
+  "description": "---",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Warning: no test specified\" && exit 0",
@@ -25,5 +25,6 @@
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-import": "2.12.0",
     "lint-diff": "1.2.0"
-  }
+  },
+  "dependencies": {}
 }

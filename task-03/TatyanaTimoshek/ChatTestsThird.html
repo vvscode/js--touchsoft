@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>QUnit Example</title>
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-git.css">
+  <link rel="stylesheet" href="https://rawgit.com/TatyanaTimoshek/js--touchsoft/Dashboard/task-03/TatyanaTimoshek/AdminWindow.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <div id="idOperatorDashboard" class="operatorDashboard fixedPosition">
+    <div class="operatorDashboardText">Operator's Dashbourd</div>
+    <div id="idActive" class="active fixedPosition borders ">Active:&#160;
+      <div id="idActiveUser" class="activeUser">User</div>
+      <div id="idClose" class="close fixedPosition">x</div>
+      <div id="idChat" class="chat fixedPosition indents borders">Chat</div>
+      <div id="idControl" class="control fixedPosition indents borders">Control</div>
+      <div id="idHistory" class="history fixedPosition borders">History</div>
+      <textarea id="idInputMessage" class="inputMessage fixedPosition borders" placeholder="Enter your message.."></textarea>
+      <div id="idSendButton" class="sendButton fixedPosition borders">Send</div>
+      <div id="idUnknownField" class="unknownField fixedPosition borders"></div>
+    </div>
+    <div id="idMountains" class=""><img class="mountains fixedPosition" src="https://rawgit.com/TatyanaTimoshek/js--touchsoft/Dashboard/task-03/TatyanaTimoshek/mountains.jpg"></div>
+    <div>
+      <input id="idFilterUsers" class="filterUsers forFilter" placeholder="&#128269;       Filter"></input>
+    </div>
+    <select id="idSortUsers" class="filterUsers forSort">
+      <option id="idSelectSortBy">Sort by</option>
+      <option id="idSelectActivity">Activity</option>
+      <option id="idSelectNamey">Name</option>
+      <option id="idSelectUnreadMessages">Unread Messages</option>
+    </select>
+    <div id="idUserPanel">
+      <select multiple class="userPanel borders" id="idUsers">
+      </select>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/qunit/qunit-git.js"></script>
+  <script src="https://rawgit.com/TatyanaTimoshek/js--touchsoft/Dashboard/task-03/TatyanaTimoshek/AdminWindow.js"></script>
+  <script src="https://rawgit.com/TatyanaTimoshek/js--touchsoft/Dashboard/task-03/TatyanaTimoshek/ChatTestsThird.js"></script>
+</body>
+</html>
