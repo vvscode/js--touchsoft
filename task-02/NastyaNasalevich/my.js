@@ -366,6 +366,31 @@ function createUserID() {
     }
 }
 
+function createFullChat() {
+    getChatState();
+
+    var history = createHistory();
+    var textInput = createTextInput();
+    var sendButton = createSendButton();
+    historyElement = history;
+    inputElement = textInput;
+    buttonElement = sendButton;
+
+    setTimeout(function create() {
+        historyElement.style.display = isChatHidden ? 'none' : 'block';
+        console.log(isChatHidden);
+        inputElement.style.display = isChatHidden ? 'none' : 'block';
+        buttonElement.style.display = isChatHidden ? 'none' : 'block';
+        main.style.height = isChatHidden ? '30px' : '365px';
+    
+        addHistoryToPage();
+    }, 1000);
+
+    main.appendChild(history);
+    main.appendChild(textInput);
+    main.appendChild(sendButton);
+}
+
 function createDivForNameRequest() {
     var requireNameWrapper = document.createElement('div');
     var requireNameTitle = document.createElement('h4');
@@ -390,31 +415,6 @@ function createDivForNameRequest() {
     });
 
     return requireNameWrapper;
-}
-
-function createFullChat() {
-    getChatState();
-
-    var history = createHistory();
-    var textInput = createTextInput();
-    var sendButton = createSendButton();
-    historyElement = history;
-    inputElement = textInput;
-    buttonElement = sendButton;
-
-    setTimeout(function create() {
-        historyElement.style.display = isChatHidden ? 'none' : 'block';
-        console.log(isChatHidden);
-        inputElement.style.display = isChatHidden ? 'none' : 'block';
-        buttonElement.style.display = isChatHidden ? 'none' : 'block';
-        main.style.height = isChatHidden ? '30px' : '365px';
-    
-        addHistoryToPage();
-    }, 1000);
-
-    main.appendChild(history);
-    main.appendChild(textInput);
-    main.appendChild(sendButton);
 }
 
 function createChat() {

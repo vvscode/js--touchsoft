@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 QUnit.module('Create a chat', {
   after() {
     document.body.removeChild(main);
