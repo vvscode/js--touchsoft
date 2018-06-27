@@ -322,10 +322,7 @@ function createStateButton() {
    stateButton.classList.add('stateButton');
    getChatState();
    
-   setTimeout(function(){
-    initStateButton();
-    console.log(isChatHidden);
-   }, 2000);
+   setTimeout(initStateButton, 2000);
 
    stateButton.addEventListener('click', changeChatState);
 
