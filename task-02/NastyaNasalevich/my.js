@@ -262,7 +262,7 @@ function addAnswer(text) {
  
         return message;
     }
-    setTimeout(createAnswer, 150);
+    setTimeout(createAnswer, 15000);
  }
  
 function sendMessage() {
@@ -285,7 +285,6 @@ function getChatState() {
     sendRequestToDatabase('GET', 'users/', 'isChatHidden').then(
         function setState(body) {
             isChatHidden = body;
-            console.log(isChatHidden);
         }
     );
  }
@@ -297,9 +296,9 @@ function getChatState() {
  function initStateButton() {
     if (!isChatHidden) {
         stateButton.innerHTML = '-';
-        } else {
-         stateButton.innerHTML = '[]'; 
-        }
+    } else {
+        stateButton.innerHTML = '[]'; 
+    }
 }
 
 function changeChatState() {
@@ -323,7 +322,10 @@ function createStateButton() {
    stateButton.classList.add('stateButton');
    getChatState();
    
-   initStateButton();
+   setTimeout(function(){
+    initStateButton();
+    console.log(isChatHidden);
+   }, 2000);
 
    stateButton.addEventListener('click', changeChatState);
 
@@ -382,7 +384,6 @@ function createFullChat() {
 
     setTimeout(function create() {
         historyElement.style.display = isChatHidden ? 'none' : 'block';
-        console.log(isChatHidden);
         inputElement.style.display = isChatHidden ? 'none' : 'block';
         buttonElement.style.display = isChatHidden ? 'none' : 'block';
         main.style.height = isChatHidden ? '30px' : '365px';
@@ -436,6 +437,7 @@ function createChat() {
     main.classList.add(initChatPosition());
         
     if (JSON.parse(config.allowMinimize)) {
+        console.log(isChatHidden);
         main.appendChild(createStateButton());
     }
     
