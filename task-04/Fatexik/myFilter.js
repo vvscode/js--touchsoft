@@ -17,7 +17,7 @@ Array.prototype.myFilter = function myFilter(cb, context) {
         throw e;
     }
     for (i = 0; i < array.length; i++) {
-        if (array[i]) {
+        if (array[i]!==undefined) {
             cbResult = callback(array[i], i, array);
             if (cbResult) {
                 list.push(array[i]);
