@@ -10,7 +10,6 @@ Array.prototype.myFilter = function myFilter(cb, context) {
     var array = that.slice();
     var list = [];
     var i;
-    var j;
     var cbResult;
     var callback = cb.bind(context);
     var e = new Error("callback is not function");
@@ -18,23 +17,6 @@ Array.prototype.myFilter = function myFilter(cb, context) {
         throw e;
     }
     for (i = 0; i < array.length; i++) {
-        if (array[i]) {
-            cbResult = callback(array[i], i, array);
-            i++;
-            break
-        }
-    }
-    if (cbResult === false) {
-        return list;
-    }
-    if (cbResult === true || typeof cbResult === "string") {
-        for (j = 0; j < array.length; j++) {
-            list.push(array[j]);
-        }
-        return list;
-    }
-    list.push(cbResult);
-    for (i; i < array.length; i++) {
         if (array[i]) {
             cbResult = callback(array[i], i, array);
             if (cbResult) {
