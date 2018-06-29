@@ -58,14 +58,13 @@ QUnit.test("Check message read",function checkRead(assert) {
 });
 QUnit.test("Get user chat config",function getConfig(assert) {
     var doneUserChatConfig = assert.async();
-    assert.expect(6);
+    assert.expect(5);
     dataBaseClass.getUserConfig("-LFcMCPpvBW7DbDHsubO").then(function check(value) {
         assert.ok(value,"config is received");
         assert.ok( Object.prototype.hasOwnProperty.call(value, "CSS"),"There is a CSS property");
         assert.ok( Object.prototype.hasOwnProperty.call(value, "userName"),"There is a userName property");
         assert.ok( Object.prototype.hasOwnProperty.call(value, "url"),"There is a url property");
         assert.ok( Object.prototype.hasOwnProperty.call(value, "network"),"There is a network property");
-        assert.ok( Object.prototype.hasOwnProperty.call(value, "messages"),"There is a messages property");
         doneUserChatConfig();
     })
 });
