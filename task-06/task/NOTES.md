@@ -1,8 +1,6 @@
 Пример работы с _long polling_
 
 ```javascript
-console.clear();
-var output = document.querySelector('#output');
 var xhttp = new XMLHttpRequest();
 var targetUrl = 'https://xxx.firebaseio.com/.json';
 
