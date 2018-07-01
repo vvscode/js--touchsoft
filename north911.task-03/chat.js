@@ -297,6 +297,8 @@ function getMessageXHR() {
 }
 
 setInterval(function(){
+    var logArea = document.getElementById('logArea');
+    logArea.value = '';
     addChatLogFromFireBase();
 }, 5000);
 
