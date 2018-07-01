@@ -131,14 +131,13 @@ var assignmentOfDragNDropefunc = function (chat) {
             chat.style.top = e.pageY - chat.offsetHeight / 2 + 'px';
         }
 
-
         document.onmousemove = function (e) {
             moveAt(e);
         }
 
         chat.onmouseup = function () {
             document.onmousemove = null;
-            chat.onmouseup = null;
+            document.getElementById('logArea').onmouseup = null;
         }
     }
 
@@ -163,7 +162,7 @@ var sendButtonController = function () {
     var timeOut = 900;
     var content = document.getElementById('textInput').value;
     sendMessage('I', content);
-    //setTimeout(messageAnswer, timeOut, content);
+    setTimeout(messageAnswer, timeOut, content);
 }
 
 
