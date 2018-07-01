@@ -109,7 +109,7 @@ function createChat() {
     chat.appendChild(input);
     chat.appendChild(btn);
     document.body.appendChild(chat);
-    assignmentOfDragNDropefunc(document.getElementById('chat'));
+    //assignmentOfDragNDropefunc(document.getElementById('chat'));
 
     return chat;
 }
