@@ -9,7 +9,7 @@ function setConfig(config) {
     Module(userConfig);
 }
 
-Module = (function chat(ConfigObj) {
+Module = (function chat(userConfigObj) {
     var configObj = {
         title: "Chat",
         name: "Bot",
@@ -42,9 +42,6 @@ Module = (function chat(ConfigObj) {
         })
     }
 
-    function FetchObject() {
-    }
-
     function sendXHRRequest(methodRequest, config, nameConfig, bodyObject) {
         var xhr = new XMLHttpRequest();
         xhr.open(methodRequest, configObj.url.concat("users/").concat(userId).concat(config).concat(nameConfig).concat(".json"));
@@ -55,13 +52,12 @@ Module = (function chat(ConfigObj) {
 
 
     function XHRObject() {
-        userId = localStorage.getItem("userId");
     }
 
     XHRObject.prototype.getMessages = function getMessages() {
         var arrayMessages;
         var messages;
-        var XhrPromise = new Promise(function sendRequest(resolve) {
+        var xhrPromise = new Promise(function sendRequest(resolve) {
             sendXHRRequest("GET", "/messages", "").onreadystatechange = function responseReady() {
                 if (this.status === OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
                     arrayMessages = JSON.parse(this.response);
@@ -73,47 +69,41 @@ Module = (function chat(ConfigObj) {
                 }
             }
         });
-        return XhrPromise;
+        return xhrPromise;
     };
 
 
     XHRObject.prototype.setUnreadMessage = function setUnreadMessage() {
         var isTrue = true;
-        var XhrPromise = new Promise(function sendRequest(resolve) {
-            sendXHRRequest("PUT", "/unreadMessage", "", isTrue).onreadystatechange = function responseReady() {
-                if (this.status === OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
-                    resolve(true);
-                }
+        sendXHRRequest("PUT", "/unreadMessage", "", isTrue).onreadystatechange = function responseReady() {
+            if (this.status !== OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
+                throw Error("Unread message not set")
             }
-        });
-        return XhrPromise;
+        };
+        return this;
     };
 
     XHRObject.prototype.sendMessage = function sendMesage(message) {
-        var XhrPromise = new Promise(function sendRequest(resolve) {
-            sendXHRRequest("POST", "/messages", "", message).onreadystatechange = function responseReady() {
-                if (this.status === OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
-                    resolve(true);
-                }
+        sendXHRRequest("POST", "/messages", "", message).onreadystatechange = function responseReady() {
+            if (this.status !== OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
+                throw new Error("Message not send");
             }
-        });
-        return XhrPromise;
+        };
+        return this;
     };
 
     XHRObject.prototype.setTimeActivity = function setTimeActivity() {
         var currentTime = new Date().getTime();
-        var XhrPromise = new Promise(function sendRequest(resolve) {
-            sendXHRRequest("PUT", "/activityTime", "", currentTime).onreadystatechange = function responseReady() {
-                if (this.status === OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
-                    resolve(true);
-                }
+        sendXHRRequest("PUT", "/activityTime", "", currentTime).onreadystatechange = function responseReady() {
+            if (this.status !== OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
+                throw new Error("Time activity not set");
             }
-        });
-        return XhrPromise;
+        };
+        return this;
     };
 
     XHRObject.prototype.getUserConfig = function getUserConfig() {
-        var XhrPromise = new Promise(function sendRequest(resolve) {
+        var xhrPromise = new Promise(function sendRequest(resolve) {
             var responseObj;
             sendXHRRequest("GET", "/chatConfig", "").onreadystatechange = function responseReady() {
                 if (this.status === OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
@@ -123,12 +113,12 @@ Module = (function chat(ConfigObj) {
                 }
             }
         });
-        return XhrPromise;
+        return xhrPromise;
     };
 
 
     XHRObject.prototype.createNewUser = function createNewUser() {
-        var XhrPromise = new Promise(function sendRequest(resolve) {
+        var xhrPromise = new Promise(function sendRequest(resolve) {
             var xhr = new XMLHttpRequest();
             var response;
             xhr.open('POST', configObj.url.concat("users.json"));
@@ -147,32 +137,35 @@ Module = (function chat(ConfigObj) {
                 }
             }
         });
-        return XhrPromise;
+        return xhrPromise;
     };
 
 
     XHRObject.prototype.getConfig = function getConfig(nameConfig) {
-        var XhrPromise = new Promise(function sendRequest(resolve) {
+        var xhrPromise = new Promise(function sendRequest(resolve) {
             sendXHRRequest("GET", "/chatConfig/", nameConfig).onreadystatechange = function responseReady() {
                 if (this.status === OK_RESPONSE_STATUS && this.readyState === FINAL_STATE_RESPONSE) {
                     resolve(JSON.parse(this.response));
                 }
             }
         });
-        return XhrPromise;
+        return xhrPromise;
     };
 
     XHRObject.prototype.setConfig = function setConf(nameConfig, valueConfig) {
-        var XhrPromise = new Promise(function sendRequest(resolve) {
+        var xhrPromise = new Promise(function sendRequest(resolve) {
             sendXHRRequest("PUT", "/chatConfig/", nameConfig, valueConfig).onreadystatechange = function requestReady() {
                 if (this.status === 200 && this.readyState === 4) {
                     resolve(true);
                 }
             }
         });
-        return XhrPromise;
+        return xhrPromise;
     };
 
+
+    function FetchObject() {
+    }
 
     FetchObject.prototype.getMessages = function getMessages() {
         var fetchPromise = new Promise(function sendRequest(resolve) {
@@ -191,44 +184,29 @@ Module = (function chat(ConfigObj) {
     };
 
     FetchObject.prototype.sendMessage = function sendMsg(message) {
-        var fetchPromise = new Promise(function sendRequest(resolve) {
-            sendFetchRequest("POST", "/messages", "", message)
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveStatus() {
-                            resolve(true);
-                        })
-                })
-        });
-        return fetchPromise;
+        sendFetchRequest("POST", "/messages", "", message)
+            .then(function responseReady(response) {
+                response.json()
+            });
+        return this;
     };
 
     FetchObject.prototype.setTimeActivity = function setTime() {
         var currentTime = new Date().getTime();
-        var fetchPromise = new Promise(function sendRequest(resolve) {
-            sendFetchRequest("PUT", "/activityTime", "", currentTime)
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveStatus() {
-                            resolve(true);
-                        })
-                })
-        });
-        return fetchPromise;
+        sendFetchRequest("PUT", "/activityTime", "", currentTime)
+            .then(function responseReady(response) {
+                response.json()
+            });
+        return this;
     };
 
     FetchObject.prototype.setUnreadMessage = function setUnread() {
         var unreadValue = true;
-        var fetchPromise = new Promise(function sendRequest(resolve) {
-            sendFetchRequest("PUT", "/unreadMessage", "", unreadValue)
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveStatus() {
-                            resolve(true)
-                        })
-                })
-        });
-        return fetchPromise;
+        sendFetchRequest("PUT", "/unreadMessage", "", unreadValue)
+            .then(function responseReady(response) {
+                response.json()
+            });
+        return this;
     };
 
     FetchObject.prototype.createNewUser = function create() {
@@ -297,7 +275,7 @@ Module = (function chat(ConfigObj) {
                 })
         });
         return fetchPromise;
-    }
+    };
 
     function generateCollapsedFeedback() {
         var collapsedFeedback = document.createElement("div");
@@ -364,9 +342,7 @@ Module = (function chat(ConfigObj) {
             if (document.getElementById("messageHistory")) {
                 document.getElementById("messageHistory").value = messageHistory.join(" ");
             }
-            transferObject.sendMessage(message);
-            transferObject.setTimeActivity();
-            transferObject.setUnreadMessage();
+            transferObject.sendMessage(message).setTimeActivity().setUnreadMessage();
             messageArea.value = "";
         })
     }
@@ -386,7 +362,7 @@ Module = (function chat(ConfigObj) {
             };
         }
 
-        dragDropElem.onmousedown = function findCoordsCursor(event) {
+        dragDropElem.addEventListener("mousedown", function findCoordsCursor(event) {
             var coords = getCoords(elem);
             var shiftX = event.pageX - coords.left;
             var shiftY = event.pageY - coords.top;
@@ -396,15 +372,16 @@ Module = (function chat(ConfigObj) {
                 elem.style.top = element.clientY - shiftY + 'px';
             }
 
-            document.onmousemove = function mouseMove(e) {
+            function mouseMove(e) {
                 move(e);
-            };
-            elem.onmouseup = function dragEnd() {
-                document.onmousemove = null;
-                elem.onmouseup = null;
-                dragDropElem.onmouseup = null;
-            };
-        }
+            }
+
+            document.addEventListener("mousemove", mouseMove);
+            elem.addEventListener("mouseup", function dragEnd() {
+                document.removeEventListener("mousemove", mouseMove);
+                elem.removeEventListener("mouseup", dragEnd);
+            });
+        })
 
     }
 
@@ -637,8 +614,8 @@ Module = (function chat(ConfigObj) {
     }
 
     window.onload = function check() {
-        if (ConfigObj) {
-            configObj = ConfigObj;
+        if (userConfigObj) {
+            configObj = userConfigObj;
         }
         checkWindow();
     };
