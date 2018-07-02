@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat config</title>
+    <script src="https://rawgit.com/NastyaNasalevich/js--touchsoft/master/task-02/NastyaNasalevich/config.js"></script>
+</head>
+<body>
+    Chat title <input id="config-title" type="text" value="Chat" style="margin-left: 12px"></p>
+    Bot name <input id="config-botName" type="text" value="WALL-E" style="margin-left: 10px" ></p>
+    Chat URL <input id="config-url" type="text" value="https://mychat-b0091.firebaseio.com/" size="28" style="margin-left: 6px"></p>
+    CSS Class <input id="config-cssClass" type="text" value="main" style="margin-left: 6px" ></p>
+    Position
+    <select id="config-position" size="1" style="margin-left: 22px">
+        <option>right</option>
+        <option>left</option>
+    </select></p>
+    UI 
+    <div style="margin-left: 76px">
+        <input id="config-allowMinimize" type="checkbox" checked> Allow to minimize</p>
+        <input id="config-allowDrag" type="checkbox"> Allow drag</p>
+        <input id="config-requireName" type="checkbox"> Require name</p>
+        <input id="config-showDate" type="checkbox" checked> Show date/time</p>
+    </div>
+    Network
+    <div style="margin-left: 76px">
+        <input id="config-xhr" type="radio" name="requestType">XHR</p>
+        <input id="config-fetch" type="radio" name="requestType" checked >fetch</p>
+    </div>
+    Use next code: 
+    <div id="config-resultScript" style="margin-left: 76px"></div>
+</body>
+</html>
