@@ -136,7 +136,7 @@ function changeViewChat() {
 
 buttonMinimized.addEventListener('click', changeViewChat());
 
-buttonSend.addEventListener('click', function printSendMessage () {
+buttonSend.addEventListener('click', function printSendMessage() {
     printMessage(inputText.value);
     inputText.value = '';
 });
