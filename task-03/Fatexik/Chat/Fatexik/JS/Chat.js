@@ -168,19 +168,16 @@ Module = (function chat(userConfigObj) {
     }
 
     FetchObject.prototype.getMessages = function getMessages() {
-        var fetchPromise = new Promise(function sendRequest(resolve) {
-            sendFetchRequest("GET", "/messages", "")
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveResponse(responseObj) {
-                            var arrayMessages = Object.keys(responseObj).map(function createNewArray(value) {
-                                return responseObj[value]
-                            });
-                            resolve(arrayMessages);
-                        })
-                })
-        });
-        return fetchPromise;
+        return sendFetchRequest("GET", "/messages", "")
+            .then(function responseReady(response) {
+                return (response.json()
+                    .then(function resolveResponse(responseObj) {
+                        var arrayMessages = Object.keys(responseObj).map(function createNewArray(value) {
+                            return responseObj[value]
+                        });
+                        return arrayMessages;
+                    }))
+            })
     };
 
     FetchObject.prototype.sendMessage = function sendMsg(message) {
@@ -210,71 +207,58 @@ Module = (function chat(userConfigObj) {
     };
 
     FetchObject.prototype.createNewUser = function create() {
-        var fetchPromise = new Promise(function createPromise(resolve) {
-            fetch(configObj.url.concat("users.json"), {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                    {
-                        chatConfig: configObj,
-                        messages: ""
+        return fetch(configObj.url.concat("users.json"), {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {
+                    chatConfig: configObj,
+                    messages: ""
+                })
+        })
+            .then(function responseReady(response) {
+                return response.json()
+                    .then(function resolveResponse(responseObj) {
+                        localStorage.setItem("userId", responseObj.name);
+                        return responseObj;
                     })
             })
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveResponse(responseObj) {
-                            localStorage.setItem("userId", responseObj.name);
-                            resolve(responseObj);
-                        })
-                })
-        });
-        return fetchPromise;
     };
 
     FetchObject.prototype.getUserConfig = function getUserConfig() {
-        var fetchPromise = new Promise(function sendRequest(resolve) {
-            sendFetchRequest("GET", "/chatConfig", "")
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveResponseObj(responseObj) {
-                            configObj = responseObj;
-                            resolve(responseObj);
-                        })
-                })
-        });
-        return fetchPromise;
+        return sendFetchRequest("GET", "/chatConfig", "")
+            .then(function responseReady(response) {
+                return response.json()
+                    .then(function resolveResponseObj(responseObj) {
+                        configObj = responseObj;
+                        return responseObj;
+                    })
+            });
     };
 
     FetchObject.prototype.getConfig = function getConfig(nameConfig) {
-        var fetchPromise = new Promise(function sendRequest(resolve) {
-            sendFetchRequest("GET", "/chatConfig/", nameConfig)
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveResponse(responseObj) {
-                            resolve(responseObj);
-                        })
-                })
-        });
-        return fetchPromise;
+        return sendFetchRequest("GET", "/chatConfig/", nameConfig)
+            .then(function responseReady(response) {
+                return response.json()
+                    .then(function resolveResponse(responseObj) {
+                        return responseObj;
+                    })
+            })
     };
 
     FetchObject.prototype.setConfig = function setConf(nameConfig, valueConfig) {
         var config = {};
-        var fetchPromise;
         config[nameConfig] = valueConfig;
-        fetchPromise = new Promise(function sendRequest(resolve) {
-            sendFetchRequest("PUT", "/chatConfig/", nameConfig, valueConfig)
-                .then(function responseReady(response) {
-                    response.json()
-                        .then(function resolveStatus() {
-                            resolve(true);
-                        })
-                })
-        });
-        return fetchPromise;
+        return sendFetchRequest("PUT", "/chatConfig/", nameConfig, valueConfig)
+            .then(function responseReady(response) {
+                return response.json()
+                    .then(function resolveStatus() {
+                        return true;
+                    })
+            })
     };
 
     function generateCollapsedFeedback() {
@@ -576,7 +560,6 @@ Module = (function chat(userConfigObj) {
         document.getElementById("sendMessageButton").addEventListener("click", sendMessage);
         document.getElementById("maximize").addEventListener("click", showFeedback);
     }
-
 
     function checkWindow() {
         var timeUpdateChat = 1000;
