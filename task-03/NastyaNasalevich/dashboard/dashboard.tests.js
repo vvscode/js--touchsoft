@@ -14,10 +14,38 @@ QUnit.test('Creating of users list', function test(assert) {
   var listOfUsers;
   setTimeout(function f() {
     listOfUsers = userList.childNodes;
-    console.log(listOfUsers.length);
     assert.ok(listOfUsers.length !== 0, 'Users List was created!');
     done();
   }, 1000);
+});
+
+
+QUnit.module('Check user list');
+
+QUnit.test('Check unread state', function test(assert) {
+  var done = assert.async();
+  sendRequestToDatabase('GET', 'users/', '').then(function f(body) {
+    var usersKeys = Object.keys(body);
+    var firstUserKey = usersKeys[0];
+    console.log(firstUserKey);
+    return sendRequestToDatabase('PUT', 'users/' + firstUserKey, '/isRead', false);
+  })
+  .then(function f() {
+    removeChildren(userList);
+    createUserList();
+  });
+
+  setTimeout(function f() {
+    var isNotRead = false;
+    console.log(userList.childNodes[0].getElementsByClassName('user-name-element')[0].className);
+
+     if(userList.childNodes[0].getElementsByClassName('user-name-element')[0].className == 'user-name-element unread-state') {
+         isNotRead = true;
+     }
+     
+     assert.ok( isNotRead === true, 'Message was read!');
+    done();
+  }, 2000);
 });
 
 QUnit.test('Check user status', function test(assert) {
@@ -28,8 +56,6 @@ QUnit.test('Check user status', function test(assert) {
       var usersKeys = Object.keys(body);
       var firstUserKey = usersKeys[0];
       var chatState = userList.childNodes[0].getElementsByClassName('user-status-element')[0];
-
-      console.log(body[firstUserKey].lastMessageDate);
       
       if (new Date() - new Date(body[firstUserKey].lastMessageDate) <= 99000000) {
         userStateInner = 'online';
@@ -38,6 +64,74 @@ QUnit.test('Check user status', function test(assert) {
       assert.equal(userStateInner, chatState.innerHTML, 'User status is true!');
       done();
     });
+});
+
+QUnit.test('Sort by user name', function test(assert) {
+  sorterTag.value = "User Name";
+  removeChildren();
+  createUserList();
+  var done = assert.async();
+  setTimeout(function f() {
+      var  sortUsers= [];
+      var arrFromBD = [];
+      for (var i = 0; i < usersArray.length; i++){
+           sortUsers[i] = usersArray[i].getElementsByClassName('user-name-element')[0].innerHTML;
+      }
+      for (var i = 0; i < sortUsers.length; i++){
+          arrFromBD[i] = sortUsers[i];
+      }
+      var sortArr = sortUsers.sort();
+      for (var i = 0; i < sortArr.length; i++) {
+          assert.ok(sortArr[i] === arrFromBD[i], 'Users was sorted!');
+      }
+      done();
+  }, 1500);
+});
+
+
+QUnit.test('sort by Online', function test(assert) {
+  sorterTag.value = "Online";
+  removeChildren();
+  createUserList();
+  var done = assert.async();
+  setTimeout(function f() {
+      var  sortUsers= [];
+      var arrFromBD = [];
+      for (var i = 0; i < usersArray.length; i++){
+          sortUsers[i] = usersArray[i].getElementsByClassName('user-status-element')[0].innerHTML;
+      }
+      for (var i = 0; i < sortUsers.length; i++){
+          arrFromBD[i] = sortUsers[i];
+      }
+      var sortArr = sortUsers.sort().reverse();
+      for (var i = 0; i < sortArr.length; i++) {
+          assert.ok(sortArr[i] === arrFromBD[i], 'Users was sorted!');
+      }
+      done();
+  }, 1500);
+});
+
+
+QUnit.test('sort by Chat State', function test(assert) {
+  sorterTag.value = "Chat state";
+  removeChildren();
+  createUserList();
+  var done = assert.async();
+  setTimeout(function f() {
+      var  sortUsers= [];
+      var arrFromBD = [];
+      for (var i = 0; i < usersArray.length; i++){
+          sortUsers[i] = usersArray[i].getElementsByClassName('chat-state-element')[0].innerHTML;
+      }
+      for (var i = 0; i < sortUsers.length; i++){
+          arrFromBD[i] = sortUsers[i];
+      }
+      var sortArr = sortUsers.sort().reverse();
+      for (var i = 0; i < sortArr.length; i++) {
+          assert.ok(sortArr[i] === arrFromBD[i], 'Users was sorted!');
+      }
+      done();
+  }, 1500);
 });
 
 QUnit.module('Check working place');
@@ -99,33 +193,5 @@ QUnit.test('Check request sending', function test(assert) {
           assert.notStrictEqual(body, prevData, 'Fetch request are working!');
           done();
         });
-    });
-});
-
-QUnit.module('Check ', {
-  // before() {
-  //   setTimeout(function f() {
-  //     removeChildren(userList);
-  //   }, 500);
-  // }
-});
-
-
-QUnit.test('Check user status', function test(assert) {
-  var done = assert.async();
-    sendRequestToDatabase('GET', 'users/', '').then(function f(body) {
-      var usersKeys = Object.keys(body);
-      var firstUserKey = usersKeys[1];
-      return firstUserKey
-      // var chatState = userList.childNodes[0].getElementsByClassName('user-status-element')[0];
-
-      console.log(body[firstUserKey].isRead);
-      
-      if (new Date() - new Date(body[firstUserKey].lastMessageDate) <= 99000000) {
-        userStateInner = 'online';
-      }
-      
-      assert.equal(userStateInner, chatState.innerHTML, 'User status is true!');
-      done();
     });
 });

@@ -202,8 +202,7 @@ function updateUserList() {
         removeChildren(userList);
         Object.keys(body).forEach(function addChanges(key) {
             addUser(body[key], key);
-            if (selectUserId) {  
-                // sendRequestToDatabase('PUT', 'users/' + selectUserId, '/isRead', true);
+            if (selectUserId) { 
                 addHistoryToPage(selectUserId);
             }
         });
