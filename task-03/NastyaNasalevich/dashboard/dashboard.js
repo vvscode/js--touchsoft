@@ -157,7 +157,7 @@ function addUser(userBody, userId) {
         userNameElement.classList.add('unread-state');
     }
     
-    if (new Date() - new Date(userBody.lastMessageDate) <= 99000000) {
+    if (new Date() - new Date(userBody.lastMessageDate) <= 600000) {
         userStatusElement.innerHTML = 'online';
     }
 
