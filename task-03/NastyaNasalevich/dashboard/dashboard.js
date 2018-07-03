@@ -106,7 +106,7 @@ function sortByOnline(userElement) {
     var newUserElementStatus = userElement.getElementsByClassName('user-status-element')[0].innerHTML;
 
     for (var i = 0; i < usersArray.length; i++) {
-        if (newUserElementStatus === "online") {
+        if (newUserElementStatus === 'online') {
             userList.insertBefore(userElement, usersArray[i]);
             lastElement = false;
             break;
