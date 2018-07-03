@@ -56,8 +56,8 @@ function Message(time, sender, body) {
 function addHistoryToPage(userId) {
     sendRequestToDatabase('GET', 'messages/', userId).then(
         function displayMessages(body) {
-            document.getElementById('dashboard-history-panel').innerHTML = '';
             var message;
+            document.getElementById('dashboard-history-panel').innerHTML = '';
             if (body) {
                 Object.keys(body).forEach(function addEachMessage(key) {
                     message = new Message(new Date(body[key].time), body[key].sender, body[key].body);
@@ -87,8 +87,9 @@ function openChat(userId) {
 function sortByUserName(userElement) {
     var lastElement = true;
     var newUserElementName = userElement.getElementsByClassName('user-name-element')[0].innerHTML;
-    
-    for (var i = 0; i < usersArray.length; i++) {
+    var i;
+
+    for (i = 0; i < usersArray.length; i++) {
         if (newUserElementName <= usersArray[i].getElementsByClassName('user-name-element')[0].innerHTML) {
             userList.insertBefore(userElement, usersArray[i]);
             lastElement = false;
@@ -104,8 +105,9 @@ function sortByUserName(userElement) {
 function sortByOnline(userElement) {
     var lastElement = true;
     var newUserElementStatus = userElement.getElementsByClassName('user-status-element')[0].innerHTML;
+    var i;
 
-    for (var i = 0; i < usersArray.length; i++) {
+    for (i = 0; i < usersArray.length; i++) {
         if (newUserElementStatus === 'online') {
             userList.insertBefore(userElement, usersArray[i]);
             lastElement = false;
@@ -121,8 +123,9 @@ function sortByOnline(userElement) {
 function sortByChatState(userElement) {
     var lastElement = true;
     var newUserElementChatState = userElement.getElementsByClassName('chat-state-element')[0].innerHTML;
+    var i;
 
-    for(var i = 0; i < usersArray.length; i++) {
+    for(i = 0; i < usersArray.length; i++) {
         if(newUserElementChatState === '[ ]') {
             userList.insertBefore(userElement, usersArray[i]);
             lastElement = false;
@@ -197,24 +200,6 @@ function removeChildren() {
     }
 }
 
-function updateUserList() {
-    sendRequestToDatabase('GET', 'users/', '').then(function updateChanges(body) {
-        removeChildren(userList);
-        Object.keys(body).forEach(function addChanges(key) {
-            addUser(body[key], key);
-            if (selectUserId) { 
-                addHistoryToPage(selectUserId);
-            }
-        });
-    })
-    .then(function setFilter() {
-        if (needFilter) {
-            console.log('test');
-            filterUsers(document.getElementById('dashboard-filter').value);
-        }
-    });
-}
-
 function filterUsers(value) {
     var filterValue = value.toLowerCase();
     needFilter = true;
@@ -234,6 +219,24 @@ function filterUsers(value) {
       ) {
         userContainer.hidden = true;
       }
+    });
+}
+
+function updateUserList() {
+    sendRequestToDatabase('GET', 'users/', '').then(function updateChanges(body) {
+        removeChildren(userList);
+        Object.keys(body).forEach(function addChanges(key) {
+            addUser(body[key], key);
+            if (selectUserId) { 
+                addHistoryToPage(selectUserId);
+            }
+        });
+    })
+    .then(function setFilter() {
+        if (needFilter) {
+            console.log('test');
+            filterUsers(document.getElementById('dashboard-filter').value);
+        }
     });
 }
 

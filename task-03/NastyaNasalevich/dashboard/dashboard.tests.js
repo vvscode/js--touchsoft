@@ -9,9 +9,9 @@ QUnit.module('Check Users List', {
 });
 
 QUnit.test('Creating of users list', function test(assert) {
-  setTimeout(createUserList, 500);
   var done = assert.async();
   var listOfUsers;
+  setTimeout(createUserList, 500);
   setTimeout(function f() {
     listOfUsers = userList.childNodes;
     assert.ok(listOfUsers.length !== 0, 'Users List was created!');
@@ -39,7 +39,7 @@ QUnit.test('Check unread state', function test(assert) {
     var isNotRead = false;
     console.log(userList.childNodes[0].getElementsByClassName('user-name-element')[0].className);
 
-     if(userList.childNodes[0].getElementsByClassName('user-name-element')[0].className == 'user-name-element unread-state') {
+     if(userList.childNodes[0].getElementsByClassName('user-name-element')[0].className === 'user-name-element unread-state') {
          isNotRead = true;
      }
      
@@ -49,7 +49,6 @@ QUnit.test('Check unread state', function test(assert) {
 });
 
 QUnit.test('Check user status', function test(assert) {
-  var prevState;
   var done = assert.async();
     sendRequestToDatabase('GET', 'users/', '').then(function f(body) {
       var userStateInner = '';
@@ -67,10 +66,10 @@ QUnit.test('Check user status', function test(assert) {
 });
 
 QUnit.test('Sort by user name', function test(assert) {
+  var done = assert.async();
   sorterTag.value = "User Name";
   removeChildren();
   createUserList();
-  var done = assert.async();
   setTimeout(function f() {
       var  sortUsers= [];
       var arrFromBD = [];
@@ -145,9 +144,9 @@ QUnit.test('Check format of the message', function test(assert) {
 QUnit.test('Open working place', function test(assert) {
   var done = assert.async();
   setTimeout(function f() {
-    userList.childNodes[0].click();
     var isPictureHidden = document.getElementById('dashboard-picture').hidden;
     var isWorkPlace = document.getElementById('dashboard-work-place').hidden;
+    userList.childNodes[0].click();
     assert.ok(isPictureHidden, 'Picture was closed!');
     assert.ok(!isWorkPlace, 'Working place was opened!');
     done();
@@ -168,9 +167,9 @@ QUnit.test('Check the adding messages to the history panel', function test(asser
 QUnit.test('Open working place', function test(assert) {
   var done = assert.async();
   setTimeout(function f() {
-    document.getElementById('dashboard-close').click();
     var isPictureHidden = document.getElementById('dashboard-picture').hidden;
     var isWorkPlace = document.getElementById('dashboard-work-place').hidden;
+    document.getElementById('dashboard-close').click();
     assert.ok(!isPictureHidden, 'Picture was closed!');
     assert.ok(isWorkPlace, 'Working place was opened!');
     done();
