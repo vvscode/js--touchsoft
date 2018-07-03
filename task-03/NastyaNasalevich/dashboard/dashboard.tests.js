@@ -71,64 +71,25 @@ QUnit.test('Sort by user name', function test(assert) {
   removeChildren();
   createUserList();
   setTimeout(function f() {
-      var  sortUsers= [];
+      var sortUsers= [];
       var arrFromBD = [];
-      for (var i = 0; i < usersArray.length; i++){
+      var sortArr = sortUsers.sort();
+      var i;
+      var k;
+      var j;
+
+      for (var i = 0; i < usersArray.length; i++) {
            sortUsers[i] = usersArray[i].getElementsByClassName('user-name-element')[0].innerHTML;
       }
-      for (var i = 0; i < sortUsers.length; i++){
-          arrFromBD[i] = sortUsers[i];
-      }
-      var sortArr = sortUsers.sort();
-      for (var i = 0; i < sortArr.length; i++) {
-          assert.ok(sortArr[i] === arrFromBD[i], 'Users was sorted!');
-      }
-      done();
-  }, 1500);
-});
 
+      for (var k = 0; k < sortUsers.length; k++){
+          arrFromBD[k] = sortUsers[k];
+      }
+      
+      for (var j = 0; j < sortArr.length; j++) {
+          assert.ok(sortArr[j] === arrFromBD[j], 'Users was sorted!');
+      }
 
-QUnit.test('sort by Online', function test(assert) {
-  sorterTag.value = "Online";
-  removeChildren();
-  createUserList();
-  var done = assert.async();
-  setTimeout(function f() {
-      var  sortUsers= [];
-      var arrFromBD = [];
-      for (var i = 0; i < usersArray.length; i++){
-          sortUsers[i] = usersArray[i].getElementsByClassName('user-status-element')[0].innerHTML;
-      }
-      for (var i = 0; i < sortUsers.length; i++){
-          arrFromBD[i] = sortUsers[i];
-      }
-      var sortArr = sortUsers.sort().reverse();
-      for (var i = 0; i < sortArr.length; i++) {
-          assert.ok(sortArr[i] === arrFromBD[i], 'Users was sorted!');
-      }
-      done();
-  }, 1500);
-});
-
-
-QUnit.test('sort by Chat State', function test(assert) {
-  sorterTag.value = "Chat state";
-  removeChildren();
-  createUserList();
-  var done = assert.async();
-  setTimeout(function f() {
-      var  sortUsers= [];
-      var arrFromBD = [];
-      for (var i = 0; i < usersArray.length; i++){
-          sortUsers[i] = usersArray[i].getElementsByClassName('chat-state-element')[0].innerHTML;
-      }
-      for (var i = 0; i < sortUsers.length; i++){
-          arrFromBD[i] = sortUsers[i];
-      }
-      var sortArr = sortUsers.sort().reverse();
-      for (var i = 0; i < sortArr.length; i++) {
-          assert.ok(sortArr[i] === arrFromBD[i], 'Users was sorted!');
-      }
       done();
   }, 1500);
 });

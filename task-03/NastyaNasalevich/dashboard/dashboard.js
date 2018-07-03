@@ -84,20 +84,37 @@ function openChat(userId) {
     });
 }
 
+// function sortByUserName(userElement) {
+//     var lastElement = true;
+//     var newUserElementName = userElement.getElementsByClassName('user-name-element')[0].innerHTML;
+//     var i;
+
+//     for (i = 0; i < usersArray.length; i++) {
+//         if (newUserElementName <= usersArray[i].getElementsByClassName('user-name-element')[0].innerHTML) {
+//             userList.insertBefore(userElement, usersArray[i]);
+//             lastElement = false;
+//             break;
+//         }
+//     }
+
+//    if(lastElement) {
+//         userList.appendChild(userElement);
+//    }
+// }
+
 function sortByUserName(userElement) {
     var lastElement = true;
     var newUserElementName = userElement.getElementsByClassName('user-name-element')[0].innerHTML;
-    var i;
 
-    for (i = 0; i < usersArray.length; i++) {
-        if (newUserElementName <= usersArray[i].getElementsByClassName('user-name-element')[0].innerHTML) {
-            userList.insertBefore(userElement, usersArray[i]);
+    usersArray.forEach(function(userElementFromData) {
+        if (newUserElementName <= userElementFromData.getElementsByClassName('user-name-element')[0].innerHTML) {
+            userList.insertBefore(userElement, userElementFromData);
             lastElement = false;
             break;
         }
-    }
+    });
 
-   if(lastElement) {
+   if (lastElement) {
         userList.appendChild(userElement);
    }
 }
