@@ -287,7 +287,7 @@ function changeChatState() {
     
     if (historyPanel) {
         historyPanel.style.display = isChatHidden ? 'none' : 'block';
-        inputElement.style.display = isChatHidden ? 'none' : 'block';
+        textarea.style.display = isChatHidden ? 'none' : 'block';
         sendButton.style.display = isChatHidden ? 'none' : 'block'; 
         main.style.height = isChatHidden ? '30px' : '365px';
     } else {
