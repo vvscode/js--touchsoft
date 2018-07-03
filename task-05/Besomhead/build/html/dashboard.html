@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Operator's dashboard</title>
+    <link rel="stylesheet" type="text/css" href="../css/dashboard_styles.css">
+</head>
+<body>
+<fieldset id="operators-dashboard-container" class="dashboard-container">
+    <legend class="dashboard-container-legend">Operator's dashboard</legend>
+    <div id="operators-dashboard-container-inner" class="dashboard-container-inner">
+        <div id="operators-dashboard-users-container" class="dashboard-users-container">
+            <input id="operators-dashboard-users-filter-bar" placeholder="Filter" class="dashboard-users-filter-bar"/>
+            <select id="operators-dashboard-users-sort-bar" size="1" class="dashboard-users-sort-bar" title="Sort By">
+                <option selected>Sort By</option>
+                <option>User Name</option>
+                <option>Online</option>
+                <option>Chat state</option>
+                <option>Unread</option>
+            </select>
+            <div id="operators-dashboard-users-list-container" class="dashboard-users-list-container"></div>
+        </div>
+        <div id="operators-dashboard-selected-user-container" class="dashboard-selected-user-container"></div>
+    </div>
+</fieldset>
+<!--<script src="../js/util/message_factory.js"></script>-->
+<!--<script src="../js/util/DOM_manager.js"></script>-->
+<!--<script src="../js/util/storage_manager.js"></script>-->
+<!--<script src="../js/factories/dashboard_factory.js"></script>-->
+<script src="../js/dashboard.js"></script>
+</body>
+</html>
