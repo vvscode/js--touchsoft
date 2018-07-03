@@ -1,0 +1,31 @@
+.service-main-container {
+  position: absolute;
+  left: 100px;
+  display: flex;
+  flex-direction: column;
+  height: 650px;
+  width: 950px;
+}
+
+.service-buttons-container {
+  border: black solid 2px;
+  margin-bottom: 15px;
+  padding: 2px;
+  width: fit-content;
+}
+
+.service-control-button {
+  font-family: cursive;
+  margin: 0;
+  outline: none;
+  border: none;
+  background: white;
+  cursor: pointer;
+}
+
+.service-selected-content-container {
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0;
+}
