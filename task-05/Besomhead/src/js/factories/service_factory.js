@@ -3,7 +3,6 @@
 /* global CONFIGURATOR_PATH DASHBOARD_PATH ABOUT_PATH */
 
 var serviceFactory = (function ServiceFactory() {
-
   var self = this;
 
   function addSourceToIFrame(source) {

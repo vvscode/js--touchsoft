@@ -22,19 +22,21 @@ var DM = (function DOMManager() {
   this.removeDOMElement = function remove(root, element) {
     this.getDOMElement(root).removeChild(this.getDOMElement(element));
   };
-  this.addListener = function addEventListener(root, event, callback){
+  this.addListener = function addEventListener(root, event, callback) {
     this.getDOMElement(root).addEventListener(event, callback);
   };
-  this.removeListener = function removeEventListener(root, event, callback){
+  this.removeListener = function removeEventListener(root, event, callback) {
     this.getDOMElement(root).removeEventListener(event, callback);
   };
-  this.addCSSClass = function addCSSClass(root){
+  this.addCSSClass = function addCSSClass(root) {
     var self = this;
-    Array.from(arguments).slice(1).forEach(function addClasses(className){
-      self.getDOMElement(root).classList.add(className);
-    });
+    Array.from(arguments)
+      .slice(1)
+      .forEach(function addClasses(className) {
+        self.getDOMElement(root).classList.add(className);
+      });
   };
-  this.removeCSSClass = function removeCSSClass(root, className){
+  this.removeCSSClass = function removeCSSClass(root, className) {
     this.getDOMElement(root).classList.remove(className);
   };
 

@@ -32,7 +32,7 @@ var chatFactory = (function ChatFactory(config) {
   ];
   var REPLY_TIMEOUT = 15000;
   var PATH_TO_STYLESHEET =
-    "https://rawgit.com/Besomhead/js--touchsoft/besomhead-task05/task-05/Besomhead/src/css/chat_styles.css";
+    "https://rawgit.com/Besomhead/js--touchsoft/besomhead-task05/task-05/Besomhead/build/css/chat_styles.css";
   var DEFAULT_USER_NAME = "Вы";
   var USER_NAME_FIELD = "userName";
   var CHAT_STATE_FIELD = "chatState";
@@ -42,8 +42,6 @@ var chatFactory = (function ChatFactory(config) {
   var PROMPT_INPUT_ID = "chat-username-prompt-input";
   var PROMPT_CONFIRM_BUTTON_ID = "chat-username-prompt-button";
   var REQUEST_TIMEOUT = 1000;
-
-
 
   function getExtraPath(path) {
     return localStorage.getItem(USER_ID) + "/" + path;

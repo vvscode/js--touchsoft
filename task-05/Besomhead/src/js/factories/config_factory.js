@@ -3,7 +3,6 @@
 /* global config */
 
 var configFactory = (function ConfigFactory(config) {
-
   var EVENT_NAME = "change";
   var CHAT_TITLE_ID = "chat-configurator-chat-title";
   var CHAT_URL_ID = "chat-configurator-chat-url";

@@ -21,8 +21,6 @@ var dashboardFactory = (function DashboardFactory(config) {
   var MORE = 1;
   var self = this;
 
-
-
   function closeSelectedUserContainer() {
     DM.removeDOMElement(SELECTED_USER_CONTAINER_ID, SELECTED_USER_INNER_ID);
   }
