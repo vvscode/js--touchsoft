@@ -57,7 +57,7 @@ QUnit.test('Check user status', function test(assert) {
       var firstUserKey = usersKeys[0];
       var chatState = userList.childNodes[0].getElementsByClassName('user-status-element')[0];
       
-      if (new Date() - new Date(body[firstUserKey].lastMessageDate) <= 99000000) {
+      if (new Date() - new Date(body[firstUserKey].lastMessageDate) <= 600000) {
         userStateInner = 'online';
       }
       
