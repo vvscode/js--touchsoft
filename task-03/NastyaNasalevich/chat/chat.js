@@ -2,9 +2,6 @@ var main = null;
 var chatName = null;
 var sendButton = null;
 var isChatHidden = false;
-var historyElement = null;
-var inputElement = null;
-var buttonElement = null;
 var textarea = null;
 var stateButton = null;
 var historyPanel = null;
@@ -135,12 +132,7 @@ function parseConfigFromScript() {
 }
 
 function setConfig() {
-    var configObject = parseConfigFromScript();
-    Object.keys(configObject).forEach(function assignConfig(key) {
-        if (configObject[key] !== '') {
-            config[key] = configObject[key];
-          }
-      });
+    config = Object.assign({}, parseConfigFromScript());
 }
 
 function sendXhrRequest(method, path, key, body) {
@@ -229,8 +221,6 @@ function createTextInput() {
    textarea = document.createElement('textarea');
    textarea.classList.add('textArea');
    textarea.placeholder = 'Message...';
-
-   return textarea;
 }
 
 function Message(time, body, sender, isYou) {
@@ -238,17 +228,17 @@ function Message(time, body, sender, isYou) {
     this.body = body;
     this.sender = sender;
     this.isYou = isYou;
-    var senderForChat = isYou ? 'You' : config.botName;
- 
-    this.showMessage = function showMsg() {
-        var displayedMessage = '';
-        if (JSON.parse(config.showDateTime)) {
-            displayedMessage += this.time.toLocaleString('en-US', options) + '<br>';
-        }
-        displayedMessage += senderForChat + ': ' + this.body + '<br>';
-        return displayedMessage;
+}
+
+ Message.prototype.showMessage = function showMsg() {
+    var senderForChat = this.isYou ? 'You' : config.botName;
+    var displayedMessage = '';
+    if (JSON.parse(config.showDateTime)) {
+        displayedMessage += this.time.toLocaleString('en-US', options) + '<br>';
     }
- }
+    displayedMessage += senderForChat + ': ' + this.body + '<br>';
+    return displayedMessage;
+}
 
  function addMessage(text) {
     var message = new Message(new Date(), text, userName, true);
@@ -269,8 +259,6 @@ function createSendButton() {
    sendButton.innerHTML = 'Send';
 
    sendButton.addEventListener('click', sendMessage);
-
-   return sendButton;
 }
 
 function getChatState() {
@@ -297,10 +285,10 @@ function changeChatState() {
     isChatHidden = !isChatHidden;
     setChatState();
     
-    if (historyElement) {
-        historyElement.style.display = isChatHidden ? 'none' : 'block';
+    if (historyPanel) {
+        historyPanel.style.display = isChatHidden ? 'none' : 'block';
         inputElement.style.display = isChatHidden ? 'none' : 'block';
-        buttonElement.style.display = isChatHidden ? 'none' : 'block'; 
+        sendButton.style.display = isChatHidden ? 'none' : 'block'; 
         main.style.height = isChatHidden ? '30px' : '365px';
     } else {
         main.style.height = isChatHidden ? '30px' : '365px';
@@ -314,9 +302,8 @@ function createStateButton() {
    stateButton.classList.add('stateButton');
    getChatState();
    
-   setTimeout(function(){
+   setTimeout(function f(){
     initStateButton();
-    console.log(isChatHidden);
    }, 2000);
 
    stateButton.addEventListener('click', changeChatState);
@@ -327,8 +314,6 @@ function createStateButton() {
 function createHistory() {
    historyPanel = document.createElement('div');
    historyPanel.classList.add('historyPanel');
-   
-   return historyPanel;
 }
 
 function initChatPosition() {
@@ -365,26 +350,22 @@ function createUserID() {
 }
 
 function createFullChat() {
-    var history = createHistory();
-    var textInput = createTextInput();
-    sendButton = createSendButton();
+    createHistory();
+    createTextInput();
+    createSendButton();
     getChatState();
 
-    historyElement = history;
-    inputElement = textInput;
-    buttonElement = sendButton;
-
     setTimeout(function create() {
-        historyElement.style.display = isChatHidden ? 'none' : 'block';
-        inputElement.style.display = isChatHidden ? 'none' : 'block';
-        buttonElement.style.display = isChatHidden ? 'none' : 'block';
+        historyPanel.style.display = isChatHidden ? 'none' : 'block';
+        textarea.style.display = isChatHidden ? 'none' : 'block';
+        sendButton.style.display = isChatHidden ? 'none' : 'block';
         main.style.height = isChatHidden ? '30px' : '365px';
     
         addHistoryToPage();
     }, 1000);
 
-    main.appendChild(history);
-    main.appendChild(textInput);
+    main.appendChild(historyPanel);
+    main.appendChild(textarea);
     main.appendChild(sendButton);
 }
 
@@ -419,7 +400,6 @@ function createChat() {
     sendRequestToDatabase('GET', 'users/', 'userName').then(
         function setUserName(body) {
           userName = body;
-          console.log(userName);
         }
       );
 
@@ -429,7 +409,6 @@ function createChat() {
     main.classList.add(initChatPosition());
         
     if (JSON.parse(config.allowMinimize)) {
-        console.log(isChatHidden);
         main.appendChild(createStateButton());
     }
     
@@ -442,7 +421,6 @@ function createChat() {
         if (!JSON.parse(config.requireName)) {
             createFullChat();
         } else if (userName !== null) {
-            console.log(userName);
             createFullChat();
         } else {
             nameRequest = createDivForNameRequest();
@@ -453,6 +431,6 @@ function createChat() {
 
 // localStorage.clear();
 
-setTimeout(setConfig(), 2000);
+setConfig();
 
 window.addEventListener('DOMContentLoaded', createChat);

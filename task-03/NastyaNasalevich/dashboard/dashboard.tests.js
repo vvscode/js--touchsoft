@@ -78,15 +78,15 @@ QUnit.test('Sort by user name', function test(assert) {
       var k;
       var j;
 
-      for (var i = 0; i < usersArray.length; i++) {
+      for (i= 0; i < usersArray.length; i++) {
            sortUsers[i] = usersArray[i].getElementsByClassName('user-name-element')[0].innerHTML;
       }
 
-      for (var k = 0; k < sortUsers.length; k++){
+      for (k = 0; k < sortUsers.length; k++){
           arrFromBD[k] = sortUsers[k];
       }
       
-      for (var j = 0; j < sortArr.length; j++) {
+      for (j = 0; j < sortArr.length; j++) {
           assert.ok(sortArr[j] === arrFromBD[j], 'Users was sorted!');
       }
 
