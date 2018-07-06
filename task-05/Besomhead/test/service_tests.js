@@ -4,6 +4,14 @@
 var module = QUnit.module;
 var test = QUnit.test;
 
+function getTestEvent() {
+  return new CustomEvent("click", { bubbles: true });
+}
+
+if (sessionStorage.getItem("reloadTested") === null) {
+  sessionStorage.setItem("reloadTested", "false");
+}
+
 module("Test markup");
 test("should append 3 buttons", function testCase(assert) {
   assert.equal(
@@ -24,34 +32,9 @@ test("should append buttons with proper routing values", function testCase(asser
   assert.equal(buttons.shift().value, "#about");
 });
 
-module("Test reload");
-test("should save hash", function testCase(assert) {
-  if (sessionStorage.getItem("prevHash") === null) {
-    window.location.hash = "#configurator";
-    sessionStorage.setItem("prevHash", window.location.hash);
-    window.location.reload(true);
-  } else {
-    assert.equal(window.location.hash, sessionStorage.getItem("prevHash"));
-  }
-});
-test("should save app state", function testCase(assert) {
-  if (sessionStorage.getItem("prevStateTest") === null) {
-    window.location.hash = "#configurator";
-    sessionStorage.setItem("prevStateTest", "true");
-    window.location.reload(true);
-  } else {
-    assert.notEqual(
-      document
-        .getElementById("service-selected-content-container")
-        .src.indexOf("chat_configurator.html"),
-      -1
-    );
-  }
-});
-
 module("Test configurator button");
 test("should change hash", function testCase(assert) {
-  var event = new Event("click");
+  var event = getTestEvent();
 
   window.location.hash = "";
   document
@@ -61,7 +44,7 @@ test("should change hash", function testCase(assert) {
   assert.notEqual("", window.location.hash);
 });
 test("should set proper hash", function testCase(assert) {
-  var event = new Event("click");
+  var event = getTestEvent();
 
   document
     .getElementById("service-buttons-container")
@@ -70,7 +53,7 @@ test("should set proper hash", function testCase(assert) {
   assert.equal(window.location.hash, "#configurator");
 });
 test("should append proper content", function testCase(assert) {
-  var event = new Event("click");
+  var event = getTestEvent();
 
   document
     .getElementById("service-buttons-container")
@@ -86,7 +69,7 @@ test("should append proper content", function testCase(assert) {
 
 module("Test dashboard button");
 test("should change hash", function testCase(assert) {
-  var event = new Event("click");
+  var event = getTestEvent();
 
   window.location.hash = "";
   document
@@ -96,7 +79,7 @@ test("should change hash", function testCase(assert) {
   assert.notEqual("", window.location.hash);
 });
 test("should set proper hash", function testCase(assert) {
-  var event = new Event("click");
+  var event = getTestEvent();
 
   document
     .getElementById("service-buttons-container")
@@ -105,7 +88,7 @@ test("should set proper hash", function testCase(assert) {
   assert.equal(window.location.hash, "#dashboard");
 });
 test("should append proper content", function testCase(assert) {
-  var event = new Event("click");
+  var event = getTestEvent();
 
   document
     .getElementById("service-buttons-container")
@@ -121,7 +104,7 @@ test("should append proper content", function testCase(assert) {
 
 module("Test about button");
 test("should change hash", function testCase(assert) {
-  var event = new Event("click");
+  var event = getTestEvent();
 
   window.location.hash = "";
   document
@@ -131,7 +114,7 @@ test("should change hash", function testCase(assert) {
   assert.notEqual("", window.location.hash);
 });
 test("should set proper hash", function testCase(assert) {
-  var event = new Event("click");
+  var event = getTestEvent();
 
   document
     .getElementById("service-buttons-container")
@@ -140,7 +123,7 @@ test("should set proper hash", function testCase(assert) {
   assert.equal(window.location.hash, "#about");
 });
 test("should append proper content", function testCase(assert) {
-  var event = new Event("click");
+  var event = getTestEvent();
 
   document
     .getElementById("service-buttons-container")
@@ -152,4 +135,38 @@ test("should append proper content", function testCase(assert) {
       .src.indexOf("about.html"),
     -1
   );
+});
+
+module("Test reload", {
+  before() {
+    if (sessionStorage.getItem("reloadTested") === "false") {
+      sessionStorage.removeItem("prevHash");
+      sessionStorage.removeItem("prevStateTest");
+    }
+  },
+  after() {
+    sessionStorage.setItem("reloadTested", "true");
+  }
+});
+test("should save hash", function testCase(assert) {
+  if (sessionStorage.getItem("prevHash") === null) {
+    sessionStorage.setItem("prevHash", window.location.hash);
+    window.location.reload(false);
+  } else {
+    assert.equal(window.location.hash, sessionStorage.getItem("prevHash"));
+  }
+});
+test("should save app state", function testCase(assert) {
+  if (sessionStorage.getItem("prevStateTest") === null) {
+    window.location.hash = "#about";
+    sessionStorage.setItem("prevStateTest", "true");
+    window.location.reload(false);
+  } else {
+    assert.notEqual(
+      document
+        .getElementById("service-selected-content-container")
+        .src.indexOf("about.html"),
+      -1
+    );
+  }
 });
