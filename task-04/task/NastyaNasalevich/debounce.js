@@ -22,3 +22,16 @@
  *
  *
  */
+
+function debounce(f, ms) {
+    var counter; 
+
+    return function() {
+      var args = arguments;
+      clearTimeout(counter);
+      counter = setTimeout(function borrowMethod() {
+        f.apply(this, args);
+      }, ms)
+    }
+
+}

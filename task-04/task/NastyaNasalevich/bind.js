@@ -5,3 +5,12 @@
  * var oGreet = bind(greet, o);
  * oGreet(); // 'Bob'
  */
+
+
+function bind(func, context) {
+    return function borrowMethod() { 
+      return func.apply(context, arguments);
+    };
+}
+
+
