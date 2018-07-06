@@ -1,15 +1,18 @@
+/* eslint-disable no-unused-vars */
+/* eslint no-extend-native: ["error", { "exceptions": ["Function"] }] */
+
 /**
  * Написать реализацию метода .myFilter, который работает
  * аналогично оригинальному
  * https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
  */
-
 Array.prototype.myFilter = function myFilter(fun) {
     var thisToObject = Object(this);
     var lengthOfThis = thisToObject.length;
     var thisArg;
     var result = [];
     var i;
+    var value;
     
     if (typeof fun !== 'function') {
       throw new TypeError();
@@ -22,7 +25,7 @@ Array.prototype.myFilter = function myFilter(fun) {
     for (i = 0; i < lengthOfThis; i++) {
       
         if (i in thisToObject) {
-        var value = thisToObject[i];
+        value = thisToObject[i];
 
         if (fun.call(thisArg, value, i, thisToObject)) {
           result.push(value);

@@ -14,7 +14,7 @@
  *  Задача представляет из себя функцию, принимающую коллбэк, для информирования о результате работы
  */
 
-function Parallel (a) {
+ function Parallel (a) {
     this.jobs = [];
     this.maxStream = a || 1;
     this.done.that = this;

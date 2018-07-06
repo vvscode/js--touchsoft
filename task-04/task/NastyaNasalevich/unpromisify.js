@@ -1,10 +1,11 @@
+/* exported unpromisify */
+
 /**
  * Написать фукнцию обратную promisify
  *
  * она принимает фукнцию, которая возвращает результат в виде promise
  * и возвращает обертку работающую на error-first коллбэке
  */
-
 function unpromisify (promisify) {
     var promise = promisify;
     return function getUnpromisify () {

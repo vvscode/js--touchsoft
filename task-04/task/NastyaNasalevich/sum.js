@@ -8,14 +8,16 @@
  * Число вызовов может быть неограниченым
  */
 
-function sum(total) {
-   
+ function sum(result) {
+   var total = result;
+
     if (!total) {
         total = 0;
     } 
 
-    function totalSum(arg) {
-        
+    function totalSum(a) {
+        var arg = a;
+
         if (!arg) {
             arg = 0;
         } 
@@ -29,6 +31,3 @@ function sum(total) {
 
     return totalSum;
 }
-
-var s = sum();
-console.log(s(3)(4)(5));

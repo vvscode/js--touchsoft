@@ -1,3 +1,6 @@
+/* global require */
+/* global gulp */
+
 var gulp = require('gulp');
 var server = require('gulp-server-livereload');
 var sass = require('gulp-sass');
@@ -8,8 +11,8 @@ var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-clean-css');
 var clean = require('gulp-clean');
 
-//styles
-gulp.task('style', function () {
+// styles
+gulp.task('style', function addStyle() {
     return gulp.src('app/sass/**/*.sass')
         .pipe(sass().on('error', sass.logError))
         .pipe(prefix({
@@ -18,14 +21,14 @@ gulp.task('style', function () {
         .pipe(gulp.dest('app/css'));
 });
 
-//clean
-gulp.task('clean', function () {
+// clean
+gulp.task('clean', function clean() {
     return gulp.src('dist', {read: false})
         .pipe(clean());
 });
 
-//build
-gulp.task('build', ['clean'], function () {
+// build
+gulp.task('build', ['clean'], function build() {
     return gulp.src('app/*.html')
         .pipe(useref())
         .pipe(gulpif('*.js', uglify()))
@@ -33,8 +36,8 @@ gulp.task('build', ['clean'], function () {
         .pipe(gulp.dest('dist'));
 });
 
-//server
-gulp.task('server', function() {
+// server
+gulp.task('server', function runServer() {
     gulp.src('./app')
         .pipe(server({
             livereload: true,
@@ -43,7 +46,7 @@ gulp.task('server', function() {
         }));
 });
 
-gulp.task('watch', function(){
+gulp.task('watch', function watch(){
     gulp.watch('app/sass/**/*.sass', ['style'])
 })
 

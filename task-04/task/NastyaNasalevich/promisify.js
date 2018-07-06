@@ -1,3 +1,5 @@
+/* exported promisify */
+
 /**
  * Все асинхронные функции node.js и подавляющее большинство асинхронных функций внешних модулей
  * на данный момент всё же используют колбэки,
@@ -9,7 +11,7 @@
  * Аналог https://nodejs.org/api/util.html#util_util_promisify_original
  */
 
-function promisify() {
+ function promisify() {
     var callback = arguments[arguments.length-1];
     return function returnPromise() {
         var args = [].slice.call(arguments);
