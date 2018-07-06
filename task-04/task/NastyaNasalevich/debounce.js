@@ -1,3 +1,5 @@
+/* exported debounce */
+
 /**
  * Напишите функцию debounce(f, ms), которая возвращает обёртку, которая откладывает вызов f на ms миллисекунд.
  *
@@ -22,3 +24,16 @@
  *
  *
  */
+
+function debounce(f, ms) {
+    var counter; 
+
+    return function postpone() {
+      var args = arguments;
+      clearTimeout(counter);
+      counter = setTimeout(function borrowMethod() {
+        f.apply(this, args);
+      }, ms)
+    }
+
+}
