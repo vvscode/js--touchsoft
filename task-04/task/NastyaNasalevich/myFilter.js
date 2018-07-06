@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-/* eslint no-extend-native: ["error", { "exceptions": ["Function"] }] */
+/* eslint no-extend-native: ["error", { "exceptions": ["Array"] }] */
 
 /**
  * Написать реализацию метода .myFilter, который работает

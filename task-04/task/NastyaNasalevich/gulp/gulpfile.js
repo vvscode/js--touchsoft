@@ -22,7 +22,7 @@ gulp.task('style', function addStyle() {
 });
 
 // clean
-gulp.task('clean', function clean() {
+gulp.task('clean', function cleanDirectory() {
     return gulp.src('dist', {read: false})
         .pipe(clean());
 });

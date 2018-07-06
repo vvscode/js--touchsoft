@@ -25,7 +25,7 @@ EventBus.prototype.on = function on(event, callback) {
 EventBus.prototype.off = function off(event, cb) {
     
     if (this[event]) {
-        this[event] = this[event].filter(function f(el, i, arr) {
+        this[event] = this[event].filter(function f(el, i) {
             return el !== cb;
         });
     }
