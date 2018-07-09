@@ -1,3 +1,5 @@
+/* exported unpromisify */
+
 /**
  * Написать фукнцию обратную promisify
  *
@@ -23,5 +25,3 @@ function unpromisify(promisified) {
     );
   };
 }
-
-unpromisify();

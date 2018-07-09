@@ -1,3 +1,5 @@
+/* exported EventBus */
+
 /**
  * Написать реализацию eventBus в соответствии с тестами
  */
@@ -9,7 +11,7 @@ function EventBus() {
     if (this[event] === undefined) {
       return;
     }
-    if(arguments.length > 2){
+    if (arguments.length > 2) {
       params = params.concat(Array.from(arguments).splice(2));
     }
     for (index = 0; index < this[event].length; index++) {
@@ -33,5 +35,3 @@ function EventBus() {
     this[event].splice(cbIndex, 1);
   };
 }
-
-EventBus();

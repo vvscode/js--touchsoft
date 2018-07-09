@@ -1,3 +1,5 @@
+/* exported Parallel */
+
 /**
  * Реализовать класс, который позволяет запускать задачи параллельно
  * с заданным числом параллельно выполняющихся задач
@@ -15,34 +17,37 @@
  */
 
 function Parallel(poolSize) {
+  var self = this;
   this.poolSize = poolSize || 1;
   this.jobs = [];
   this.jobsResult = [];
   this.asyncJobs = [];
+  this.onDone = undefined;
   this.job = function job(task) {
     this.jobs.push(task);
-    return this;
+    return self;
   };
   this.done = function done(onDone) {
-    var self = this;
     var jobID;
+    var job;
     if (typeof onDone !== "function") {
       self.jobsResult.push(onDone);
-      return;
     }
+
+    self.onDone = self.onDone || onDone;
+
     self.asyncJobs.shift();
     if (self.jobs.length === 0 && self.asyncJobs.length === 0) {
-      setTimeout(onDone, 0, self.jobsResult);
+      setTimeout(self.onDone, 0, self.jobsResult);
       return;
     }
 
-    while (self.asyncJobs.length < self.poolSize) {
-      jobID = setTimeout(function callJob() {
-        self.jobs.shift().call(self, self.done);
-      }, 0);
-      self.asyncJobs.push(jobID);
+    if (!self.asyncJobs.length) {
+      while (self.asyncJobs.length < self.poolSize && self.jobs.length) {
+        job = self.jobs.shift();
+        jobID = setTimeout(job.bind(self, self.done, self.jobsResult), 0);
+        self.asyncJobs.push(jobID);
+      }
     }
   };
 }
-
-Parallel();

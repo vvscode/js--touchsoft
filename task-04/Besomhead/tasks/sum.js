@@ -1,3 +1,5 @@
+/* exported sum */
+
 /**
  * Написать фукнцию сумматор, которая будет работать
  * var s = sum();
@@ -19,5 +21,3 @@ function sum(init) {
 
   return summerFunc;
 }
-
-sum();
