@@ -7,6 +7,6 @@
 Function.prototype.myBind = function myBind(context) {
   var self = this;
   return function binded() {
-    self.apply(context, arguments);
+    return self.apply(context, arguments);
   };
 };

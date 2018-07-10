@@ -8,6 +8,6 @@
  */
 function bind(funcObject, context) {
   return function binded() {
-    funcObject.apply(context, arguments);
+    return funcObject.apply(context, arguments);
   };
 }

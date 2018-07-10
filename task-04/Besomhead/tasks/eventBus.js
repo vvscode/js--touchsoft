@@ -6,17 +6,17 @@
 
 function EventBus() {
   this.trigger = function trigger(event, param) {
-    var index;
+    var self = this;
     var params = [param];
-    if (this[event] === undefined) {
+    if (self[event] === undefined) {
       return;
     }
     if (arguments.length > 2) {
       params = params.concat(Array.from(arguments).splice(2));
     }
-    for (index = 0; index < this[event].length; index++) {
-      this[event][index].apply(this, params);
-    }
+    self[event].forEach(function triggerEvents(evn) {
+      evn.apply(self, params);
+    });
   };
   this.on = function on(event, callback) {
     if (typeof callback !== "function") {
