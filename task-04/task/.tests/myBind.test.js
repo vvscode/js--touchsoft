@@ -60,4 +60,8 @@ describe('.myBind', function() {
       assert.isOk(arguments[2] === 'три');
     }.myBind({})(1, 2, 'три'));
   });
+  it('Возвращает значение', function() {
+    function x() { return 1; }
+    assert.isOk(x.myBind({})() === 1);
+  });
 });
