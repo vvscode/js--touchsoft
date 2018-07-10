@@ -1,0 +1,14 @@
+@import "templates/header.css";
+@import "templates/footer.css";
+
+.content {
+  position: relative;
+  margin-top: 150px;
+  font-family: cursive;
+  font-weight: bold;
+  color: lightsteelblue;
+  font-size: 18pt;
+  text-align: center;
+  border: 2px solid lightskyblue;
+  border-radius: 5px;
+}
