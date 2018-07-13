@@ -183,7 +183,8 @@ var longPollResponseParser = (function createLongPollResponseParser() {
             } else if (changeType === "setting") {
                 resultOfParse.object = this.parseUsersSettings(result, changeType);
                 return resultOfParse;
-            } 
+            }
+            return false;
         } else {
             return false;
         }
