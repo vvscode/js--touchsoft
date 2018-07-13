@@ -2,6 +2,12 @@
 /* global panelOfUsers */
 
 (function routing() {
+    
+    var router = new Router([
+        new Route('configurator', 'config.html'),            
+        new Route('dashboard', 'dashboard.html'),
+        new Route('about', 'about.html'),       
+    ]);
 
     function Router(routes) {
         this.routes = routes;
@@ -56,11 +62,5 @@
     Route.prototype.isActiveRoute = function isActiveRoute(hashedPath) {
         return hashedPath.substr(1) === this.name;
     }
-    
-    var router = new Router([
-        new Route('configurator', 'config.html'),            
-        new Route('dashboard', 'dashboard.html'),
-        new Route('about', 'about.html'),       
-    ]);
 
 })();

@@ -1,4 +1,5 @@
 /* exported operatorsChat */
+/* global sendRequestToDatabase */
 
 var operatorsChat = (function createOperatorsChat() {
 

@@ -1,3 +1,5 @@
+/* exported Message */
+
 function Message(time, sender, body) {
     this.time = time;
     this.sender = sender;

@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 QUnit.module('Hash changes');
 
 QUnit.test('Check setting of configurators hash', function test(assert) {

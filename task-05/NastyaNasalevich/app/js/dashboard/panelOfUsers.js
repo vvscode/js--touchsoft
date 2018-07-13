@@ -1,4 +1,10 @@
 /* exported panelOfUsers */
+/* global filter */
+/* global sorter */
+/* global operatorsChat */
+/* global removeChildren */
+/* global sendRequestToDatabase */
+
 
 var panelOfUsers = (function createpanelOfUsers() {
     var userList;

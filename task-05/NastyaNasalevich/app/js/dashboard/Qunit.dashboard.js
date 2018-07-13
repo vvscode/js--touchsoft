@@ -6,8 +6,8 @@ QUnit.module('Check Users List');
 
 QUnit.test('Creating of users list', function test(assert) {
   var done = assert.async();
-  userList = document.getElementById('dashboard-users-list');
   var listOfUsers;
+  userList = document.getElementById('dashboard-users-list');
   panelOfUsers.initPanelOfUsersElements();
   panelOfUsers.createUserList();
   setTimeout(function f() {

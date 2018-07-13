@@ -1,3 +1,5 @@
+/* exported removeChildren */
+
 function removeChildren(list) {
 
     while (list.lastChild) {

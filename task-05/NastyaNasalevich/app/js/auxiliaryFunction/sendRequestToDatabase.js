@@ -1,3 +1,5 @@
+/* exported sendRequestToDatabase */
+
 function sendRequestToDatabase(method, path, key, body) {
     var chatURL = 'https://mychat-b0091.firebaseio.com/';
     return fetch(
