@@ -2,12 +2,6 @@
 /* global panelOfUsers */
 
 (function routing() {
-    
-    var router = new Router([
-        new Route('configurator', 'config.html'),            
-        new Route('dashboard', 'dashboard.html'),
-        new Route('about', 'about.html'),       
-    ]);
 
     function Router(routes) {
         this.routes = routes;
@@ -18,7 +12,7 @@
         init: function init() {
             var arr = this.routes;
             
-            window.addEventListener('hashchange', function f(e) {
+            window.addEventListener('hashchange', function f() {
                 this.selectPath(this, arr);
             }.bind(this));
     
@@ -40,7 +34,7 @@
                     return response.text();
                 }).then(function getHTML(res) {
                     document.getElementById('main-body').innerHTML = res;
-                }).then(function startCode(inner) {
+                }).then(function startCode() {
                     if (document.getElementById('config-resultScript')) {
                         config.createPage();
                     }
@@ -49,7 +43,7 @@
                         panelOfUsers.createUserList();
                         setInterval(panelOfUsers.updateUserList, 5000);
                     }
-                }.bind(this));
+                });
         }
     
     };
@@ -62,5 +56,11 @@
     Route.prototype.isActiveRoute = function isActiveRoute(hashedPath) {
         return hashedPath.substr(1) === this.name;
     }
+    
+    new Router([
+        new Route('configurator', 'config.html'),            
+        new Route('dashboard', 'dashboard.html'),
+        new Route('about', 'about.html'),       
+    ]);
 
 })();

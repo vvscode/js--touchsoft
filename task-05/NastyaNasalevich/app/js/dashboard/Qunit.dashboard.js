@@ -108,8 +108,8 @@ QUnit.test('Check format of the message', function test(assert) {
 QUnit.test('Open working place', function test(assert) {
   var done = assert.async();
   setTimeout(function f() {
-    document.getElementById('dashboard-picture').hidden;
-    document.getElementById('dashboard-work-place').hidden;
+    document.getElementById('dashboard-picture').hidden = false;
+    document.getElementById('dashboard-work-place').hidden = true;
     userList.childNodes[0].click();
     assert.ok(document.getElementById('dashboard-picture').hidden === true, 'Picture was closed!');
     assert.ok(document.getElementById('dashboard-work-place').hidden === false, 'Working place was opened!');
