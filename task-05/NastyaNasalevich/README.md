@@ -1,3 +1,5 @@
-[Ссылка на дашборд](http://htmlpreview.github.io/?https://github.com/NastyaNasalevich/js--touchsoft/blob/task3/task-03/NastyaNasalevich/dashboard/dashboard.html)
+[Link to the dashbord](http://htmlpreview.github.io/?https://github.com/NastyaNasalevich/Templates-for-chat/blob/master/index.html#dashboard)
 
-[Ссылка на тесты](http://htmlpreview.github.io/?https://github.com/NastyaNasalevich/js--touchsoft/blob/task3/task-03/NastyaNasalevich/dashboard/dashboardTests.html)
+[Tests for the router](https://htmlpreview.github.io/?https://github.com/NastyaNasalevich/js--touchsoft/blob/task5/task-05/NastyaNasalevich/app/templates/QUnit.router.html)
+
+[Tests for the dashboard](https://htmlpreview.github.io/?https://github.com/NastyaNasalevich/js--touchsoft/blob/task5/task-05/NastyaNasalevich/app/templates/QUnit.dashboard.html)
