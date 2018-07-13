@@ -185,9 +185,9 @@ var longPollResponseParser = (function createLongPollResponseParser() {
                 return resultOfParse;
             }
             return false;
-        } else {
-            return false;
         }
+        return false;
+
     };
 
     return new LongPollResponseParser();
