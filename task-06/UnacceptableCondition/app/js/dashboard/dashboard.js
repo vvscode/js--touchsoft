@@ -4,6 +4,7 @@
 /* global mainConfig */
 /* global userListManager */
 /* global dataSource */
+/* global eventEmitter */
 /* global sorter */
 var dashboard = (function createDashboardController(config, dataSource, uDataManager, uListManager, sorter, eventEmitter){
 
@@ -22,29 +23,32 @@ var dashboard = (function createDashboardController(config, dataSource, uDataMan
 
     DashboardController.prototype.setupEventEmitter = function setupEventEmitter () {
         var that = this;
-        eventEmitter.addSubscribe("userList", function (data) {
+        var condition;
+        eventEmitter.addSubscribe("userList", function  setupData (data) {
             var usersList = [];
+            var newData;
             if(data instanceof Array) {
-                data = data[1];
+                newData = data[1];
             }
-            Object.keys(data).map(function setUserSetting(userId) {
+            Object.keys(newData).map(function setUserSetting(userId) {
                 uListManager.addUserToUsersArray(
-                    data[userId],
+                    newData[userId],
                     userId,
                     usersList
                 );
+                return true;
             });
             uListManager.uList = uListManager.uList.concat(usersList);
-            var condition = that.getCurrentUserIdFromLocalStorage();
+            condition = that.getCurrentUserIdFromLocalStorage();
             that.localSettingsSetup(condition);
             that.setupUserListDOM();
         });
-        eventEmitter.addSubscribe("lastOnline", function (data) {
+        eventEmitter.addSubscribe("lastOnline", function lastOnlineSub (data) {
             var userId = data[0];
             var lastOnline = data[1];
             uListManager.updateUserOnlineStatus(userId, lastOnline)
         });
-        eventEmitter.addSubscribe("sendNewMessage", function (data) {
+        eventEmitter.addSubscribe("sendNewMessage", function sendNewMessageSub (data) {
             var userIndex = uListManager.getUserFromUserListById(data[0]);
             uListManager.uList[userIndex].sendNewMessage = data[1];
             that.toggleNewMessageIndicatorToUser();
@@ -242,12 +246,13 @@ var dashboard = (function createDashboardController(config, dataSource, uDataMan
 
     DashboardController.prototype.setupIntervalFunctions = function setupIntervalFunctions () {
         var that = this;
-        intervalId.push = setInterval(function () {
-            Object.keys(uListManager.uList).map(function (viewId) {
+        intervalId.push = setInterval(function interval () {
+            Object.keys(uListManager.uList).map(function userListUpdate (viewId) {
                 uListManager.updateUserOnlineStatus(
                     uListManager.uList[viewId].userId,
                     uListManager.uList[viewId].lastOnline
-                )
+                );
+                return true;
             });
             that.setupUserListDOM();
         },config.interval.UPDATE_USERS_TIME)
