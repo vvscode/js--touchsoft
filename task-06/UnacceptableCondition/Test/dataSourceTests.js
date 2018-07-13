@@ -52,7 +52,7 @@ tests("sendMessage method must sets message data to data base",
                 null,
                 "GET",
                 "application/json"
-            ).then(function (data) {
+            ).then(function afterGetData (data) {
                 Object.keys(data).map(function assertData (key) {
                     assert.ok(data[key].date === "testDate", "it has valid date field");
                     assert.ok(data[key].sender === "testSender", "it has valid sender field");

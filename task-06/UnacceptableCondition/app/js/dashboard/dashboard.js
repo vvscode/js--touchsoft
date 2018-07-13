@@ -6,6 +6,7 @@
 /* global dataSource */
 /* global eventEmitter */
 /* global sorter */
+/* global longPollResponseParser */
 var dashboard = (function createDashboardController(config, dataSource, uDataManager, uListManager, sorter, eventEmitter){
 
     var intervalId = [];
@@ -141,7 +142,7 @@ var dashboard = (function createDashboardController(config, dataSource, uDataMan
     DashboardController.prototype.getUserList = function getUserList () {
         var data;
         var longPollUserListConnector = dataSource.usersAPI.getUserList(null);
-        longPollUserListConnector.onreadystatechange = function () {
+        longPollUserListConnector.onreadystatechange = function getConnectionFromData () {
             if (this.status) {
                 data = longPollResponseParser.parse(this.responseText);
                 if(data) {

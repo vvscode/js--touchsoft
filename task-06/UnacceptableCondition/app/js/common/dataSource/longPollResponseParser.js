@@ -27,9 +27,9 @@ var longPollResponseParser = (function createLongPollResponseParser() {
             function getCurrentTypeOfChange(typeName) {
                 if (typesOfChange[typeName].test(answerData)) {
                     return typeName;
-                } else {
-                    return false;
                 }
+                return false;
+
             }
         );
         return type[0];
@@ -183,6 +183,8 @@ var longPollResponseParser = (function createLongPollResponseParser() {
             } else if (changeType === "setting") {
                 resultOfParse.object = this.parseUsersSettings(result, changeType);
                 return resultOfParse;
+            } else {
+                return false;
             }
         }
     };
