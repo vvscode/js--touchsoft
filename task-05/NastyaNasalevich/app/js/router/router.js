@@ -57,7 +57,7 @@
         return hashedPath.substr(1) === this.name;
     }
     
-    new Router([
+    return new Router([
         new Route('configurator', 'config.html'),            
         new Route('dashboard', 'dashboard.html'),
         new Route('about', 'about.html'),       
