@@ -186,6 +186,8 @@ var longPollResponseParser = (function createLongPollResponseParser() {
             } else {
                 return false;
             }
+        } else {
+            return false;
         }
     };
 
