@@ -12,7 +12,14 @@ var mainConfig = {
         // ID DOM элемента дял ввода параметра фильтрации пользователей
         CSS_FILTER_INPUT_ID: "root-touchsoft-dashboard_filter-input",
         // ID DOM элемента дял ввода параметра сортировки пользователей
-        CSS_SORT_SELECT_ID: "root-touchsoft-dashboard_sort"
+        CSS_SORT_SELECT_ID: "root-touchsoft-dashboard_sort",
+
+        // CONTROL PANEL
+        // Класс control panel елемент
+        CSS_CONTROL_PANEL_LOG_CLASS: "root-touchsoft-dashboard_control-log",
+        CSS_CONTROL_PANEL_SELECT_CLASS: "root-touchsoft-dashboard_control_select_command",
+        CSS_CONTROL_SEND_COMMAND_BUTTON_CLASS: "root-touchsoft-dashboard_control_send-command-button",
+        CSS_CONTROL_PARAMETERS_CLASS: "root-touchsoft-dashboard_control_parameter-input"
 
     },
     launcher: {
@@ -83,6 +90,7 @@ var mainConfig = {
 
     },
 
+
     // класс переключатель отображения элемента
     INVISIBLE_CLASS: "root-touchsoft-dashboard_invisible-element",
 
@@ -98,7 +106,9 @@ var mainConfig = {
 
     // для новых сообщений от пользователей
     // Если юзер прислал соообщение, на юзера в списке вешается этот стиль
-    CSS_HAVE_NEW_MESSAGE_STYLE: "root-touchsoft-dashboard_user-have-new-message"
+    CSS_HAVE_NEW_MESSAGE_STYLE: "root-touchsoft-dashboard_user-have-new-message",
+
+    COMMAND_PATH_PREFIX: "https://onlineconsultantwebapp.firebaseio.com/usersSettings/"
 
 
 
