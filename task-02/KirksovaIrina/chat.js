@@ -4,7 +4,7 @@ var textArea = null;
 var inputText = null;
 var title = null;
 var botName = 'Bot';
-var chatUrl = null;
+var chatUrl = 'https://chat-92875.firebaseio.com';
 var position = null;
 var cssClass = null;
 var allowMinimize = null;
@@ -13,6 +13,7 @@ var showDataTime = null;
 var requireName = null;
 var requests = null;
 var username = null;
+var isCreated = null;
 var styles = document.createElement('style');
 var buttonSend = document.createElement('button');
 var div = document.createElement('div');
@@ -173,7 +174,9 @@ function getHistoryChat() {
             .then(function responseInJSON(response) {
                 return response.json();
             })
-            .then(printHistoryChat());
+            .then(function responsePrint(response) {
+                printHistoryChat(response);
+            });
     }
 }
 
@@ -321,15 +324,14 @@ function getSettingChat() {
             })
             .then(function startViewChat(data) {
                 view = data[0].view;
-                if (responseData[0].username) {
-                    username = responseData[0].username;
+                if (data[0].username) {
+                    username = data[0].username;
                 }
                 if (view === 'max') {
                     createChatMax();
                 } else {
                     createChatMin();
                 }
-
             });
     }
 }
@@ -344,6 +346,7 @@ function viewChat() {
 
 function createChat() {
     var now = new Date();
+    isCreated = true;
     if (position === 'left') {
         div.style.left = '0px';
     }
@@ -388,3 +391,11 @@ div.addEventListener('click', function delegation(event) {
         div.appendChild(buttonMinimized);
     }
 });
+
+(function startWork() {
+    if (!isCreated) {
+        createChat();
+    } else {
+        ChatConfig();
+    }
+})();
