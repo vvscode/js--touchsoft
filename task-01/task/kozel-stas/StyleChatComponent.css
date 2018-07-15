@@ -11,6 +11,10 @@ body{
     min-width: 800px;
 }
 
+.chat_component_title{
+    font-size: 10px;
+}
+
 .root_for_output {
     padding: 4px;
     width: 100%;
