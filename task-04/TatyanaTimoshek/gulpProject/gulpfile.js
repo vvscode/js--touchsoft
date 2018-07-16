@@ -8,7 +8,7 @@ var pngquant = require('imagemin-pngquant');
 var cache = require('gulp-cache');
 var autoprefixer = require('gulp-autoprefixer');
 
-gulp.task('sass', function() {
+gulp.task('sass', function a() {
   return gulp
     .src('app/sass/**/*.sass')
     .pipe(sass())
@@ -21,7 +21,7 @@ gulp.task('sass', function() {
     .pipe(browserSync.reload({ stream: true }));
 });
 
-gulp.task('browser-sync', function() {
+gulp.task('browser-sync', function b() {
   browserSync({
     server: {
       baseDir: 'app'
@@ -30,11 +30,11 @@ gulp.task('browser-sync', function() {
   });
 });
 
-gulp.task('clean', function() {
+gulp.task('clean', function c() {
   return del.sync('dist');
 });
 
-gulp.task('img', function() {
+gulp.task('img', function d() {
   return gulp
     .src('app/img/**/*')
     .pipe(
@@ -50,13 +50,13 @@ gulp.task('img', function() {
     .pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('build', ['browser-sync', 'clean', 'img', 'sass'], function() {
+gulp.task('build', ['browser-sync', 'clean', 'img', 'sass'], function f() {
   gulp.watch('app/sass/**/*.sass', ['sass']);
   gulp.watch('app/*.html', browserSync.reload);
   gulp.watch('app/js/**/*.js', browserSync.reload);
 });
 
-gulp.task('clear', function() {
+gulp.task('clear', function g() {
   return cache.clearAll();
 });
 
