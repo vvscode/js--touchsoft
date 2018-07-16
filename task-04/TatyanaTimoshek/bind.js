@@ -1,3 +1,4 @@
+/* exported bind */
 /**
  * Функция bind фиксирует контекст, так что
  * var o = { name: 'Bob' }

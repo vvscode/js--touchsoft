@@ -1,3 +1,4 @@
+/* exported unpromisify  */
 /**
  * Написать фукнцию обратную promisify
  *
