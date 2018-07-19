@@ -418,6 +418,41 @@ Module = (function chat(userConfigObj) {
         elem.style.left = 5 + "vw";
     }
 
+    function pullRequestUpdateMessage() {
+        var messageHistory;
+        var message;
+        var oldMessage;
+        var dataObj;
+        var messages;
+        var newConnection = true;
+        if (xhrObject) {
+            xhrObject.abort();
+        }
+        xhrObject = transferObject.getLongPoolingMessages();
+        xhrObject.onreadystatechange = function onReady() {
+            messageHistory = document.getElementById("messageHistory");
+            if (messageHistory) {
+                if (this.status === 200) {
+                    message = this.responseText.replace(oldMessage, "");
+                    oldMessage = this.responseText;
+                    dataObj = JSON.parse(message.match(/\{.+\}/));
+                    if (dataObj) {
+                        messages = Object.keys(dataObj.data).map(function createNewArray(value) {
+                            return dataObj.data[value]
+                        });
+                        if(!newConnection){
+                            messageHistory.value = messageHistory.value.concat(messages.join(""));
+                        }
+                        else {
+                            messageHistory.value = messages.join("");
+                            newConnection = false;
+                        }
+                    }
+                }
+            }
+        };
+    }
+
     function showFeedback() {
         var bodyElement = document.body;
         var elem;
@@ -440,11 +475,16 @@ Module = (function chat(userConfigObj) {
         document.getElementById('chatName').innerText = configObj.title;
         elem = document.getElementById("messageHistory");
         transferObject.setConfig("collapsed", false);
-        transferObject.getMessages().then(
-            function createMessageHistory(value) {
-                elem.value = value.join(" ");
-            }
-        );
+        if(configObj.updates !== "longPooling") {
+            transferObject.getMessages().then(
+                function createMessageHistory(value) {
+                    elem.value = value.join(" ");
+                }
+            )
+        }
+        else{
+            pullRequestUpdateMessage();
+        }
         document.getElementById("collapse").addEventListener("click", function hide() {
             var collapsedFeedback = generateCollapsedFeedback();
             changeElem = document.getElementById("feedBack");
@@ -504,11 +544,16 @@ Module = (function chat(userConfigObj) {
             requireName();
             elem = document.getElementById("messageHistory");
             transferObject.setConfig("collapsed", false);
-            transferObject.getMessages().then(
-                function createMessageHistory(value) {
-                    elem.value = value.join(" ");
-                }
-            );
+            if(configObj.updates !== "longPooling") {
+                transferObject.getMessages().then(
+                    function createMessageHistory(value) {
+                        elem.value = value.join(" ");
+                    }
+                )
+            }
+            else{
+                pullRequestUpdateMessage();
+            }
             document.getElementById("collapse").addEventListener("click", hideFeedback);
             document.getElementById("sendMessageButton").addEventListener("click", sendMessage);
         });
@@ -535,13 +580,19 @@ Module = (function chat(userConfigObj) {
         requireName();
         document.getElementById('chatName').innerText = configObj.title;
         elem = document.getElementById("messageHistory");
-        transferObject.getMessages().then(
-            function createMessageHistory(value) {
-                elem.value = value.join(" ");
-                document.getElementById("collapse").addEventListener("click", hideFeedback);
-                document.getElementById("sendMessageButton").addEventListener("click", sendMessage);
-            }
-        )
+        if(configObj.updates !== "longPooling") {
+            transferObject.getMessages().then(
+                function createMessageHistory(value) {
+                    elem.value = value.join(" ");
+                }
+            )
+        }
+        else{
+            pullRequestUpdateMessage();
+        }
+        document.getElementById("collapse").addEventListener("click", hideFeedback);
+        document.getElementById("sendMessageButton").addEventListener("click", sendMessage);
+
     }
 
     function setStyle() {
@@ -576,40 +627,7 @@ Module = (function chat(userConfigObj) {
         document.getElementById("maximize").addEventListener("click", showFeedback);
     }
 
-    function pullRequestUpdateMessage() {
-        var messageHistory;
-        var message;
-        var oldMessage;
-        var dataObj;
-        var messages;
-        var newConnection = true;
-        if (xhrObject) {
-            xhrObject.abort();
-        }
-        xhrObject = transferObject.getLongPoolingMessages();
-        xhrObject.onreadystatechange = function onReady() {
-            messageHistory = document.getElementById("messageHistory");
-            if (messageHistory) {
-                if (this.status === 200) {
-                    message = this.responseText.replace(oldMessage, "");
-                    oldMessage = this.responseText;
-                    dataObj = JSON.parse(message.match(/\{.+\}/));
-                    if (dataObj) {
-                        messages = Object.keys(dataObj.data).map(function createNewArray(value) {
-                            return dataObj.data[value]
-                        });
-                        if(!newConnection){
-                            messageHistory.value = messageHistory.value.concat(messages.join(""));
-                        }
-                        else {
-                            messageHistory.value = messages.join("");
-                        }
 
-                    }
-                }
-            }
-        };
-    }
 
     function checkWindow() {
         var timeUpdateChat = 10000;
@@ -644,7 +662,6 @@ Module = (function chat(userConfigObj) {
             })
         }
         if (configObj.updates === "longPooling") {
-            pullRequestUpdateMessage();
             setInterval(pullRequestUpdateMessage, timeUpdateConnection)
         }
         else {
