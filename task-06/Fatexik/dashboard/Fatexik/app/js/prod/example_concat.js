@@ -218,7 +218,7 @@ var dashboardUpdateList = (function dashboardController(dataBaseApi) {
             }
             usersList.appendChild(userBlock);
             userBlock.addEventListener("click", openClient);
-            
+
         }
 
         function clientSearchFunc() {
@@ -226,8 +226,8 @@ var dashboardUpdateList = (function dashboardController(dataBaseApi) {
             var clientSearch = document.getElementById("clientSearch");
             var searchLength = clientSearch.value.length;
             var i;
-            for(i=0;i<clientArray.length;i++){
-                if (clientSearch.value !== clientArray[i].textContent.substring(0, searchLength)){
+            for (i = 0; i < clientArray.length; i++) {
+                if (clientSearch.value !== clientArray[i].textContent.substring(0, searchLength)) {
                     clientArray[i].style.display = "none";
                 }
                 else {
@@ -320,7 +320,7 @@ var dashboardUpdateList = (function dashboardController(dataBaseApi) {
             }
             updateChat(userId, isUpdate);
         }
-        
+
         function reconnectUsersList() {
             var message;
             var oldMessage;
@@ -353,19 +353,28 @@ var dashboardUpdateList = (function dashboardController(dataBaseApi) {
                             path = path.filter(function deleteEmpty(value) {
                                 return value;
                             });
-                            while (i < path.length - 1 && isOldProperty) {
+                            do {
                                 if (path[i] in tmpObjClient) {
                                     tmpObjClient = tmpObjClient[path[i]];
-                                    isOldProperty = true;
                                 }
                                 else {
-                                    Object.defineProperty(tmpObjClient, path[i], {value: tmpObjNewData});
+                                    Object.defineProperty(tmpObjClient, path[i], {
+                                        value: tmpObjNewData,
+                                        writable: true,
+                                        enumerable: true,
+                                        configurable: true
+                                    });
                                     isOldProperty = false;
                                 }
                                 i++;
-                            }
+                            } while (i < path.length - 1 && isOldProperty);
                             if (isOldProperty) {
-                                Object.defineProperty(tmpObjClient, path[path.length - 1], {value: tmpObjNewData})
+                                Object.defineProperty(tmpObjClient, path[path.length - 1], {
+                                    value: tmpObjNewData,
+                                    writable: true,
+                                    enumerable: true,
+                                    configurable: true
+                                })
                             }
                         }
                         else {
@@ -389,10 +398,10 @@ var dashboardUpdateList = (function dashboardController(dataBaseApi) {
         }
 
         UpdateUserList.prototype.createList = function createList() {
-            var clientSearch  = document.getElementById('clientSearch');
+            var clientSearch = document.getElementById('clientSearch');
             var clientSort = document.getElementById('clientSort');
-            clientSearch.addEventListener("change",clientSearchFunc);
-            clientSort.addEventListener("change",updateList);
+            clientSearch.addEventListener("change", clientSearchFunc);
+            clientSort.addEventListener("change", updateList);
             reconnectUsersList();
             listReconnectId = setInterval(reconnectUsersList, TIME_UPDATE);
         };
