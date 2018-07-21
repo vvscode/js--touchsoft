@@ -1,4 +1,4 @@
-/*exported configJS*/
+/* exported configJS */
 
 var configJS = (function configJS() {
   var newConfig = {

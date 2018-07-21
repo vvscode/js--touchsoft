@@ -1,4 +1,4 @@
-/*exported connectionsWithDataBase*/
+/* exported connectionsWithDataBase */
 
 var connectionsWithDataBase = (function connectionsWithDataBase() {
   var chatURL = "https://tanyachatfb.firebaseio.com";

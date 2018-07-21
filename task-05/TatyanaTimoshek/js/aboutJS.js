@@ -1,4 +1,4 @@
-/*exported aboutProject*/
+/* exported aboutProject */
 var aboutProject = (function aboutProject() {
   function createAbout() {
     var wrap = document.createElement("div");

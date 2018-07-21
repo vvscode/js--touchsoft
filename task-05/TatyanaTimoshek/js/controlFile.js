@@ -1,10 +1,9 @@
-/*global createOperatorsDashboard, AW, configJS*/
+/* global createOperatorsDashboard, AW, configJS, aboutProject */
 
-function handlerUrl(newUrl, url) {
+function handlerUrl(newUrl) {
   var blackBoard = document.getElementById("idBlackBoard");
   var newElem;
   var oldElem;
-  var fil;
   if (newUrl.includes("operatorsDashboard")) {
     oldElem = document.getElementById("idNewEl");
     newElem = createOperatorsDashboard.createDashboard();
@@ -27,7 +26,7 @@ function handlerUrl(newUrl, url) {
 }
 
 window.addEventListener("hashchange", function hashChange(event) {
-  handlerUrl(event.newURL, event.oldURL);
+  handlerUrl(event.newURL);
 });
 
 window.onload = function onload() {

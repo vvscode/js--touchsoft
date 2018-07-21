@@ -1,6 +1,6 @@
-/*global connectionsWithDataBase*/
+/* global connectionsWithDataBase, objectsStorage */
 
-var tanyaChat = (function tanyaChat(dataBaseObj) {
+(function tanyaChat(dataBaseObj) {
   var config = {
     chatTitle: "Chat",
     botName: "Bot",
