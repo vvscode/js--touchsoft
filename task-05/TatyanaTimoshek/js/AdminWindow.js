@@ -200,6 +200,7 @@ var AW = (function AW(dataBaseObj) {
 
   function setUsersInList() {
     var find;
+    var sortOption;
     var n;
     var toSortNames = [];
     var toSort = [];
