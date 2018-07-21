@@ -288,7 +288,6 @@ var AW = (function AW(dataBaseObj) {
   }
 
   function init() {
-    console.log("INNNNIIITTT");
     var updateIntervar = 5000;
     setUsersInList();
     setListenerForSendAndExit();
@@ -307,7 +306,6 @@ var AW = (function AW(dataBaseObj) {
   }
 
   document.addEventListener("DOMContentLoaded", function j() {
-    console.log("load good");
     init();
   });
   return {

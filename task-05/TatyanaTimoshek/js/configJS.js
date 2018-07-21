@@ -1,3 +1,5 @@
+/*exported configJS*/
+
 var configJS = (function configJS() {
   var newConfig = {
     chatTitle: "Chat",

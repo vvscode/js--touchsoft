@@ -1,4 +1,3 @@
-/* global init,  scrollDown, sendMessage, getId, aboutUser, addMinChatSymbol, addUnreadMessageSymbol, makeUserName, makeUserId, closeActivePane, addUser, removeUserFromList, setUsersInList, myData, info */
 /* global QUnit */
 QUnit.module("Hash");
 
@@ -41,7 +40,7 @@ QUnit.module("Adding DOM-elements", {
 QUnit.test("Adding configurator.", function test(assert) {
   var done = assert.async();
   document.getElementById("idConfiguratorWP").click();
-  setTimeout(function f() {
+  setTimeout(function a() {
     assert.ok(
       document.getElementById("idChatTitleText") !== null,
       "The test is successful"
@@ -53,7 +52,7 @@ QUnit.test("Adding configurator.", function test(assert) {
 QUnit.test("Adding operator's dashboard.", function test(assert) {
   var done = assert.async();
   document.getElementById("idOperatorsDashboardWP").click();
-  setTimeout(function f() {
+  setTimeout(function b() {
     assert.ok(
       document.getElementById("idActive") !== null,
       "The test is successful"
@@ -65,14 +64,14 @@ QUnit.test("Adding operator's dashboard.", function test(assert) {
 QUnit.test("Adding information about project.", function test(assert) {
   var done = assert.async();
   document.getElementById("idAboutProjectWP").click();
-  setTimeout(function f() {
+  setTimeout(function c() {
     assert.ok(
       document.getElementById("idAuthorClass") !== null,
       "The test is successful"
     );
     done();
   }, 500);
-  setTimeout(function t() {
+  setTimeout(function d() {
     document.getElementById("idHeaderWP").className = "";
     document.getElementById("idConfiguratorWP").innerHTML = "";
     document.getElementById("idOperatorsDashboardWP").innerHTML = "";

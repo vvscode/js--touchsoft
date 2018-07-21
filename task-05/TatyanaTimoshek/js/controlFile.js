@@ -1,4 +1,4 @@
-/*global createOperatorsDashboard, AW*/
+/*global createOperatorsDashboard, AW, configJS*/
 
 function handlerUrl(newUrl, url) {
   var blackBoard = document.getElementById("idBlackBoard");

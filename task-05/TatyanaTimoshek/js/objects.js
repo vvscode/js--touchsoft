@@ -1,3 +1,4 @@
+/*global connectionsWithDataBase*/
 var objectsStorage = (function objectsStorage() {
   var chatURL = connectionsWithDataBase.url;
   function info(id) {

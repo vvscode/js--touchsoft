@@ -1,3 +1,5 @@
+/*global connectionsWithDataBase*/
+
 var tanyaChat = (function tanyaChat(dataBaseObj) {
   var config = {
     chatTitle: "Chat",
