@@ -24,12 +24,6 @@ var createOperatorsDashboard = (function createOperatorsDashboard() {
     var userPanel = document.createElement("div");
     var users = document.createElement("select");
 
-    var link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href =
-      "https://rawgit.com/TatyanaTimoshek/js--touchsoft/AWebPage/task-05/TatyanaTimoshek/css/AdminWindow.css";
-    document.head.appendChild(link);
-
     operatorDashboard.className = "operatorDashboard fixedPosition";
     operatorDashboardText.className = "operatorDashboardText";
     active.className = "active fixedPosition borders";
