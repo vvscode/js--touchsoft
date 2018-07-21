@@ -23,7 +23,7 @@ var configJS = (function configJS() {
       '<div id="idBotName" class="chatConfigSettings">Bot Name</div><input class="chatConfigSettings" type="text" id="botName"></div><div>' +
       '<div id="idChatUrl" class="chatConfigSettings">Chat URL</div><input class="chatConfigSettings" type="text" id="chatUrl" value="https://tanyachatfb.firebaseio.com"></div>' +
       '<div><div id="idCssClass"  class="chatConfigSettings">CSS class</div><input type="text"  class="chatConfigSettings" id="cssClass" value="tsChatOrange"></div>' +
-      '<div><div id="idPosition"  class="chatConfigSettings">Position</div><select  class="chatConfigSettings" id="chatPositionSelect"><option id="idSelectRight">Right</option>' +
+      '<div style="width: 50px"><div id="idPosition"  style="width: 50px" class="chatConfigSettings">Position</div><select class="selectClass chatConfigSettings" id="chatPositionSelect"><option id="idSelectRight">Right</option>' +
       '<option  class="chatConfigSettings" id="idSelectLeft">Left</option></select></div>' +
       '<div><div id="idAllowToMinimize"  class="chatConfigSettings">Allow to minimize</div><div><input type="checkbox"  class="chatConfigSettings" id="allowToMinimize"></div>' +
       '<div   class="chatConfigSettings" id="idAllowToDrag">Allow drag</div><div><input type="checkbox"  class="chatConfigSettings" id="allowToDragAndDrop"></div>' +
@@ -56,7 +56,7 @@ var configJS = (function configJS() {
   function changeConfiguration() {
     var generatedCode = document.getElementById("generatedCode");
     generatedCode.innerText =
-      '<script type="text/javascript" src="chat.js"></script>\n' +
+      '<script type="text/javascript" src="https://rawgit.com/TatyanaTimoshek/js--touchsoft/AWebPage/task-05/TatyanaTimoshek/js/chat.js"></script>\n' +
       '<script type="text/javascript">' +
       "newConfig = {\n" +
       '    chatTitle: "' +
