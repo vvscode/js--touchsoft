@@ -26,7 +26,8 @@ var createOperatorsDashboard = (function createOperatorsDashboard() {
 
     var link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "css/AdminWindow.css";
+    link.href =
+      "https://rawgit.com/TatyanaTimoshek/js--touchsoft/AWebPage/task-05/TatyanaTimoshek/css/AdminWindow.css";
     document.head.appendChild(link);
 
     operatorDashboard.className = "operatorDashboard fixedPosition";
