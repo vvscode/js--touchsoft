@@ -1,8 +1,7 @@
-/*exported AW*/
-/*global connectionsWithDataBase*/
+/* exported AW */
+/* global connectionsWithDataBase, objectsStorage */
 
 var AW = (function AW(dataBaseObj) {
-  var chatURL = "https://tanyachatfb.firebaseio.com";
   var timerUs;
   var timerMes;
   var aboutUser = {
@@ -145,9 +144,10 @@ var AW = (function AW(dataBaseObj) {
   }
 
   function addUser(name, id) {
+    var userPanel;
     var option = document.createElement("option");
     if (!document.getElementById("idUsers")) return;
-    var userPanel = document.getElementById("idUsers");
+    userPanel = document.getElementById("idUsers");
     option.innerHTML = makeUserName(name, id);
     option.id = makeUserId(id);
     option.style.backgroundColor = "#FF6A66";
@@ -199,14 +199,16 @@ var AW = (function AW(dataBaseObj) {
   }
 
   function setUsersInList() {
-    if (!document.getElementById("idFilterUsers")) return;
-    var find = document.getElementById("idFilterUsers").value;
-    var n = document.getElementById("idSortUsers").options.selectedIndex;
-    var sortOption = document.getElementById("idSortUsers").options[n].value;
+    var find;
+    var n;
     var toSortNames = [];
     var toSort = [];
     var i;
     var j;
+    if (!document.getElementById("idFilterUsers")) return;
+    find = document.getElementById("idFilterUsers").value;
+    n = document.getElementById("idSortUsers").options.selectedIndex;
+    sortOption = document.getElementById("idSortUsers").options[n].value;
     dataBaseObj
       .firebaseData(info.getUsersUrl, info.requestGet, aboutUser)
       .then(function g(users) {
