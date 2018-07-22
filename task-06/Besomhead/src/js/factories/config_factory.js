@@ -17,9 +17,9 @@ var configFactory = (function configFactoryModule(config) {
   var NETWORK_ID = "chat-configurator-network";
   var NETWORK_XHR_ID = "chat-configurator-network-xhr";
   var NETWORK_FETCH_ID = "chat-configurator-network-fetch";
-  var UPDATES_ID = "chat-configurator-subscribeOnUpdates";
-  var UPDATES_REFETCH_ID = "chat-configurator-subscribeOnUpdates-refetch";
-  var UPDATES_LONG_POLLING_ID = "chat-configurator-subscribeOnUpdates-longpoll";
+  var UPDATES_ID = "chat-configurator-updates";
+  var UPDATES_REFETCH_ID = "chat-configurator-updates-refetch";
+  var UPDATES_LONG_POLLING_ID = "chat-configurator-updates-longpoll";
   var CODE_EXAMPLE_ID = "chat-configurator-code-source";
   var CODE_EXAMPLE_START = '<script src="' + config.chatFilePath + "?";
   var CODE_EXAMPLE_END = '"></script>';
