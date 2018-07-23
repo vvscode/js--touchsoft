@@ -1,0 +1,172 @@
+body {
+  overflow: auto;
+  vertical-align: bottom;
+  width: 100%;
+  font-family: sans-serif;
+}
+
+.operatorDashboard {
+  overflow: auto;
+  background-color: #fcf8a6;
+  width: 1350px;
+  font-size: 14pt;
+  border-radius: 6px;
+  height: 550px;
+  margin-top: 10px;
+}
+
+.operatorDashboardText {
+  padding-left: 15px;
+  padding-top: 5px;
+  font-family: Arial Black !important;
+}
+
+.borders {
+  border-style: solid;
+  border-radius: 6px !important;
+  border-width: 1px;
+  border-color: #e8b64f;
+}
+
+.filterUsers {
+  background-color: #c1b3ff;
+  margin-left: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  padding-top: 5px;
+  font-size: 14pt;
+  font-family: Arial Black;
+}
+
+.forFilter {
+  width: 195px;
+  text-align: left;
+  height: 30px;
+  cursor: auto;
+}
+
+.forSort {
+  width: 200px;
+  text-align: center;
+  height: 35px;
+  border: 0px;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+
+.userPanel {
+  background-color: #dad1ff;
+  margin-left: 10px;
+  margin-top: 10px;
+  width: 200px;
+  height: 405px;
+}
+
+.fixedPosition {
+  position: fixed;
+}
+
+.active {
+  visibility: visible;
+  background-color: #fadc9e;
+  display: inline-block;
+  margin-left: 220px;
+  margin-top: 10px;
+  padding-left: 30px;
+  padding-top: 10px;
+  font-size: 14pt;
+  width: 1090px;
+  height: 488px;
+  font-family: Arial Black;
+}
+
+.activeUser {
+  display: inline;
+  position: fixed;
+}
+
+.close {
+  display: inline;
+  font-size: 19pt;
+  right: 12px;
+  margin-top: -20px;
+  background-color: #d15233;
+  width: 35px;
+  height: 25px;
+  padding-bottom: 12px;
+  text-align: center;
+  border-radius: 15px !important;
+  cursor: pointer;
+}
+
+.chat {
+  margin-left: -12px;
+  width: 330px;
+}
+
+.control {
+  background-color: #fdf8ce;
+  margin-left: 354px;
+  width: 700px;
+}
+
+.indents {
+  background-color: #fdf8ce;
+  height: 430px;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-left: 20px;
+}
+
+.history {
+  background-color: white;
+  width: 307px;
+  height: 250px;
+  padding: 10px;
+  margin-left: -1px;
+  margin-top: 50px;
+  font-family: sans-serif !important;
+  word-wrap: break-word;
+  overflow-y: auto;
+}
+
+.inputMessage {
+  position: fixed;
+  border-radius: 0px !important;
+  resize: none;
+  text-align: left;
+  margin-top: 352px;
+  margin-left: -77px;
+  width: 313px;
+  height: 60px;
+  padding: 6px;
+  overflow-y: scroll;
+}
+
+.sendButton {
+  background-color: #c7ff70;
+  text-align: center;
+  margin-top: 403px;
+  padding: 5px;
+  width: 315px;
+  cursor: pointer;
+}
+
+.unknownField {
+  background-color: white;
+  margin-top: 50px;
+  margin-left: 370px;
+  width: 690px;
+  height: 390px;
+}
+
+.mountains {
+  margin-top: 20px;
+  margin-left: 235px;
+  width: 80%;
+  height: 76%;
+}
+
+.poooo {
+  background-color: white;
+}

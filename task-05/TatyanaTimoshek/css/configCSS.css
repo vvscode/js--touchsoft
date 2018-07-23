@@ -1,0 +1,30 @@
+.topChatTitle {
+  margin-top: 20px;
+}
+
+select {
+  width: 300px; /* Ширина списка в пикселах */
+}
+
+.configClass {
+  overflow: hidden;
+  vertical-align: bottom;
+  font-family: sans-serif;
+  background-color: pink;
+  margin-top: 10px;
+  height: 550px;
+  font-size: 14pt;
+}
+
+.selectClass {
+  width: 150px;
+}
+
+.chatConfigSettings {
+  margin-left: 350px;
+}
+
+.scriptSettings {
+  margin-top: -400px;
+  margin-left: 600px;
+}
