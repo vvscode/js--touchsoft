@@ -14,7 +14,7 @@ Module = (function chat(userConfigObj) {
         title: "Chat",
         name: "Bot",
         url: "https://touchsoft-fatexik.firebaseio.com/",
-        CSS: "https://rawgit.com/fatexik/js--touchsoft/master/task-03/Fatexik/Chat/Fatexik/CSS/styles.css",
+        CSS: "https://rawgit.com/fatexik/js--touchsoft/master/task-07/Fatexik/Chat/Fatexik/CSS/styles.css",
         positionLeft: false,
         allowMinimize: true,
         drag: true,
