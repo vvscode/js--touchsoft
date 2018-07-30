@@ -782,9 +782,6 @@ var dashboardFactory = (function dashboardFactoryModule(config) {
   function updateCommands(key, commandResult, commandKey) {
     var userCommands = usersData[key].commands;
 
-    if (!userCommands) {
-      userCommands = {};
-    }
     userCommands[commandKey].result = commandResult;
     if (!DM.getDOMElement(SELECTED_USER_INNER_ID)) {
       return;
@@ -798,9 +795,19 @@ var dashboardFactory = (function dashboardFactoryModule(config) {
     );
   }
 
+  function saveEmptyCommand(userKey, commandKey, userCommand) {
+    var user = usersData[userKey];
+
+    if (!user.commands) {
+      user.commands = {};
+    }
+    user.commands[commandKey] = userCommand;
+  }
+
   function applyUpdates(event) {
     var pathFragments = event.data.path.split("/").slice(1);
     var fragment = pathFragments.shift();
+    var commandKey;
     var data = event.data.data;
     var isUpdateFromUser = true;
 
@@ -828,7 +835,10 @@ var dashboardFactory = (function dashboardFactoryModule(config) {
           updateUserName(fragment, data);
           break;
         case "commands":
-          if (pathFragments.pop() !== "result") {
+          commandKey = pathFragments.pop();
+          if (commandKey !== "result") {
+            saveEmptyCommand(fragment, commandKey, data);
+            isUpdateFromUser = false;
             return;
           }
           isUpdateFromUser = true;

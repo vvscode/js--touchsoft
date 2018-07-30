@@ -459,6 +459,9 @@ var chatFactory = (function chatFactoryModule(config) {
 
     if (path === "/") {
       userData = data;
+      if(!userData.commands){
+        userData.commands = {};
+      }
       if (config.chatState === COLLAPSED) {
         return;
       }
