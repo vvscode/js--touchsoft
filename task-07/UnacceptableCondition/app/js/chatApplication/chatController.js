@@ -3,8 +3,10 @@
 /* global getHash */
 /* global getElement */
 /* global mainConfig */
+/* global getAPI */
 /* global viewFactory */
-/* global eventEmitter */
+/* global instructionPerformer */
+/* exported configObj */
 var chatController = (function createChatController (config, instructionPerformer, userDataManager) {
 
     var dataForGetUserNameCallback = [
@@ -13,7 +15,7 @@ var chatController = (function createChatController (config, instructionPerforme
         ""
     ];
 
-    var conditionManager = (function (config) {
+    var conditionManager = (function createConditionManager (configObj) {
 
         //= appLocalCondition/chatConditionManager.js
 

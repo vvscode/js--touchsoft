@@ -1,10 +1,12 @@
-/* global instructionQueueManager */
-/* global instructionList */
 /* global dataConnector */
 /* global longPollResponseParser */
 /* global mainConfig */
-var instructionPerformer = (function (config, dataConnector, parser) {
+/* global mainConfig */
+/* exported isPerformed */
+/* exported isStartXHRConnection */
+var instructionPerformer = (function createInstructionPerformer (config, dataConnector, parser) {
 
+    /* exported connection */
     var isPerformed = false;
     var connection = null;
     var isStartXHRConnection = false;
@@ -17,7 +19,7 @@ var instructionPerformer = (function (config, dataConnector, parser) {
 
     })();
 
-    var instructions = (function (config) {
+    var instructions = (function getInstructionList (config) {
 
         //= instructions/instructionListBody.js
 
