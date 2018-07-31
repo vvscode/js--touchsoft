@@ -1,17 +1,19 @@
 /* global dataConnector */
 /* global longPollResponseParser */
 /* global mainConfig */
-/* global mainConfig */
-/* exported isPerformed */
-/* exported isStartXHRConnection */
-var instructionPerformer = (function createInstructionPerformer (config, dataConnector, parser) {
+/* global getAPI */
+/* global startApplication */
+/* global executeCommand */
+/* global closeApplication */
+/* exported instructionPerformer */
+var instructionPerformer = (function createInstructionPerformer (config, connector, parser) { /* eslint-disable-line no-unused-vars */
 
     /* exported connection */
-    var isPerformed = false;
-    var connection = null;
-    var isStartXHRConnection = false;
+    var isPerformed = false; /* eslint-disable-line no-unused-vars */
+    var connection = null; /* eslint-disable-line no-unused-vars */
+    var isStartXHRConnection = false; /* eslint-disable-line no-unused-vars */
 
-    var instructionQueueManager = (function () {
+    var instructionQueueManager = (function () { /* eslint-disable-line no-unused-vars */
 
         //= instructions/instructionQueueManagerBody.js
 
@@ -19,13 +21,13 @@ var instructionPerformer = (function createInstructionPerformer (config, dataCon
 
     })();
 
-    var instructions = (function getInstructionList (config) {
+    var instructions = (function getInstructionList (configObj, dataConnector) { /* eslint-disable-line no-unused-vars */
 
         //= instructions/instructionListBody.js
 
         return getAPI();
 
-    })(mainConfig);
+    })(config, connector);
 
     //= instructions/xhrInstructionConnector.js
     //= instructions/longPollingInstructionConnector.js

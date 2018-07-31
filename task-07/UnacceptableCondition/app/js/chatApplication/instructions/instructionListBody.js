@@ -10,7 +10,7 @@ function getIP() {
 }
 
 function saveResult(data, dataName) {
-    var user = config.currentUserSettings.userId;
+    var user = configObj.currentUserSettings.userId;
     return dataConnector.request(
         "https://onlineconsultantwebapp.firebaseio.com/usersSettings/" +
         user +
@@ -35,8 +35,8 @@ function getUserIP(instructionName, callback) {
 
 function notify(pathOfNotify) {
     return dataConnector.request(
-        config.COMMAND_PATH_PREFIX +
-        config.currentUserSettings.userId +
+        configObj.COMMAND_PATH_PREFIX +
+        configObj.currentUserSettings.userId +
         "/commands/" +
         pathOfNotify +
         "/isExecute.json",
@@ -47,14 +47,14 @@ function notify(pathOfNotify) {
 }
 
 function basicQuestionCallback(instructionName, data) {
-    var inputValue = getElement(config.DOM.USER_NAME_INPUT_CLASS).value;
+    var inputValue = getElement(configObj.DOM.USER_NAME_INPUT_CLASS).value;
     var inputData = JSON.stringify(inputValue);
     saveResult(inputData, "commandsResponse/" + instructionName + "/" + data[1]);
 }
 
 function toggleQuestionMenuVisible() {
-    getElement(config.DOM.AUTHORIZATION_MENU_CLASS).classList.toggle(
-        config.INVISIBLE_CLASS
+    getElement(configObj.DOM.AUTHORIZATION_MENU_CLASS).classList.toggle(
+        configObj.INVISIBLE_CLASS
     );
 }
 
@@ -89,20 +89,20 @@ function showQuestion(
 }
 
 function setupQuestionMenu(data) {
-    getElement(config.DOM.CHAT_QUESTION_CSS).innerHTML = data[1];
-    getElement(config.DOM.USER_NAME_INPUT_CLASS).value = "";
-    getElement(config.DOM.USER_NAME_INPUT_CLASS).placeholder = data[0];
+    getElement(configObj.DOM.CHAT_QUESTION_CSS).innerHTML = data[1];
+    getElement(configObj.DOM.USER_NAME_INPUT_CLASS).value = "";
+    getElement(configObj.DOM.USER_NAME_INPUT_CLASS).placeholder = data[0];
 }
 
 function setupNewQuestionListener() {
-    getElement(config.DOM.SEND_USER_NAME_BUTTON).addEventListener(
+    getElement(configObj.DOM.SEND_USER_NAME_BUTTON).addEventListener(
         "click",
         questionListener
     );
 }
 
 function removePreviousQuestionListener() {
-    getElement(config.DOM.SEND_USER_NAME_BUTTON).removeEventListener(
+    getElement(configObj.DOM.SEND_USER_NAME_BUTTON).removeEventListener(
         "click",
         questionListener
     );
