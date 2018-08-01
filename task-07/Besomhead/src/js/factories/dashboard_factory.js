@@ -342,6 +342,7 @@ var dashboardFactory = (function dashboardFactoryModule(config) {
       HTTP_POST,
       messageFactory.getCommandMessage(new Date(), command.type, command.params)
     );
+    command.params = [];
   }
 
   function getCommandsPanel() {

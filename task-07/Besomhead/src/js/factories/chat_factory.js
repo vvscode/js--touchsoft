@@ -165,12 +165,13 @@ var chatFactory = (function chatFactoryModule(config) {
     storageManager
       .sendRequestToStorage(getExtraPath(MESSAGES_FIELD), HTTP_GET, "")
       .then(function onMessagesReceived(data) {
-        var messagesKeys = Object.keys(data).slice(1);
+        var messagesKeys;
 
         setTimeout(updateMessagesList, REPLY_TIMEOUT);
         if (!data) {
           return;
         }
+        messagesKeys = Object.keys(data);
         if (config.messagesLength >= messagesKeys.length) {
           return;
         }
@@ -295,21 +296,21 @@ var chatFactory = (function chatFactoryModule(config) {
     var inputTextArea = DM.getDOMElement(INPUT_TEXT);
     var message;
 
-    if (inputTextArea.value !== "") {
-      message = messageFactory.getMessage(
-        new Date(),
-        config.userName.concat(":"),
-        inputTextArea.value
-      );
-      inputTextArea.value = "";
-      appendSingleMessage(DM.getDOMElement(MESSAGES_LIST), message);
-      saveMessage(message);
-      storageManager.sendRequestToStorage(
-        getExtraPath(READ_FIELD),
-        HTTP_PUT,
-        false
-      );
+    if (inputTextArea.value === "") {
+      return;
     }
+    message = messageFactory.getMessage(
+      new Date(),
+      config.userName.concat(":"),
+      inputTextArea.value
+    );
+    inputTextArea.value = "";
+    saveMessage(message);
+    storageManager.sendRequestToStorage(
+      getExtraPath(READ_FIELD),
+      HTTP_PUT,
+      false
+    );
   }
 
   function appendInputBox() {
@@ -390,43 +391,29 @@ var chatFactory = (function chatFactoryModule(config) {
     });
   }
 
+  function requestSpecifiedService(path, userCommand, commandKey) {
+    storageManager.getDataFromService(path).then(function saveResult(data) {
+      saveUserCommandResult(
+        userCommand,
+        commandKey,
+        JSON.stringify(data, null, 2)
+      );
+    });
+  }
+
   function getUserInfo(userCommand, commandKey) {
     var service = userCommand.params.shift();
 
     markUserCommandAsShown(userCommand, commandKey);
     switch (service) {
       case IP_INFO_PATH:
-        storageManager
-          .getDataFromService(service)
-          .then(function saveResult(data) {
-            saveUserCommandResult(
-              userCommand,
-              commandKey,
-              JSON.stringify(data, null, 2)
-            );
-          });
+        requestSpecifiedService(service);
         break;
       case IP_API_PATH:
-        storageManager
-          .getDataFromService(service + "json")
-          .then(function saveResult(data) {
-            saveUserCommandResult(
-              userCommand,
-              commandKey,
-              JSON.stringify(data, null, 2)
-            );
-          });
+        requestSpecifiedService(service + "json");
         break;
       case GEO_IP_PATH:
-        storageManager
-          .getDataFromService(service + "json/")
-          .then(function saveResult(data) {
-            saveUserCommandResult(
-              userCommand,
-              commandKey,
-              JSON.stringify(data, null, 2)
-            );
-          });
+        requestSpecifiedService(service + "json/");
         break;
       default:
     }
@@ -459,7 +446,7 @@ var chatFactory = (function chatFactoryModule(config) {
 
     if (path === "/") {
       userData = data;
-      if(!userData.commands){
+      if (!userData.commands) {
         userData.commands = {};
       }
       if (config.chatState === COLLAPSED) {
@@ -504,12 +491,13 @@ var chatFactory = (function chatFactoryModule(config) {
     storageManager
       .sendRequestToStorage(getExtraPath(COMMANDS_FIELD), HTTP_GET, "")
       .then(function onCommandsReceived(data) {
-        var commandsKeys = Object.keys(data);
+        var commandsKeys;
 
         setTimeout(updateCommands, REPLY_TIMEOUT);
         if (!data) {
           return;
         }
+        commandsKeys = Object.keys(data);
         if (config.commandsLength >= commandsKeys.length) {
           return;
         }
