@@ -1,5 +1,6 @@
 /* exported sendMessage showFeedback hideFeedback setConfig */
 /* global Promise */
+/* eslint no-use-before-define: ["error", { "functions": false }] */
 
 var userConfig;
 var Module;
