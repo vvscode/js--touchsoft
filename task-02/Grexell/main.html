@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://rawgit.com/Grexell/js--touchsoft/task-2/task-02/Grexell/chat-generator.js"></script>
+    <script>
+
+    </script>
+</head>
+<body>
+<div>
+    <form id="chat-configurator">
+        <fieldset>
+            <legend>
+                Chat configurator
+            </legend>
+            <table>
+                <tr>
+                    <td>
+                        <label for="chat-title-input">Chat title</label>
+                    </td>
+                    <td>
+                        <input id="chat-title-input" type="text" name="chat-title"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="bot-name-input">Bot name</label>
+                    </td>
+                    <td>
+                        <input id="bot-name-input" type="text" name="bot-name"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="chat-url-input">Chat URL</label>
+                    </td>
+                    <td>
+                        <input id="chat-url-input" type="text" name="chat-url"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="css-class-input">CSS Class</label>
+                    </td>
+                    <td>
+                        <input id="css-class-input" type="text" name="css-class"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="position-select">Position</label>
+                    </td>
+                    <td>
+                        <select id="position-select" name="position-chat">
+                            <option value="right" selected>Right</option>
+                            <option value="left">Left</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        UI
+                    </td>
+                    <td>
+                        <input id="chat-minimize-check" type="checkbox" name="minimize-check"/>
+                        <label for="chat-minimize-check">Allow to minimize</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input id="chat-drop-check" type="checkbox" name="drop-check"/>
+                        <label for="chat-drop-check">Allow drop</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input id="user-name-check" type="checkbox" name="user-name-check"/>
+                        <label for="user-name-check">Require name</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input id="chat-date-check" type="checkbox" name="chat-date-check"/>
+                        <label for="chat-date-check">Show date/time</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Network</td>
+                    <td>
+                        <input id="xhr-chat-network-radio" type="radio" name="chat-network" value="XHRNetwork" checked/>
+                        <label for="xhr-chat-network-radio">XHR</label>
+
+                        <input id="fetch-chat-network-radio" type="radio" name="chat-network" value="fetchNetwork"/>
+                        <label for="fetch-chat-network-radio">fetch</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <label for="chat-script-uses">Use next code:</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <textarea id="chat-script-uses" name="chat-script" readonly></textarea>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>
