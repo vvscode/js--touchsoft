@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:list-style-type="http://www.w3.org/1999/xhtml" xmlns:type="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/config.css">
+</head>
+<body>
+   <div>
+       <div class="chatTitle"><span>Chat title</span><textarea class="inputArea" id="title">Touchsoft support</textarea></div>
+       <div class="botName"><span>Bot name</span><textarea class="inputArea" id="bot-name">Скрепка</textarea></div>
+       <div class="chatURL"><span>Chat URL</span><textarea class="inputArea" id="url">http://.......com</textarea></div>
+       <div class="classCSS"><span>CSS Class</span><textarea class="inputArea" id="classCSS">css/app.css</textarea></div>
+       <div class="position"><span>Position</span>
+          <select id="position-chat">
+           <option disabled selected> Left/Right</option>
+           <option id="positionLeft">Left</option>
+           <option id="positionRight">Right</option>
+          </select></div>
+       <div class="ui"><span>UI</span>
+       <input class="checkBox" id="minimize" type="checkbox" checked>    <label for="minimize">Allow to minimize</label><br>
+       <input class="checkBox" id="drag" type="checkbox">        <label for="drag">Allow drag</label><br>
+       <input class="checkBox" id="requireName" type="checkbox"> <label for="requireName">Require name</label><br>
+       <input class="checkBox" id="dateTime" type="checkbox">    <label for="dateTime">Show date/time</label></div>
+       <div class="network"><span>Network</span>
+            <label><input id="radioBox1" type="radio" checked name="dva"/>XHR</label>
+            <label><input id="radioBox2" type="radio" name="dva"/> fetch</label></div>
+       <span class="codeFromUse">Use next code:</span><br>
+       <textarea class="codeFromUse" id="codeForInsert"></textarea>
+       </div>
+   </div>
+
+   <script src="js/config.js"></script>
+</body>
+</html>
