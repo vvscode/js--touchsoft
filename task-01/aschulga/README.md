@@ -1,0 +1,1 @@
+Ссылка на работающий код http://jsbin.com/bumujaxire/edit?html,js,output
